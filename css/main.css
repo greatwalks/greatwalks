@@ -23,7 +23,7 @@ body {
     line-height: 1.4;
     -webkit-text-size-adjust: none;
     -ms-text-size-adjust: none;
-    padding-top:41px;
+    padding:41px 0px 0px 0px;
 }
 
 a {
