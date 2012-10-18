@@ -218,7 +218,9 @@ textarea[contenteditable] {
 
 .location_Hut,
 .location_Shelter,
-.location_Campsite {
+.location_Campsite,
+.location_Feature,
+.location_VisitorCentre {
     white-space: nowrap;
 }
 
@@ -232,4 +234,12 @@ textarea[contenteditable] {
 
 .location_Campsite {
     background: #ccffff;
+}
+
+.location_Feature {
+    background: #ccffcc;
+}
+
+.location_VisitorCentre {
+   background: #ffcccc;
 }
