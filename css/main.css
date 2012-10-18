@@ -214,3 +214,22 @@ textarea[contenteditable] {
        only screen and (min-resolution: 144dpi) {
     /* Style adjustments for viewports that meet the condition */
 }
+
+
+.location_Hut,
+.location_Shelter,
+.location_Campsite {
+    white-space: nowrap;
+}
+
+.location_Hut {
+    background:#ffffcc;
+}
+
+.location_Shelter {
+    background:#ffccff;
+}
+
+.location_Campsite {
+    background: #ccffff;
+}
