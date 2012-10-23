@@ -32,28 +32,68 @@
  </div>
  
 <script type="text/javascript">
-	var map_details = {"latitude":-46.820446583140004,"longitude":168.00621731478319,"degrees_per_pixel":0.000123620340448};
+	var map_details = {"latitude":-46.820446583140004,"longitude":168.00621731478319,"map_pixel_width":1454,"map_pixel_height":1044,"degrees_per_pixel":0.000123620340448,"extent_latitude":-46.94950621856771,"extent_longitude":168.1859612897946};
 </script>
 <div style="background: url(img/walks/rakiura-track---stewart-island/map.jpg); width:1454px; height:1044px; position:relative" class="map">
-		<div style="position:absolute; top:630px; left: 985px" class="location"><span class="location-sprite location-VisitorCentre"></span><h3>Rakiura National Park Visitor Centre</h3></div>		
-	</div>
-		<div style="position:absolute; top:298px; left: 662px" class="location"><span class="location-sprite location-Campsite"></span><h3>Maori Beach Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:133px; left: 629px" class="location"><span class="location-sprite location-Campsite"></span><h3>Port William Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:294px; left: 670px" class="location"><span class="location-sprite location-Shelter"></span><h3>Maori Beach Shelter</h3></div>		
-	</div>
-		<div style="position:absolute; top:126px; left: 653px" class="location"><span class="location-sprite location-Hut"></span><h3>Port William Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:504px; left: 103px" class="location"><span class="location-sprite location-Hut"></span><h3>North Arm Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:631px; left: 217px" class="location"><span class="location-sprite location-Campsite"></span><h3>North Arm Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:632px; left: 225px" class="location"><span class="location-sprite location-Shelter"></span><h3>North Arm Shelter</h3></div>		
-	</div>
-	<div id="youarehere"></div>
+		<div style="position:absolute; top:630px; left: 985px" class="location" data-longitude="168.12800000000" data-latitude="-46.89830000000">
+			<a class="location-sprite location-VisitorCentre"></a>
+			<div class="description">
+				<h3>Rakiura National Park Visitor Centre</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:298px; left: 662px" class="location" data-longitude="168.08800000000" data-latitude="-46.85730000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Maori Beach Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:133px; left: 629px" class="location" data-longitude="168.08400000000" data-latitude="-46.83690000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Port William Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:294px; left: 670px" class="location" data-longitude="168.08900000000" data-latitude="-46.85680000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>Maori Beach Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:126px; left: 653px" class="location" data-longitude="168.08700000000" data-latitude="-46.83600000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Port William Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:504px; left: 103px" class="location" data-longitude="168.01900000000" data-latitude="-46.88280000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>North Arm Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:631px; left: 217px" class="location" data-longitude="168.03300000000" data-latitude="-46.89850000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>North Arm Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:632px; left: 225px" class="location" data-longitude="168.03400000000" data-latitude="-46.89860000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>North Arm Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+	<div id="youarehere"><div class="offmap">offmap</div></div>
 </div>
-
+<div id="no_gps">Current location unavailable</div>
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>

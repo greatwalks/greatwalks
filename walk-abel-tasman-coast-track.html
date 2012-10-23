@@ -32,64 +32,194 @@
  </div>
  
 <script type="text/javascript">
-	var map_details = {"latitude":-40.77160911578638,"longitude":172.7293375915505,"degrees_per_pixel":0.0002854519178};
+	var map_details = {"latitude":-40.77160911578638,"longitude":172.7293375915505,"map_pixel_width":1454,"map_pixel_height":1044,"degrees_per_pixel":0.0002854519178,"extent_latitude":-41.06962091796958,"extent_longitude":173.1443846800317};
 </script>
 <div style="background: url(img/walks/abel-tasman-coast-track/map.jpg); width:1454px; height:1044px; position:relative" class="map">
-		<div style="position:absolute; top:134px; left: 798px" class="location"><span class="location-sprite location-Shelter"></span><h3>Wainui Carpark Shelter</h3></div>		
-	</div>
-		<div style="position:absolute; top:61px; left: 857px" class="location"><span class="location-sprite location-Hut"></span><h3>Whariwharangi Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:59px; left: 861px" class="location"><span class="location-sprite location-Campsite"></span><h3>Whariwharangi Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:68px; left: 927px" class="location"><span class="location-sprite location-Campsite"></span><h3>Mutton Cove Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:109px; left: 962px" class="location"><span class="location-sprite location-Campsite"></span><h3>Anapai Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:179px; left: 962px" class="location"><span class="location-sprite location-Campsite"></span><h3>Totaranui Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:272px; left: 1004px" class="location"><span class="location-sprite location-Campsite"></span><h3>Waiharakeke campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:328px; left: 1011px" class="location"><span class="location-sprite location-Hut"></span><h3>Awaroa Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:326px; left: 1015px" class="location"><span class="location-sprite location-Campsite"></span><h3>Awaroa Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:411px; left: 1113px" class="location"><span class="location-sprite location-Campsite"></span><h3>Onetahuti Beach Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:506px; left: 1120px" class="location"><span class="location-sprite location-Hut"></span><h3>Bark Bay Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:509px; left: 1127px" class="location"><span class="location-sprite location-Campsite"></span><h3>Bark Bay Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:430px; left: 1127px" class="location"><span class="location-sprite location-Campsite"></span><h3>Tonga Quarry Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:523px; left: 1141px" class="location"><span class="location-sprite location-Campsite"></span><h3>Medlands Beach Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:616px; left: 1109px" class="location"><span class="location-sprite location-Campsite"></span><h3>Torrent Bay Village Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:636px; left: 1172px" class="location"><span class="location-sprite location-Campsite"></span><h3>Te Puketea Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:647px; left: 1158px" class="location"><span class="location-sprite location-Hut"></span><h3>Anchorage Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:648px; left: 1155px" class="location"><span class="location-sprite location-Campsite"></span><h3>Anchorage Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:673px; left: 1144px" class="location"><span class="location-sprite location-Campsite"></span><h3>Watering Cove Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:702px; left: 1113px" class="location"><span class="location-sprite location-Campsite"></span><h3>Akersten Bay Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:738px; left: 1081px" class="location"><span class="location-sprite location-Campsite"></span><h3>Apple Tree Bay Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:760px; left: 1036px" class="location"><span class="location-sprite location-Campsite"></span><h3>Tinline campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:786px; left: 966px" class="location"><span class="location-sprite location-Shelter"></span><h3>Marahau Roadend Information Shelter</h3></div>		
-	</div>
-		<div style="position:absolute; top:418px; left: 1183px" class="location"><span class="location-sprite location-Feature"></span><h3>Tonga Island</h3></div>		
-	</div>
-		<div style="position:absolute; top:727px; left: 1158px" class="location"><span class="location-sprite location-Feature"></span><h3>Adele Island</h3></div>		
-	</div>
-		<div style="position:absolute; top:646px; left: 1078px" class="location"><span class="location-sprite location-Feature"></span><h3>Cleopatras Pool</h3></div>		
-	</div>
-	<div id="youarehere"></div>
+		<div style="position:absolute; top:134px; left: 798px" class="location" data-longitude="172.95700000000" data-latitude="-40.80990000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>Wainui Carpark Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:61px; left: 857px" class="location" data-longitude="172.97400000000" data-latitude="-40.78900000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Whariwharangi Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:59px; left: 861px" class="location" data-longitude="172.97500000000" data-latitude="-40.78850000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Whariwharangi Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:68px; left: 927px" class="location" data-longitude="172.99400000000" data-latitude="-40.79100000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Mutton Cove Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:109px; left: 962px" class="location" data-longitude="173.00400000000" data-latitude="-40.80280000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Anapai Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:179px; left: 962px" class="location" data-longitude="173.00400000000" data-latitude="-40.82270000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Totaranui Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:272px; left: 1004px" class="location" data-longitude="173.01600000000" data-latitude="-40.84930000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Waiharakeke campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:328px; left: 1011px" class="location" data-longitude="173.01800000000" data-latitude="-40.86520000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Awaroa Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:326px; left: 1015px" class="location" data-longitude="173.01900000000" data-latitude="-40.86480000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Awaroa Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:411px; left: 1113px" class="location" data-longitude="173.04700000000" data-latitude="-40.88900000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Onetahuti Beach Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:506px; left: 1120px" class="location" data-longitude="173.04900000000" data-latitude="-40.91610000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Bark Bay Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:509px; left: 1127px" class="location" data-longitude="173.05100000000" data-latitude="-40.91690000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Bark Bay Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:430px; left: 1127px" class="location" data-longitude="173.05100000000" data-latitude="-40.89430000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Tonga Quarry Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:523px; left: 1141px" class="location" data-longitude="173.05500000000" data-latitude="-40.92090000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Medlands Beach Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:616px; left: 1109px" class="location" data-longitude="173.04600000000" data-latitude="-40.94750000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Torrent Bay Village Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:636px; left: 1172px" class="location" data-longitude="173.06400000000" data-latitude="-40.95320000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Te Puketea Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:647px; left: 1158px" class="location" data-longitude="173.06000000000" data-latitude="-40.95640000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Anchorage Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:648px; left: 1155px" class="location" data-longitude="173.05900000000" data-latitude="-40.95670000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Anchorage Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:673px; left: 1144px" class="location" data-longitude="173.05600000000" data-latitude="-40.96380000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Watering Cove Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:702px; left: 1113px" class="location" data-longitude="173.04700000000" data-latitude="-40.97210000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Akersten Bay Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:738px; left: 1081px" class="location" data-longitude="173.03800000000" data-latitude="-40.98230000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Apple Tree Bay Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:760px; left: 1036px" class="location" data-longitude="173.02500000000" data-latitude="-40.98850000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Tinline campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:786px; left: 966px" class="location" data-longitude="173.00500000000" data-latitude="-40.99600000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>Marahau Roadend Information Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:418px; left: 1183px" class="location" data-longitude="173.06700000000" data-latitude="-40.89080000000">
+			<a class="location-sprite location-Feature"></a>
+			<div class="description">
+				<h3>Tonga Island</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:727px; left: 1158px" class="location" data-longitude="173.06000000000" data-latitude="-40.97920000000">
+			<a class="location-sprite location-Feature"></a>
+			<div class="description">
+				<h3>Adele Island</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:646px; left: 1078px" class="location" data-longitude="173.03700000000" data-latitude="-40.95590000000">
+			<a class="location-sprite location-Feature"></a>
+			<div class="description">
+				<h3>Cleopatras Pool</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+	<div id="youarehere"><div class="offmap">offmap</div></div>
 </div>
-
+<div id="no_gps">Current location unavailable</div>
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>

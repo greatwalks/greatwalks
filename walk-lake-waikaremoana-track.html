@@ -32,52 +32,152 @@
  </div>
  
 <script type="text/javascript">
-	var map_details = {"latitude":-38.691823779899764,"longitude":176.95956845597755,"degrees_per_pixel":0.000152684808696};
+	var map_details = {"latitude":-38.691823779899764,"longitude":176.95956845597755,"map_pixel_width":1454,"map_pixel_height":1044,"degrees_per_pixel":0.000152684808696,"extent_latitude":-38.85122672017839,"extent_longitude":177.18157216782154};
 </script>
 <div style="background: url(img/walks/lake-waikaremoana-track/map.jpg); width:1454px; height:1044px; position:relative" class="map">
-		<div style="position:absolute; top:129px; left: 677px" class="location"><span class="location-sprite location-Shelter"></span><h3>Hopuruahine Shelter</h3></div>		
-	</div>
-		<div style="position:absolute; top:497px; left: 239px" class="location"><span class="location-sprite location-Hut"></span><h3>Marauiti Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:291px; left: 605px" class="location"><span class="location-sprite location-Shelter"></span><h3>Tapuaenui Shelter</h3></div>		
-	</div>
-		<div style="position:absolute; top:790px; left: 605px" class="location"><span class="location-sprite location-Hut"></span><h3>Panekiri Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:667px; left: 180px" class="location"><span class="location-sprite location-Campsite"></span><h3>Korokoro Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:768px; left: 219px" class="location"><span class="location-sprite location-Campsite"></span><h3>Waiopaoa Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:289px; left: 605px" class="location"><span class="location-sprite location-Campsite"></span><h3>Tapuaenui Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:344px; left: 481px" class="location"><span class="location-sprite location-Campsite"></span><h3>Waiharuru Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:503px; left: 186px" class="location"><span class="location-sprite location-Campsite"></span><h3>Maraunui Campsite</h3></div>		
-	</div>
-		<div style="position:absolute; top:339px; left: 481px" class="location"><span class="location-sprite location-Hut"></span><h3>Waiharuru Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:673px; left: 173px" class="location"><span class="location-sprite location-Shelter"></span><h3>Korokoro Camping Shelter</h3></div>		
-	</div>
-		<div style="position:absolute; top:771px; left: 226px" class="location"><span class="location-sprite location-Hut"></span><h3>Waiopaoa Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:502px; left: 186px" class="location"><span class="location-sprite location-Shelter"></span><h3>Maraunui Camping Shelter</h3></div>		
-	</div>
-		<div style="position:absolute; top:711px; left: 1051px" class="location"><span class="location-sprite location-Shelter"></span><h3>Onepoto Bay Shelter</h3></div>		
-	</div>
-		<div style="position:absolute; top:188px; left: 527px" class="location"><span class="location-sprite location-Hut"></span><h3>Whanganui Hut</h3></div>		
-	</div>
-		<div style="position:absolute; top:697px; left: 108px" class="location"><span class="location-sprite location-Feature"></span><h3>Korokoro Falls</h3></div>		
-	</div>
-		<div style="position:absolute; top:333px; left: 1313px" class="location"><span class="location-sprite location-VisitorCentre"></span><h3>Aniwaniwa Visitor Centre</h3></div>		
-	</div>
-		<div style="position:absolute; top:274px; left: 854px" class="location"><span class="location-sprite location-Feature"></span><h3>Waikaremoana Motor Camp</h3></div>		
-	</div>
-		<div style="position:absolute; top:726px; left: 1018px" class="location"><span class="location-sprite location-Feature"></span><h3>Armed Constablulary Redoubt</h3></div>		
-	</div>
-		<div style="position:absolute; top:642px; left: 848px" class="location"><span class="location-sprite location-Feature"></span><h3>Panekiri Bluff</h3></div>		
-	</div>
-	<div id="youarehere"></div>
+		<div style="position:absolute; top:129px; left: 677px" class="location" data-longitude="177.06300000000" data-latitude="-38.71150000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>Hopuruahine Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:497px; left: 239px" class="location" data-longitude="176.99600000000" data-latitude="-38.76770000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Marauiti Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:291px; left: 605px" class="location" data-longitude="177.05200000000" data-latitude="-38.73630000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>Tapuaenui Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:790px; left: 605px" class="location" data-longitude="177.05200000000" data-latitude="-38.81240000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Panekiri Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:667px; left: 180px" class="location" data-longitude="176.98700000000" data-latitude="-38.79370000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Korokoro Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:768px; left: 219px" class="location" data-longitude="176.99300000000" data-latitude="-38.80910000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Waiopaoa Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:289px; left: 605px" class="location" data-longitude="177.05200000000" data-latitude="-38.73590000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Tapuaenui Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:344px; left: 481px" class="location" data-longitude="177.03300000000" data-latitude="-38.74430000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Waiharuru Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:503px; left: 186px" class="location" data-longitude="176.98800000000" data-latitude="-38.76860000000">
+			<a class="location-sprite location-Campsite"></a>
+			<div class="description">
+				<h3>Maraunui Campsite</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:339px; left: 481px" class="location" data-longitude="177.03300000000" data-latitude="-38.74360000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Waiharuru Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:673px; left: 173px" class="location" data-longitude="176.98600000000" data-latitude="-38.79460000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>Korokoro Camping Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:771px; left: 226px" class="location" data-longitude="176.99400000000" data-latitude="-38.80960000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Waiopaoa Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:502px; left: 186px" class="location" data-longitude="176.98800000000" data-latitude="-38.76850000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>Maraunui Camping Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:711px; left: 1051px" class="location" data-longitude="177.12000000000" data-latitude="-38.80040000000">
+			<a class="location-sprite location-Shelter"></a>
+			<div class="description">
+				<h3>Onepoto Bay Shelter</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:188px; left: 527px" class="location" data-longitude="177.04000000000" data-latitude="-38.72050000000">
+			<a class="location-sprite location-Hut"></a>
+			<div class="description">
+				<h3>Whanganui Hut</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:697px; left: 108px" class="location" data-longitude="176.97600000000" data-latitude="-38.79830000000">
+			<a class="location-sprite location-Feature"></a>
+			<div class="description">
+				<h3>Korokoro Falls</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:333px; left: 1313px" class="location" data-longitude="177.16000000000" data-latitude="-38.74270000000">
+			<a class="location-sprite location-VisitorCentre"></a>
+			<div class="description">
+				<h3>Aniwaniwa Visitor Centre</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:274px; left: 854px" class="location" data-longitude="177.09000000000" data-latitude="-38.73360000000">
+			<a class="location-sprite location-Feature"></a>
+			<div class="description">
+				<h3>Waikaremoana Motor Camp</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:726px; left: 1018px" class="location" data-longitude="177.11500000000" data-latitude="-38.80260000000">
+			<a class="location-sprite location-Feature"></a>
+			<div class="description">
+				<h3>Armed Constablulary Redoubt</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+		<div style="position:absolute; top:642px; left: 848px" class="location" data-longitude="177.08900000000" data-latitude="-38.78980000000">
+			<a class="location-sprite location-Feature"></a>
+			<div class="description">
+				<h3>Panekiri Bluff</h3>
+				<p class="distance"></p>
+			</div>
+		</div>
+	<div id="youarehere"><div class="offmap">offmap</div></div>
 </div>
-
+<div id="no_gps">Current location unavailable</div>
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
