@@ -1,6 +1,6 @@
 (function(){
+	"use strict";
 	$(document).ready(function(){
-		"use strict";
 		if(window.map_details === undefined) { //are we on a map page?
 			return;
 		};
