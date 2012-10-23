@@ -273,3 +273,8 @@ textarea[contenteditable] {
   width: 150px;
   height: 64px;
 }
+#youarehere {
+  width: 10px;
+  height: 10px;
+  background: orange;
+}
