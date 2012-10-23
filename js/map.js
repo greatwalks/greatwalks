@@ -34,5 +34,8 @@
 
 	$(".navbar-inner").html("Checking GPSy");
 
+	$(".location span").click(function(){
+		$(this).next("h3").toggle();
+	});	
 
 }())

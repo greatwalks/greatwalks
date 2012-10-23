@@ -159,6 +159,8 @@ textarea[contenteditable] {
   white-space: nowrap;
   font-size: 10px;
   float: left;
+  padding: 0px;
+  line-height: 14px;
 }
 .location-sprite {
   display: block;
