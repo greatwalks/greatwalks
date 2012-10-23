@@ -18,17 +18,21 @@
 		 		};
 		 	},
 		 	format_distance = function(kilometres){
-		 		 return kilometres + "km/" + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
+		 		 return kilometres + "km/ " + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
 		 	},
 			difference_between_positions_in_kilometers = function(lat1, lon1, lat2, lon2, lat3, lon3){
-				//normally lat3/lon3 aren't given and this function figures out the distance between two points
-				//if lat3/lon3 are given then it's about finding the distance between a point and a square
-				//courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
-				if(lat1 < lat3) {
-					//lat2 = lat3;
-				}
-				if(lon1 > lon3) {
-					//lon2 = lon3;
+				if(lat3 !== undefined && lon3 !== undefined) {
+					//normally lat3/lon3 aren't given and this function just figures out the distance
+					// between two points.
+					// however if lat3/lon3 are given then this function finds out the distance between
+					// a point and the closest side of a square (e.g. a map graphic).
+					// courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
+					if(lat1 < lat3) {
+						lat2 = lat3;
+					}
+					if(lon1 > lon3) {
+						lon2 = lon3;
+					}
 				}
 				var R = 6371; // Radius of the earth in km
 				var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
@@ -51,10 +55,10 @@
 	            Speed:             position.coords.speed
 		        */
 				var youarehere_pixels = {
-						"left": -parseInt((position.coords.latitude - window.map_details.latitude) / window.map_details.degrees_per_pixel, 10),
-						"top": parseInt((position.coords.longitude - window.map_details.longitude) / window.map_details.degrees_per_pixel, 10)
+						"top": -parseInt((position.coords.latitude - window.map_details.latitude) / window.map_details.degrees_per_pixel, 10),
+						"left": parseInt((position.coords.longitude - window.map_details.longitude) / window.map_details.degrees_per_pixel, 10)
 					},
-					$youarehere = $("#youarehere"),
+					$youarehere = $("#youarehere").data("latitude", position.coords.latitude).data("longitude", position.coords.longitude),
 					$youarehere_offmap = $youarehere.find(".offmap"),
 					youarehere_css = {position: "absolute"},
 					youarehere_offmap_css = {position: "relative", left: $youarehere.width() + "px", top: $youarehere.height() + "px"},
@@ -62,10 +66,10 @@
 					difference_distance_in_kilometres = Math.round(
 							difference_between_positions_in_kilometers(
 								position.coords.latitude, position.coords.longitude, 
-								window.map_details.latitude, window.map_details.longitude) * 100,
+								window.map_details.latitude, window.map_details.longitude,
 								window.map_details.extent_latitude, window.map_details.extent_longitude
-							) / 100;
-
+							) * 100) / 100;
+				
 				$youarehere_offmap.html("you are off the map by " + format_distance(difference_distance_in_kilometres));
 				if(youarehere_pixels.left < 0) {
 					youarehere_pixels.left = 0;
@@ -91,7 +95,6 @@
 				} else {
 					$youarehere_offmap.hide();
 				}
-				$youarehere_offmap.css(youarehere_offmap_css).show();
 				if(centered_once_upon_load === false) {
 					window.scrollTo(
 						youarehere_pixels.left - $(window).width() / 2,
