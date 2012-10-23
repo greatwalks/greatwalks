@@ -24,11 +24,11 @@
 				//normally lat3/lon3 aren't given and this function figures out the distance between two points
 				//if lat3/lon3 are given then it's about finding the distance between a point and a square
 				//courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
-				if(lat1 > lat3) {
-					lat2 = lat3;
+				if(lat1 < lat3) {
+					//lat2 = lat3;
 				}
-				if(lon1 < lon3) {
-					lon2 = lon3;
+				if(lon1 > lon3) {
+					//lon2 = lon3;
 				}
 				var R = 6371; // Radius of the earth in km
 				var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
