@@ -1,4 +1,4 @@
-(function(){
+(function($){
 	"use strict";
 	$(document).ready(function(){
 		if(window.map_details === undefined) { //are we on a map page?
@@ -118,7 +118,6 @@
 			},
 			geolocationSettings = {
 				maximumAge:600000,
-				timeout:5000,
 				enableHighAccuracy: true
 			},
 			$locations = $(".location"),
@@ -157,4 +156,4 @@
 			$(this).hide();
 		})
 	});	
-}())
+}(jQuery))
