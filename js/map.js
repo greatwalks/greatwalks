@@ -164,7 +164,7 @@
 		        	offset.x += event.distanceX;
 		        	offset.y += event.distanceY;
 		        	offset.translate = "translate(" + event.distanceX + "px, " +  event.distanceY + "px)";
-		        	$image.css('-webkit-transform', offset.translate);
+		        	//$image.css('-webkit-transform', offset.translate);
 		        });
 
 		        hammer.bind('transformstart', function(event) {
