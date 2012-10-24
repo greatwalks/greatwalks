@@ -148,7 +148,7 @@
 		        prevScale = 1;
 
 		        hammer = $image.hammer({
-		            prevent_default: true,
+		            prevent_default: false,
 		            scale_treshold: 0,
 		            drag_min_distance: 0
 		        });
