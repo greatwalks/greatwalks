@@ -119,7 +119,7 @@
 				};
 			},
 			enable_pinch_zoom = function(element){
-				container = element.hammer({
+				var container = element.hammer({
 		            prevent_default: true,
 		            scale_treshold: 0,
 		            drag_min_distance: 0
@@ -355,6 +355,7 @@
 				}
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
+		enable_pinch_zoom($(".map"));
 		if(Modernizr.touch) {
 			alert("touch enabled")
 			//$locations.find("a").hammer().bind("tap", location_show);
