@@ -713,6 +713,11 @@
     width: 28px;
   }
 }
+@media (max-width: 360px) {
+  .navbar .nav > li > a {
+    padding: 10px 5px;
+  }
+}
 @media (max-width: 767px) {
   body {
     padding-left: 20px;

@@ -199,11 +199,27 @@ textarea {
   position: absolute;
   top: 10px;
   left: 50%;
-  margin-left: -75px;
+  text-indent: -10000px;
+  margin-left: -150px;
+  background-image: url("../img/logo-x300.png");
+  width: 300px;
+  height: 128px;
 }
-#logo img {
-  width: 150px;
-  height: 64px;
+@media (max-width: 600px) {
+  #logo {
+    margin-left: -112px;
+    background-image: url("../img/logo-x225.png");
+    width: 225px;
+    height: 96px;
+  }
+}
+@media (max-width: 400px) {
+  #logo {
+    margin-left: -75px;
+    background-image: url("../img/logo-x150.png");
+    width: 150px;
+    height: 64px;
+  }
 }
 #youarehere {
   width: 10px;
