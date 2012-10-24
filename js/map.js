@@ -119,6 +119,7 @@
 				};
 			},
 			enable_zoom = function($image){
+				if(!Modernizr.touch) return; // no point enabling hammer otherwise
 				//based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
 		        var hammer,
 		        	height,
@@ -155,7 +156,7 @@
 		        prevScale = 1;
 
 		        hammer = $image.hammer({
-		            prevent_default: false,
+		            prevent_default: true,
 		            scale_treshold: 0,
 		            drag_min_distance: 0
 		        });
@@ -185,7 +186,7 @@
 		            translate.x += -origin.x * (newWidth - width) / newWidth;
 		            translate.y += -origin.y * (newHeight - height) / newHeight;
 
-		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1), " + offset.translate);
+		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1) " + offset.translate);
 		            
 		            width = newWidth;
 
@@ -195,8 +196,37 @@
 		        hammer.bind('transformend', function(event) {
 		            return prevScale = scale;
 		        });
-
-
+			},
+			location_show = function(){
+				var $location = $(this).closest(".location"),
+					$description = $(this).next(".description"),
+					$distance_away = $description.find("p.distance"),
+					difference_distance_in_kilometres;
+				$locations_descriptions.not($description).hide();
+				if(last_known_position !== undefined) {
+					/*
+					Latitude:          last_known_position.coords.latitude
+		            Longitude:         last_known_position.coords.longitude
+		            Altitude:          last_known_position.coords.altitude
+		            Accuracy:          last_known_position.coords.accuracy
+		            Altitude Accuracy: last_known_position.coords.altitudeAccuracy
+		            Heading:           last_known_position.coords.heading
+		            Speed:             last_known_position.coords.speed
+		            */
+					difference_distance_in_kilometres = Math.round(
+						difference_between_positions_in_kilometers(
+							last_known_position.coords.latitude, last_known_position.coords.longitude,
+							parseFloat($location.data("latitude")), parseFloat($location.data("longitude"))
+						) * 100
+					) / 100;
+					$distance_away.text(format_distance(difference_distance_in_kilometres) + " away.").show();
+				} else {
+					$distance_away.hide();
+				}
+				$description.toggle();
+			},
+			location_hide = function(){
+				$(this).hide();
 			},
 			geolocationSettings = {
 				maximumAge:600000,
@@ -218,37 +248,12 @@
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 			enable_zoom($(".map"));
-
-		$(".location a").click(function(){
-			var $location = $(this).closest(".location"),
-				$description = $(this).next(".description"),
-				$distance_away = $description.find("p.distance"),
-				difference_distance_in_kilometres;
-			$locations_descriptions.not($description).hide();
-			if(last_known_position !== undefined) {
-				/*
-				Latitude:          last_known_position.coords.latitude
-	            Longitude:         last_known_position.coords.longitude
-	            Altitude:          last_known_position.coords.altitude
-	            Accuracy:          last_known_position.coords.accuracy
-	            Altitude Accuracy: last_known_position.coords.altitudeAccuracy
-	            Heading:           last_known_position.coords.heading
-	            Speed:             last_known_position.coords.speed
-	            */
-				difference_distance_in_kilometres = Math.round(
-					difference_between_positions_in_kilometers(
-						last_known_position.coords.latitude, last_known_position.coords.longitude,
-						parseFloat($location.data("latitude")), parseFloat($location.data("longitude"))
-					) * 100
-				) / 100;
-				$distance_away.text(format_distance(difference_distance_in_kilometres) + " away.").show();
-			} else {
-				$distance_away.hide();
-			}
-			$description.toggle();
-		});
-		$locations_descriptions.click(function(){
-			$(this).hide();
-		})
+		if(Modernizr.touch) {
+			$locations.find("a").hammer().bind("tap", location_show);
+			$locations_descriptions.hammer().bind("tap", location_hide);
+		} else {
+			$locations.find("a").click(location_show);
+			$locations_descriptions.click(location_hide);
+		}
 	});	
 }(jQuery))
