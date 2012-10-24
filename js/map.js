@@ -185,7 +185,7 @@
 		            translate.x += -origin.x * (newWidth - width) / newWidth;
 		            translate.y += -origin.y * (newHeight - height) / newHeight;
 
-		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1) " + offset.translate);
+		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1)");
 		            
 		            width = newWidth;
 
