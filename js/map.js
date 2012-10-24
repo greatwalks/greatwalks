@@ -231,18 +231,18 @@
 				//based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
 		        var hammer,
 		        	height,
+		        	offset,
 		        	origin,
 		        	prevScale,
 		        	scale,
 		        	screenOrigin,
-		        	offset,
 		        	translate,
-		        	width,
-		        	wrap;
-		        
+		        	width;
+
+		        //wrap = $('#wrap');
 		        width = $image.width();
 		        height = $image.height();
-		        
+		        //offset = wrap.offset();
 		        origin = {
 		            x: 0,
 		            y: 0
@@ -255,11 +255,6 @@
 		            x: 0,
 		            y: 0
 		        };
-		        offset = {
-		        	x: 0,
-		        	y: 0,
-		        	translate: "translate(0px,0px)"
-		        }
 		        scale = 1;
 		        prevScale = 1;
 
@@ -267,13 +262,6 @@
 		            prevent_default: true,
 		            scale_treshold: 0,
 		            drag_min_distance: 0
-		        });
-
-		        hammer.bind('drag', function(event){
-		        	offset.x += event.distanceX;
-		        	offset.y += event.distanceY;
-		        	//offset.translate = "translate(" + event.distanceX + "px, " +  event.distanceY + "px)";
-		        	//$image.css('-webkit-transform', offset.translate);
 		        });
 
 		        hammer.bind('transformstart', function(event) {
@@ -288,14 +276,14 @@
 		            newWidth = $image.width() * scale;
 		            newHeight = $image.height() * scale;
 
-		            origin.x = screenOrigin.x - translate.x;
-		            origin.y = screenOrigin.y - translate.y;
+		            origin.x = screenOrigin.x - offset.left - translate.x;
+		            origin.y = screenOrigin.y - offset.top - translate.y;
 
 		            translate.x += -origin.x * (newWidth - width) / newWidth;
 		            translate.y += -origin.y * (newHeight - height) / newHeight;
 
 		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1)");
-		            
+		            //$image.css('-webkit-transform', "translate3d(" + translate.x + "px, " + translate.y + "px, 0)");
 		            width = newWidth;
 
 		            return height = newHeight;
@@ -355,7 +343,7 @@
 				}
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-		enable_pinch_zoom($(".map"));
+		enable_pinch_zoom2($(".map"));
 		if(Modernizr.touch) {
 			alert("touch enabled")
 			//$locations.find("a").hammer().bind("tap", location_show);
