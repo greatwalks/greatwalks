@@ -148,13 +148,14 @@
 		        };
 		        offset = {
 		        	x: 0,
-		        	y: 0
+		        	y: 0,
+		        	translate: "translate(0px,0px)"
 		        }
 		        scale = 1;
 		        prevScale = 1;
 
 		        hammer = $image.hammer({
-		            prevent_default: true,
+		            prevent_default: false,
 		            scale_treshold: 0,
 		            drag_min_distance: 0
 		        });
@@ -162,7 +163,8 @@
 		        hammer.bind('drag', function(event){
 		        	offset.x += event.distanceX;
 		        	offset.y += event.distanceY;
-		        	$image.css('-webkit-transform', "scale3d(" + event.distanceX + "px, " +  event.distanceY + "px)");
+		        	offset.translate = "translate(" + event.distanceX + "px, " +  event.distanceY + "px)";
+		        	$image.css('-webkit-transform', offset.translate);
 		        });
 
 		        hammer.bind('transformstart', function(event) {
@@ -183,7 +185,7 @@
 		            translate.x += -origin.x * (newWidth - width) / newWidth;
 		            translate.y += -origin.y * (newHeight - height) / newHeight;
 
-		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1)");
+		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1), " + offset.translate);
 		            
 		            width = newWidth;
 
