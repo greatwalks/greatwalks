@@ -247,8 +247,8 @@
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 		if(Modernizr.touch) {
-			$locations.find("a").hammer().bind("tap", location_show);
-			$locations_descriptions.hammer().bind("tap", location_hide);
+			//$locations.find("a").hammer().bind("tap", location_show);
+			//$locations_descriptions.hammer().bind("tap", location_hide);
 			enable_pinch_zoom($(".map"));
 		} else {
 			$locations.find("a").click(location_show);
