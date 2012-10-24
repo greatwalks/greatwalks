@@ -5,7 +5,9 @@
 			return;
 		};
 		var centered_once_upon_load = false,
-			current_position,
+			one_hour_in_milliseconds = 60 * 60 * 1000,
+			position_expires_after_milliseconds = one_hour_in_milliseconds,
+			last_known_position = localStorage["geolocation-last-known-position"],
 			kilometres_to_miles = 0.621371,
 			degrees_to_radians = function(degrees) {
 		 		var PIx = 3.141592653589793;
@@ -43,7 +45,6 @@
 				var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 				return R * c; // Distance in km
 			},
-
 			geolocationSuccess = function(position){
 				/*
 				Latitude:          position.coords.latitude
@@ -70,7 +71,7 @@
 								window.map_details.extent_latitude, window.map_details.extent_longitude
 							) * 100) / 100;
 				
-				$youarehere_offmap.html("you are off the map by " + format_distance(difference_distance_in_kilometres));
+				$youarehere_offmap.html("you are off the map by about " + format_distance(difference_distance_in_kilometres));
 				if(youarehere_pixels.left < 0) {
 					youarehere_pixels.left = 0;
 					offmap = true;
@@ -102,7 +103,8 @@
 					);
 					centered_once_upon_load = true;
 				};
-				current_position = position;
+				last_known_position = position;
+				localStorage["geolocation-last-known-position"] = JSON.stringify(position);
 			},
 			geolocationError = function(msg) {
 				try{
@@ -116,13 +118,92 @@
 					$("#no_gps").attr("title", msg.message).show();
 				};
 			},
+			enable_zoom = function($image){
+		        var hammer,
+		        	height,
+		        	origin,
+		        	prevScale,
+		        	scale,
+		        	screenOrigin,
+		        	translate,
+		        	width,
+		        	wrap;
+		        
+		        width = $image.width();
+		        height = $image.height();
+		        
+		        origin = {
+		            x: 0,
+		            y: 0
+		        };
+		        screenOrigin = {
+		            x: 0,
+		            y: 0
+		        };
+		        translate = {
+		            x: 0,
+		            y: 0
+		        };
+		        scale = 1;
+		        prevScale = 1;
+
+		        hammer = $image.hammer({
+		            prevent_default: true,
+		            scale_treshold: 0,
+		            drag_min_distance: 0
+		        });
+
+		        hammer.bind('transformstart', function(event) {
+		            screenOrigin.x = (event.originalEvent.touches[0].clientX + event.originalEvent.touches[1].clientX) / 2;
+		            return screenOrigin.y = (event.originalEvent.touches[0].clientY + event.originalEvent.touches[1].clientY) / 2;
+		        });
+
+		        hammer.bind('transform', function(event) {
+		            var newHeight, newWidth;
+		            scale = prevScale * event.scale;
+
+		            newWidth = $image.width() * scale;
+		            newHeight = $image.height() * scale;
+
+		            origin.x = screenOrigin.x - translate.x;
+		            origin.y = screenOrigin.y - translate.y;
+
+		            translate.x += -origin.x * (newWidth - width) / newWidth;
+		            translate.y += -origin.y * (newHeight - height) / newHeight;
+
+		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1)");
+		            
+		            width = newWidth;
+
+		            return height = newHeight;
+		        });
+
+		        hammer.bind('transformend', function(event) {
+		            return prevScale = scale;
+		        });
+
+
+			},
 			geolocationSettings = {
 				maximumAge:600000,
 				enableHighAccuracy: true
 			},
+			current_time_in_epoch_milliseconds,
 			$locations = $(".location"),
 			$locations_descriptions = $locations.find(".description"),
+			geolocationWatchId;
+			
+			if(last_known_position !== undefined) {
+				last_known_position = JSON.parse(last_known_position);
+				current_time_in_epoch_milliseconds = (new Date).getTime();
+				if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
+					//
+				} else {
+					geolocationSuccess(last_known_position);
+				}
+			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
+			enable_zoom($(".map"));
 
 		$(".location a").click(function(){
 			var $location = $(this).closest(".location"),
@@ -130,19 +211,19 @@
 				$distance_away = $description.find("p.distance"),
 				difference_distance_in_kilometres;
 			$locations_descriptions.not($description).hide();
-			if(current_position !== undefined) {
+			if(last_known_position !== undefined) {
 				/*
-				Latitude:          current_position.coords.latitude
-	            Longitude:         current_position.coords.longitude
-	            Altitude:          current_position.coords.altitude
-	            Accuracy:          current_position.coords.accuracy
-	            Altitude Accuracy: current_position.coords.altitudeAccuracy
-	            Heading:           current_position.coords.heading
-	            Speed:             current_position.coords.speed
+				Latitude:          last_known_position.coords.latitude
+	            Longitude:         last_known_position.coords.longitude
+	            Altitude:          last_known_position.coords.altitude
+	            Accuracy:          last_known_position.coords.accuracy
+	            Altitude Accuracy: last_known_position.coords.altitudeAccuracy
+	            Heading:           last_known_position.coords.heading
+	            Speed:             last_known_position.coords.speed
 	            */
 				difference_distance_in_kilometres = Math.round(
 					difference_between_positions_in_kilometers(
-						current_position.coords.latitude, current_position.coords.longitude,
+						last_known_position.coords.latitude, last_known_position.coords.longitude,
 						parseFloat($location.data("latitude")), parseFloat($location.data("longitude"))
 					) * 100
 				) / 100;
