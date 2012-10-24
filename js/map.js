@@ -118,8 +118,7 @@
 					$("#no_gps").attr("title", msg.message).show();
 				};
 			},
-			enable_zoom = function($image){
-				if(!Modernizr.touch) return; // no point enabling hammer otherwise
+			enable_pinch_zoom = function($image){
 				//based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
 		        var hammer,
 		        	height,
@@ -247,10 +246,10 @@
 				}
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-			enable_zoom($(".map"));
 		if(Modernizr.touch) {
 			$locations.find("a").hammer().bind("tap", location_show);
 			$locations_descriptions.hammer().bind("tap", location_hide);
+			enable_pinch_zoom($(".map"));
 		} else {
 			$locations.find("a").click(location_show);
 			$locations_descriptions.click(location_hide);
