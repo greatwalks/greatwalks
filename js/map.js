@@ -162,7 +162,7 @@
 		        hammer.bind('drag', function(event){
 		        	offset.x += event.distanceX;
 		        	offset.y += event.distanceY;
-		        	$image.css('-webkit-transform', "translate(" + event.distanceX + "px, " +  event.distanceY + "px)");
+		        	$image.css('-webkit-transform', "scale3d(" + event.distanceX + "px, " +  event.distanceY + "px)");
 		        });
 
 		        hammer.bind('transformstart', function(event) {
