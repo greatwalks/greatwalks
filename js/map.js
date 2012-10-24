@@ -148,9 +148,13 @@
 		        prevScale = 1;
 
 		        hammer = $image.hammer({
-		            prevent_default: false,
+		            prevent_default: true,
 		            scale_treshold: 0,
 		            drag_min_distance: 0
+		        });
+
+		        hammer.bind('drag', function(event){
+		        	$image.css('-webkit-transform', "translate(" + event.distanceX + "px, " + event.distanceY + "px)");
 		        });
 
 		        hammer.bind('transformstart', function(event) {
