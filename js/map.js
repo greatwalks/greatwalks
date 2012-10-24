@@ -155,7 +155,7 @@
 		        prevScale = 1;
 
 		        hammer = $image.hammer({
-		            prevent_default: true,
+		            prevent_default: false,
 		            scale_treshold: 0,
 		            drag_min_distance: 0
 		        });
@@ -247,6 +247,7 @@
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 		if(Modernizr.touch) {
+			alert("touch enabled")
 			//$locations.find("a").hammer().bind("tap", location_show);
 			//$locations_descriptions.hammer().bind("tap", location_hide);
 			enable_pinch_zoom($(".map"));
