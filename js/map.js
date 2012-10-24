@@ -119,6 +119,7 @@
 				};
 			},
 			enable_zoom = function($image){
+				//based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
 		        var hammer,
 		        	height,
 		        	origin,
@@ -154,7 +155,9 @@
 		        });
 
 		        hammer.bind('drag', function(event){
-		        	$image.css('-webkit-transform', "translate(" + event.distanceX + "px, " + event.distanceY + "px)");
+		        	translate.x += event.distanceX;
+		        	translate.y += event.distanceY;
+		        	$image.css('-webkit-transform', "translate(" + translate.x + "px, " + translate.y + "px)");
 		        });
 
 		        hammer.bind('transformstart', function(event) {
