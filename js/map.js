@@ -126,6 +126,7 @@
 		        	prevScale,
 		        	scale,
 		        	screenOrigin,
+		        	offset,
 		        	translate,
 		        	width,
 		        	wrap;
@@ -145,6 +146,10 @@
 		            x: 0,
 		            y: 0
 		        };
+		        offset = {
+		        	x: 0,
+		        	y: 0
+		        }
 		        scale = 1;
 		        prevScale = 1;
 
@@ -155,9 +160,9 @@
 		        });
 
 		        hammer.bind('drag', function(event){
-		        	translate.x += event.distanceX;
-		        	translate.y += event.distanceY;
-		        	$image.css('-webkit-transform', "translate(" + translate.x + "px, " + translate.y + "px)");
+		        	offset.x += event.distanceX;
+		        	offset.y += event.distanceY;
+		        	$image.css('-webkit-transform', "translate(" + offset.x + "px, " + offset.y + "px)");
 		        });
 
 		        hammer.bind('transformstart', function(event) {
