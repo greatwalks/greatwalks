@@ -165,8 +165,8 @@
 		   		});
 
 		   		hammer.bind('dragend', function(event) {
-		   			drag_offset.left += event.distanceX;
-		   			drag_offset.top += event.distanceY;
+		   			drag_offset.x += event.distanceX;
+		   			drag_offset.y += event.distanceY;
 		   			$("#debug").html("END:" + JSON.stringify(drag_offset));
 		   		});
 
