@@ -165,6 +165,7 @@
 		   		hammer.bind('dragend', function(event) {
 		   			drag_offset.base_x = drag_offset.x;
 		   			drag_offset.base_y = drag_offset.y;
+		   			$locations.css("-webkit-transform", "scale3d(" + -scale + ", " + -scale + ", 1)");
 		   		});
 
 		   		hammer.bind('drag', function(event) {
