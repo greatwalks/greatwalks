@@ -251,11 +251,11 @@
 				}
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-		enable_pinch_zoom2($("#map"));
+		
 		if(Modernizr.touch) {
-			
-			//$locations.find("a").hammer().bind("tap", location_show);
-			//$locations_descriptions.hammer().bind("tap", location_hide);
+			enable_pinch_zoom2($("#map"));	
+			$locations.find("a").hammer().bind("tap", location_show);
+			$locations_descriptions.hammer().bind("tap", location_hide);
 		} else {
 			$locations.find("a").click(location_show);
 			$locations_descriptions.click(location_hide);
