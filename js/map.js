@@ -167,8 +167,8 @@
 		   		});
 
 		   		hammer.bind('dragend', function(event) {
-		   			drag_offset.base_x += drag_offset.x;
-		   			drag_offset.base_y += drag_offset.y;
+		   			drag_offset.base_x -= drag_offset.x;
+		   			drag_offset.base_y -= drag_offset.y;
 		   			$("#debug").html("END:" + JSON.stringify(drag_offset));
 		   		});
 
