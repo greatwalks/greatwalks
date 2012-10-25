@@ -127,7 +127,7 @@
 		        	prevScale,
 		        	scale,
 		        	screenOrigin,
-		        	offset,
+		        	drag_offset,
 		        	translate,
 		        	width;
 
@@ -147,7 +147,7 @@
 		            x: 0,
 		            y: 0
 		        };
-		        offset = {
+		        drag_offset = {
 		        	x: 0,
 		        	y: 0
 		        }
@@ -161,9 +161,9 @@
 		        });
 
 		   		hammer.bind('drag', function(event) {
-		   			offset.x = event.distanceX;
-		   			offset.y = event.distanceY;
-		   			$image.css('-webkit-transform', 'translate3d(' + offset.x + 'px, ' + offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
+		   			drag_offset.x = event.distanceX;
+		   			drag_offset.y = event.distanceY;
+		   			$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   		});
 
 		        hammer.bind('transformstart', function(event) {
@@ -184,7 +184,7 @@
 		            translate.x += -origin.x * (newWidth - width) / newWidth;
 		            translate.y += -origin.y * (newHeight - height) / newHeight;
 
-		            $image.css('-webkit-transform', "translate3d(" + offset.x + "px, " + offset.y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)");
+		            $image.css('-webkit-transform', "translate3d(" + drag_offset.x + "px, " + drag_offset.y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)");
 		            width = newWidth;
 
 		            return height = newHeight;
