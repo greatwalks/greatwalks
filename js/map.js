@@ -161,7 +161,7 @@
 		        });
 
 				hammer.bind('dragstart', function(event) {
-		   			$("#debug").html("START:" + JSON.stringify(event));
+		   			
 		   		});
 
 		   		hammer.bind('dragend', function(event) {
@@ -173,6 +173,7 @@
 		   		hammer.bind('drag', function(event) {
 		   			drag_offset.x = event.distanceX;
 		   			drag_offset.y = event.distanceY;
+		   			$("#debug").html("drag_offset:" + event.distanceX.toString() + "/" + event.distanceY.toString());
 		   			$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   		});
 
