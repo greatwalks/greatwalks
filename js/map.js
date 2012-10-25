@@ -163,7 +163,7 @@
 		   		hammer.bind('drag', function(event) {
 		   			offset.x += event.distanceX;
 		   			offset.y += event.distanceY;
-		   			$image.css('-webkit-transform', 'scale3d(' + scale + ', ' + scale + ', 1) translate3d(' + offset.x + 'px, ' + offset.y + 'px, 0) ');
+		   			$image.css('-webkit-transform', 'translate3d(' + offset.x + 'px, ' + offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   		});
 
 		        hammer.bind('transformstart', function(event) {
@@ -184,7 +184,7 @@
 		            translate.x += -origin.x * (newWidth - width) / newWidth;
 		            translate.y += -origin.y * (newHeight - height) / newHeight;
 
-		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1) translate3d(" + offset.x + "px, " + offset.y + "px, 0)");
+		            $image.css('-webkit-transform', "translate3d(" + offset.x + "px, " + offset.y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)");
 		            width = newWidth;
 
 		            return height = newHeight;
