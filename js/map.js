@@ -161,6 +161,7 @@
 		        });
 
 		   		hammer.bind('dragend', function(event) {
+		   			$("#debug").html(JSON.stringify(event));
 		   			//offset.left = event.distanceX;
 		   			//offset.top = event.distanceY;
 		   		});
@@ -251,7 +252,7 @@
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 		enable_pinch_zoom2($(".map"));
 		if(Modernizr.touch) {
-			alert("touch enabled")
+			
 			//$locations.find("a").hammer().bind("tap", location_show);
 			//$locations_descriptions.hammer().bind("tap", location_hide);
 		} else {
