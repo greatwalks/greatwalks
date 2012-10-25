@@ -131,7 +131,8 @@
 		        	translate,
 		        	width,
 		        	redraw = function(){
-		        		$locations.css("-webkit-transform", "scale3d(" + -scale + ", " + -scale + ", 1)");
+		        		$("#debug").html(scale);
+		        		$locations.css("-webkit-transform", "scale3d(" + scale + ", " + scale + ", 1)");
 		        		$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		        	};
 
@@ -160,8 +161,6 @@
 		        scale = 1;
 		        prevScale = 1;
 
-
-
 		        hammer = $image.hammer({
 		            prevent_default: true,
 		            scale_treshold: 0,
@@ -177,6 +176,7 @@
 		   		hammer.bind('drag', function(event) {
 		   			drag_offset.x = drag_offset.base_x + event.distanceX;
 		   			drag_offset.y = drag_offset.base_y + event.distanceY;
+		   			//$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   			redraw();
 		   		});
 
