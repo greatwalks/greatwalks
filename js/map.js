@@ -156,8 +156,8 @@
 		        });
 
 		   		hammer.bind('drag', function(event) {
-		   			screenOrigin.x += event.distanceX;
-		   			screenOrigin.y += event.distanceY;
+		   			translate.x += event.distanceX;
+		   			translate.y += event.distanceY;
 		   			$image.css('-webkit-transform', 'translate3d(' + event.distanceX + 'px, ' + event.distanceY + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   		});
 
@@ -179,7 +179,7 @@
 		            translate.x += -origin.x * (newWidth - width) / newWidth;
 		            translate.y += -origin.y * (newHeight - height) / newHeight;
 
-		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1) translate3d(" + screenOrigin.x + "px, " + screenOrigin.y + "px, 0)");
+		            $image.css('-webkit-transform', "scale3d(" + scale + ", " + scale + ", 1) translate3d(" + translate.x + "px, " + translate.y + "px, 0)");
 		            width = newWidth;
 
 		            return height = newHeight;
