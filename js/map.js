@@ -156,7 +156,7 @@
 		        });
 
 		   		hammer.bind('drag', function(event) {
-		   			$image.css('-webkit-transform', 'translate3d(' + event.distanceX + 'px, ' + event.distanceX + 'px, 0)');
+		   			$image.css('-webkit-transform', 'translate3d(' + event.distanceX + 'px, ' + event.distanceY + 'px, 0)');
 		   		});
 
 		        hammer.bind('transformstart', function(event) {
