@@ -348,7 +348,6 @@
 			alert("touch enabled")
 			//$locations.find("a").hammer().bind("tap", location_show);
 			//$locations_descriptions.hammer().bind("tap", location_hide);
-			enable_pinch_zoom($(".map"));
 		} else {
 			$locations.find("a").click(location_show);
 			$locations_descriptions.click(location_hide);
