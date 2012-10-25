@@ -163,7 +163,7 @@
 		   		hammer.bind('drag', function(event) {
 		   			offset.x = event.distanceX;
 		   			offset.y = event.distanceY;
-		   			$image.css('-webkit-transform', 'translate3d(' + event.distanceX + 'px, ' + event.distanceY + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
+		   			$image.css('-webkit-transform', 'scale3d(' + scale + ', ' + scale + ', 1) translate3d(' + offset.x + 'px, ' + offset.y + 'px, 0) ');
 		   		});
 
 		        hammer.bind('transformstart', function(event) {
