@@ -160,8 +160,12 @@
 		            drag_min_distance: 0
 		        });
 
+				hammer.bind('dragstart', function(event) {
+		   			$("#debug").html("START:" + JSON.stringify(event));
+		   		});
+
 		   		hammer.bind('dragend', function(event) {
-		   			$("#debug").html(JSON.stringify(event));
+		   			$("#debug").html("END:" + JSON.stringify(event));
 		   			//offset.left = event.distanceX;
 		   			//offset.top = event.distanceY;
 		   		});
