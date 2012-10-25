@@ -161,8 +161,8 @@
 		        });
 
 		   		hammer.bind('drag', function(event) {
-		   			offset.x += event.distanceX;
-		   			offset.y += event.distanceY;
+		   			offset.x = event.distanceX;
+		   			offset.y = event.distanceY;
 		   			$image.css('-webkit-transform', 'translate3d(' + offset.x + 'px, ' + offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   		});
 
