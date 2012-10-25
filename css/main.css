@@ -71,6 +71,9 @@ html {
   color: white;
   font-weight: bold;
 }
+body.map {
+  background: url("../img/map-background.png");
+}
 .location .description {
   font-size: small;
   background: white;

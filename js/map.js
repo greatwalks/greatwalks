@@ -162,20 +162,14 @@
 		            drag_min_distance: 0
 		        });
 
-				hammer.bind('dragstart', function(event) {
-		   			
-		   		});
-
 		   		hammer.bind('dragend', function(event) {
 		   			drag_offset.base_x = drag_offset.x;
 		   			drag_offset.base_y = drag_offset.y;
-		   			$("#debug").html("END:" + JSON.stringify(drag_offset));
 		   		});
 
 		   		hammer.bind('drag', function(event) {
 		   			drag_offset.x = drag_offset.base_x + event.distanceX;
 		   			drag_offset.y = drag_offset.base_y + event.distanceY;
-		   			//$("#debug").html("drag_offset:" + event.distanceX.toString() + "/" + event.distanceY.toString());
 		   			$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   		});
 
@@ -257,7 +251,7 @@
 				}
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-		enable_pinch_zoom2($(".map"));
+		enable_pinch_zoom2($("#map"));
 		if(Modernizr.touch) {
 			
 			//$locations.find("a").hammer().bind("tap", location_show);
