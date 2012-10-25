@@ -166,14 +166,14 @@
 
 		   		hammer.bind('dragend', function(event) {
 		   			$("#debug").html("END:" + JSON.stringify(event));
-		   			//offset.left = event.distanceX;
-		   			//offset.top = event.distanceY;
+		   			drag_offset.left += event.distanceX;
+		   			drag_offset.top += event.distanceY;
 		   		});
 
 		   		hammer.bind('drag', function(event) {
 		   			drag_offset.x = event.distanceX;
 		   			drag_offset.y = event.distanceY;
-		   			$("#debug").html("drag_offset:" + event.distanceX.toString() + "/" + event.distanceY.toString());
+		   			//$("#debug").html("drag_offset:" + event.distanceX.toString() + "/" + event.distanceY.toString());
 		   			$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   		});
 
