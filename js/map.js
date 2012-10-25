@@ -148,6 +148,8 @@
 		            y: 0
 		        };
 		        drag_offset = {
+		        	base_x: 0,
+		        	base_y: 0,
 		        	x: 0,
 		        	y: 0
 		        }
@@ -165,14 +167,14 @@
 		   		});
 
 		   		hammer.bind('dragend', function(event) {
-		   			drag_offset.x += event.distanceX;
-		   			drag_offset.y += event.distanceY;
+		   			drag_offset.base_x += drag_offset.x;
+		   			drag_offset.base_y += drag_offset.y;
 		   			$("#debug").html("END:" + JSON.stringify(drag_offset));
 		   		});
 
 		   		hammer.bind('drag', function(event) {
-		   			drag_offset.x = event.distanceX;
-		   			drag_offset.y = event.distanceY;
+		   			drag_offset.x = drag_offset.base_x + event.distanceX;
+		   			drag_offset.y = drag_offset.base_y + event.distanceY;
 		   			//$("#debug").html("drag_offset:" + event.distanceX.toString() + "/" + event.distanceY.toString());
 		   			$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		   		});
