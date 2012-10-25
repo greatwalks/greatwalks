@@ -242,7 +242,7 @@
 		        //wrap = $('#wrap');
 		        width = $image.width();
 		        height = $image.height();
-		        //offset = wrap.offset();
+		        offset = $image.offset();
 		        origin = {
 		            x: 0,
 		            y: 0
