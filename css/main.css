@@ -68,7 +68,7 @@ html {
   user-drag: none;
 }
 #map {
-  position: absolute;
+  position: relative;
   left: 100px;
   top: 40px;
 }
