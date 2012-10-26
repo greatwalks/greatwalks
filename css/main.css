@@ -67,17 +67,13 @@ html {
   -moz-user-drag: none;
   user-drag: none;
 }
-#map {
-  position: relative;
-  left: 100px;
-  top: 40px;
-}
 .navbar a {
   color: white;
   font-weight: bold;
 }
 body.map {
   background: url("../img/map-background.png");
+  padding: 0px 100px 0px 100px;
 }
 .location .description {
   font-size: small;
