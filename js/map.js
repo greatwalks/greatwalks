@@ -134,7 +134,7 @@
 		        		var locations_css = "scale3d(" + (scale) + ", " + (scale) + ", 1)"
 		        		$("#debug").html(locations_css);
 		        		$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
-		        		$locations.css("-webkit-transform", locations_css);
+		        		$locations.css({"-webkit-transform": locations_css, "-webkit-transform-origin": "0px 0px"});
 		        	};
 
 		        //wrap = $('#wrap');
