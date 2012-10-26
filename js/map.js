@@ -9,6 +9,10 @@
 			position_expires_after_milliseconds = one_hour_in_milliseconds,
 			last_known_position = localStorage["geolocation-last-known-position"],
 			kilometres_to_miles = 0.621371,
+			geolocationSettings = {
+				maximumAge:600000,
+				enableHighAccuracy: true
+			},
 			degrees_to_radians = function(degrees) {
 		 		var PIx = 3.141592653589793;
 				return degrees * PIx / 180;
@@ -111,8 +115,8 @@
 					geolocation.clearWatch(geolocationWatchId);
 				} catch(exception){
 				}
-				if(geolocationSetting.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
-					geolocationSetting.enableHighAccuracy = false;
+				if(geolocationSettings.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
+					geolocationSettings.enableHighAccuracy = false;
 					geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 				} else {
 					$("#no_gps").attr("title", msg.message).show();
@@ -248,10 +252,6 @@
 			location_hide = function(){
 				$(this).hide();
 			},
-			geolocationSettings = {
-				maximumAge:600000,
-				enableHighAccuracy: true
-			},
 			centerMap = function(){
 				var $map = $("#map"),
 					$window = $(window),
@@ -260,7 +260,6 @@
 					x = map_offset.left + (map_details.map_pixel_width / 2) - ($window.width() / 2),
 					y = map_offset.top + (map_details.map_pixel_height / 2) - ($window.height() / 2);
 				window.scrollTo(x,y);
-				alert(x + "," + y);
 			},
 			current_time_in_epoch_milliseconds,
 			$locations = $(".location"),
@@ -285,8 +284,10 @@
 			$locations.find("a").hammer().bind("tap", location_show);
 			$locations_descriptions.hammer().bind("tap", location_hide);
 		} else {
-			$locations.find("a").click(location_show);
-			$locations_descriptions.click(location_hide);
+			$locations.find("a").popover({"placement":"top"})
+			//$locations.find("a").click(location_show);
+			//$locations_descriptions.click(location_hide);
+			alert("sdsdf")
 		}
 	});	
 }(jQuery))
