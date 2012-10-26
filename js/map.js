@@ -133,7 +133,7 @@
 		        	redraw = function(){
 		        		$("#debug").html(scale);
 		        		$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
-		        		$locations.css("-webkit-transform", "scale3d(1, " + -scale + ", 1)");
+		        		$locations.css("-webkit-transform", "scale3d(1, 1, " + -scale + ")");
 		        	};
 
 		        //wrap = $('#wrap');
