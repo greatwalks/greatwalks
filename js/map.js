@@ -250,6 +250,16 @@
 				maximumAge:600000,
 				enableHighAccuracy: true
 			},
+			centerMap = function(){
+				var $map = $("#map"),
+					$window = $(window),
+					map_offset = $map.offset(),
+
+					x = map_offset.left + (map_details.map_pixel_width / 2) - ($window.width() / 2),
+					y = map_offset.top + (map_details.map_pixel_height / 2) - ($window.height() / 2);
+				window.scrollTo(x,y);
+				alert(x + "," + y);
+			},
 			current_time_in_epoch_milliseconds,
 			$locations = $(".location"),
 			$locations_descriptions = $locations.find(".description"),
@@ -259,10 +269,12 @@
 				last_known_position = JSON.parse(last_known_position);
 				current_time_in_epoch_milliseconds = (new Date).getTime();
 				if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
-					//
+					centerMap();
 				} else {
 					geolocationSuccess(last_known_position);
 				}
+			} else {
+				centerMap();
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 		
