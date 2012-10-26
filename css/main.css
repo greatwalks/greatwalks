@@ -67,6 +67,11 @@ html {
   -moz-user-drag: none;
   user-drag: none;
 }
+#map {
+  position: absolute;
+  left: 100px;
+  top: 40px;
+}
 .navbar a {
   color: white;
   font-weight: bold;
