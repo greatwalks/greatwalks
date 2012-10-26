@@ -133,6 +133,7 @@
 		        	redraw = function(){
 		        		var locations_css = "scale3d(" + ( scale ) + ", 1, 0)"
 		        		$("#debug").html(locations_css);
+		        		if(scale > 2 || scale < 0.5) return;
 		        		$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
 		        		$locations.css({"-webkit-transform": locations_css, "-webkit-transform-origin": "0px 0px"});
 		        	};
