@@ -132,11 +132,7 @@
 		        	width,
 		        	redraw = function(){
 		        		var locations_css = 'scale3d(' + ( 1 - scale ) + ', ' + ( 1 - scale ) + ', 0)',
-		        			map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0)';
-		        		
-		        		if(scale > 0.3 && scale < 3) {
-		        			map_css += ' scale3d(' + scale + ', ' + scale + ', 1)';
-		        		}
+		        			map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
 		        		$image.css('-webkit-transform', map_css);
 		        		$("#debug").html(map_css);
 		        		//$locations.css({"-webkit-transform": locations_css, "-webkit-transform-origin": "0px 0px"});
@@ -194,6 +190,12 @@
 		        hammer.bind('transform', function(event) {
 		            var newHeight, newWidth;
 		            scale = prevScale * event.scale;
+
+					if(scale < 0.3) {
+	        			scale = 0.3;
+	        		} else if(scale > 3) {
+	        			scale = 3
+	        		}
 
 		            newWidth = $image.width() * scale;
 		            newHeight = $image.height() * scale;
