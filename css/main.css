@@ -117,8 +117,9 @@ body.map {
   display: block;
   background: transparent url('../img/icons.png') no-repeat;
   text-indent: -10000px;
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
+  border: solid 1px red;
 }
 .location-adventure-activities {
   background-position: 0 0px;
