@@ -47,7 +47,7 @@
         }
         $(element).hammer(hammer_settings).bind("tap", function(){
           alert("hammer time");
-          //$.proxy(this.clickery, this);
+          $.proxy(this.clickery, this);
         });
       } else {
         this.$element.on( 'click', this.options.selector, $.proxy(this.clickery, this) );
