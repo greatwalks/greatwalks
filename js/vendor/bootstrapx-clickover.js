@@ -46,7 +46,6 @@
             drag_min_distance: 0
         }
         $(element).hammer(hammer_settings).bind("tap", function(){
-          alert("hammer time");
           $.proxy(this.clickery, this);
         });
       } else {
@@ -64,6 +63,7 @@
         e.preventDefault();
         e.stopPropagation();
       }
+      alert("hammer time2")
 
       // set popover's dim's
       this.options.width  && this.tip().find('.popover-inner').width(  this.options.width  );
