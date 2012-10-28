@@ -278,17 +278,11 @@
 				centerMap();
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-		$locations.find("a").clickover({"placement":"top"})
+		$locations.clickover({"placement":"top"})
 		if(Modernizr.touch) {
 			enable_pinch_zoom2($("#map"));	
-			
-			//$locations.find("a").hammer().bind("tap", location_show);
-			//$locations_descriptions.hammer().bind("tap", location_hide);
 		} else {
-			//$locations.find("a").popover({"placement":"top"})
-			//$locations.find("a").click(location_show);
-			//$locations_descriptions.click(location_hide);
-			
+			//anything for desktop browsers
 		}
 	});	
 }(jQuery))
