@@ -40,7 +40,8 @@
 
       // setup our own handlers
       if(Modernizr.touch) {
-        $(".locations a").hammer().bind("tap", function(){
+        this.hammer().bind("tap", function(){
+          alert("what")
           $.proxy(this.clickery, this);
         });
       } else {
