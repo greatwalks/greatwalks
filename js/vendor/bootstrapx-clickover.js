@@ -40,10 +40,9 @@
 
       // setup our own handlers
       if(Modernizr.touch) {
-        alert("hammer touch!" + $(element).parent().html());
         $(element).hammer().bind("tap", function(){
-          alert("what");
-          $.proxy(this.clickery, this);
+          alert("hammer time");
+          //$.proxy(this.clickery, this);
         });
       } else {
         this.$element.on( 'click', this.options.selector, $.proxy(this.clickery, this) );
