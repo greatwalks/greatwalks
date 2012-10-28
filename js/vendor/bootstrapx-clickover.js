@@ -40,7 +40,12 @@
 
       // setup our own handlers
       if(Modernizr.touch) {
-        $(element).hammer().bind("tap", function(){
+        var hammer_settings = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        }
+        $(element).hammer(hammer_settings).bind("tap", function(){
           alert("hammer time");
           //$.proxy(this.clickery, this);
         });
