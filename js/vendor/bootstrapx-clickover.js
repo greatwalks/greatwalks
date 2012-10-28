@@ -39,7 +39,13 @@
       this.init( type, element, options );
 
       // setup our own handlers
-      this.$element.on( 'click', this.options.selector, $.proxy(this.clickery, this) );
+      if(Modernizr.touch) {
+        $(".locations a").hammer().bind("tap", function(){
+          $.proxy(this.clickery, this);
+        });
+      } else {
+        this.$element.on( 'click', this.options.selector, $.proxy(this.clickery, this) );
+      }
 
       // soon add click hanlder to body to close this element
       // will need custom handler inside here

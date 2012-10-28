@@ -73,7 +73,7 @@ html {
 }
 body.map {
   background: url("../img/map-background.png");
-  padding: 0px 100px 0px 100px;
+  padding: 41px 100px 0px 100px;
 }
 .location .description {
   font-size: small;
