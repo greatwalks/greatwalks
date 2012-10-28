@@ -222,11 +222,8 @@
 		        });
 			},
 			location_show = function(){
-				var $location = $(this).closest(".location"),
-					$description = $(this).next(".description"),
-					$distance_away = $description.find("p.distance"),
-					difference_distance_in_kilometres;
-				$locations_descriptions.not($description).hide();
+				//NO LONGER USED
+				//ONLY LEFT HERE SO THAT YOU CAN SALVAGE THE DISTANCE BETWEEN CODE
 				if(last_known_position !== undefined) {
 					/*
 					Latitude:          last_known_position.coords.latitude
@@ -237,20 +234,14 @@
 		            Heading:           last_known_position.coords.heading
 		            Speed:             last_known_position.coords.speed
 		            */
-					difference_distance_in_kilometres = Math.round(
+					var difference_distance_in_kilometres = Math.round(
 						difference_between_positions_in_kilometers(
 							last_known_position.coords.latitude, last_known_position.coords.longitude,
 							parseFloat($location.data("latitude")), parseFloat($location.data("longitude"))
 						) * 100
 					) / 100;
-					$distance_away.text(format_distance(difference_distance_in_kilometres) + " away.").show();
-				} else {
-					$distance_away.hide();
+					
 				}
-				$description.toggle();
-			},
-			location_hide = function(){
-				$(this).hide();
 			},
 			centerMap = function(){
 				var $map = $("#map"),
@@ -263,7 +254,6 @@
 			},
 			current_time_in_epoch_milliseconds,
 			$locations = $(".location"),
-			$locations_descriptions = $locations.find(".description"),
 			geolocationWatchId;
 			
 			if(last_known_position !== undefined) {
@@ -278,10 +268,12 @@
 				centerMap();
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-		$locations.clickover({"placement":"top"})
+		
 		if(Modernizr.touch) {
 			enable_pinch_zoom2($("#map"));	
+			$locations.clickover({"placement":"top"})
 		} else {
+			$locations.clickover({"placement":"top"})
 			//anything for desktop browsers
 		}
 	});	
