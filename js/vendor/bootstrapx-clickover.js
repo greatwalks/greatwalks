@@ -59,11 +59,12 @@
       // clickery isn't only run by event handlers can be called by timeout or manually
       // only run our click handler and  
       // need to stop progration or body click handler would fire right away
+      alert("hammer time2")
       if (e) {
         e.preventDefault();
         e.stopPropagation();
       }
-      alert("hammer time2")
+      
 
       // set popover's dim's
       this.options.width  && this.tip().find('.popover-inner').width(  this.options.width  );
