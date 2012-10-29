@@ -143,8 +143,8 @@
 		        			window.close_all_clickovers = undefined;
 		        			closer();
 		        		}
-		        		//$locations.css({"-webkit-transform": locations_css});
-		        		//$("#debug").html(locations_css);
+		        		$locations.css({"-webkit-transform": locations_css});
+		        		$("#debug").html(locations_css);
 		        	};
 
 		        //wrap = $('#wrap');
