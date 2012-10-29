@@ -293,6 +293,6 @@
 			//anything for desktop browsers
 		}
 		$locations.clickover({"placement":"top"})
-		$("#weta").css("margin-top", "-200px").clickover({"placement":"top"})
+		$("#weta").css("margin-top", "-200px").clickover({"placement":"bottom"})
 	});	
 }(jQuery))
