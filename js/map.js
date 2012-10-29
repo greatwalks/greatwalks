@@ -279,14 +279,15 @@
 			}
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 		
+		enable_pinch_zoom($("#map"));	
 		if(Modernizr.touch) {
-			enable_pinch_zoom($("#map"));	
+			
 			
 		} else {
-			$locations.clickover({"placement":"top"})
+			
 			//anything for desktop browsers
 		}
 		$locations.clickover({"placement":"top"})
-		$("#weta").clickover({"placement":"top"})
+		$("#weta").css("margin-top", "-200px").clickover({"placement":"top"})
 	});	
 }(jQuery))
