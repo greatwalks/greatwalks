@@ -57,12 +57,11 @@
       // clickery isn't only run by event handlers can be called by timeout or manually
       // only run our click handler and  
       // need to stop progration or body click handler would fire right away
-      alert("hammer time2")
+      
       if (e) {
         e.preventDefault();
         e.stopPropagation();
       }
-      
 
       // set popover's dim's
       this.options.width  && this.tip().find('.popover-inner').width(  this.options.width  );
@@ -82,10 +81,11 @@
         var that = this;
 
         // close on global request, exclude clicks inside clickover
-        this.options.global_close &&
-          $('body').on( this.attr.click_event_ns, function(e) {
+        if(this.options.global_close) {
+          $('body, #map').on( this.attr.click_event_ns, function(e) {
             if ( !that.tip().has(e.target).length ) { that.clickery(); }
           });
+        }
 
         this.options.esc_close && $(document).bind('keyup.clickery', function(e) {
             if (e.keyCode == 27) { that.clickery(); }
