@@ -167,10 +167,12 @@ body.map {
   height: 393px;
   background-size: 100%;
   position: absolute;
-  bottom: 0px;
+  top: 100px;
   left: 0px;
+  text-indent: -10000px;
 }
 #weta:hover,
+#weta:active,
 #weta.active {
   background-image: url(../img/weta_twitch.png);
 }
