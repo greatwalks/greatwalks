@@ -13,6 +13,7 @@
 				maximumAge:600000,
 				enableHighAccuracy: true
 			},
+			drag_offset = {base_x:0,base_y:0,x:0,y:0},
 			degrees_to_radians = function(degrees) {
 		 		var PIx = 3.141592653589793;
 				return degrees * PIx / 180;
@@ -101,11 +102,14 @@
 					$youarehere_offmap.hide();
 				}
 				if(centered_once_upon_load === false) {
-					window.scrollTo(
-						youarehere_pixels.left - $(window).width() / 2,
-						youarehere_pixels.top - $(window).height() / 2
-					);
+					var $map = $("#map"),
+						$window = $(window),
+						map_offset = $map.offset(),
+						x = -map_offset.left - youarehere_pixels.left + ($window.width() / 2),
+						y = -map_offset.top - youarehere_pixels.top + ($window.height() / 2);
+					
 					centered_once_upon_load = true;
+					centerMap(x, y);
 				};
 				last_known_position = position;
 				localStorage["geolocation-last-known-position"] = JSON.stringify(position);
@@ -134,11 +138,10 @@
 		        var hammer,
 		        	height,
 		        	offset,
+		        	screenOffset,
 		        	origin,
 		        	prevScale,
 		        	scale,
-		        	screenOrigin,
-		        	drag_offset,
 		        	translate,
 		        	width,
 		        	redraw = function(){
@@ -154,11 +157,8 @@
 		        width = $image.width();
 		        height = $image.height();
 		        offset = $image.offset();
+		        
 		        origin = {
-		            x: 0,
-		            y: 0
-		        };
-		        screenOrigin = {
 		            x: 0,
 		            y: 0
 		        };
@@ -166,12 +166,11 @@
 		            x: 0,
 		            y: 0
 		        };
-		        drag_offset = {
-		        	base_x: 0,
-		        	base_y: 0,
+		        screenOffset = {
 		        	x: 0,
 		        	y: 0
 		        }
+
 		        scale = 1;
 		        prevScale = 1;
 
@@ -253,32 +252,38 @@
 					
 				}
 			},
-			centerMap = function(){
+			centerMap = function(x, y){
+				alert("center with + " + x + "," + y);
 				var $map = $("#map"),
 					$window = $(window),
 					map_offset = $map.offset(),
-
-					x = map_offset.left + (map_details.map_pixel_width / 2) - ($window.width() / 2),
-					y = map_offset.top + (map_details.map_pixel_height / 2) - ($window.height() / 2);
-				window.scrollTo(x,y);
+					map_css;
+				if(x === undefined && y === undefined) { //if no coordinates are given then center on middle of map
+					x = -(map_offset.left + (map_details.map_pixel_width / 2) - ($window.width() / 2));
+					y = -(map_offset.top + (map_details.map_pixel_height / 2) - ($window.height() / 2));
+				};
+				map_css = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+				$map.css('-webkit-transform', map_css);
+				drag_offset.base_x = x;
+				drag_offset.base_y = y;
 			},
 			current_time_in_epoch_milliseconds,
 			$locations = $(".location"),
 			geolocationWatchId;
 			
-			if(last_known_position !== undefined) {
-				last_known_position = JSON.parse(last_known_position);
-				current_time_in_epoch_milliseconds = (new Date).getTime();
-				if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
-					centerMap();
-				} else {
-					geolocationSuccess(last_known_position);
-				}
-			} else {
+
+		if(last_known_position !== undefined) {
+			last_known_position = JSON.parse(last_known_position);
+			current_time_in_epoch_milliseconds = (new Date).getTime();
+			if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
 				centerMap();
+			} else {
+				geolocationSuccess(last_known_position);
 			}
-			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-		
+		} else {
+			centerMap();
+		}
+		geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 		enable_pinch_zoom($("#map"));	
 		if(Modernizr.touch) {
 			
