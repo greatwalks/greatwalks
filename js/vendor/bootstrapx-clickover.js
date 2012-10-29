@@ -85,9 +85,7 @@
           $('body, #map').on( this.attr.click_event_ns, function(e) {
             if ( !that.tip().has(e.target).length ) { that.clickery(); }
           });
-          if(Modernizr.touch) {
-            window.close_all_clickovers = $.proxy(this.clickery, this)
-          }
+          window.close_all_clickovers = $.proxy(this.clickery, this)
         }
 
         this.options.esc_close && $(document).bind('keyup.clickery', function(e) {

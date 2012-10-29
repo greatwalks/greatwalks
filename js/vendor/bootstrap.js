@@ -1146,7 +1146,9 @@
         , title = this.getTitle()
         , content = this.getContent()
 
-      $tip.find('.popover-title')[ $.type(title) == 'object' ? 'append' : 'html' ](title)
+      $tip.find('.popover-title')[ $.type(title) == 'object' ? 'append' : 'html' ](title);
+      if(title.length === 0) $tip.find('.popover-title').hide();
+      
       $tip.find('.popover-content > *')[ $.type(content) == 'object' ? 'append' : 'html' ](content)
 
       $tip.removeClass('fade top bottom left right in')

@@ -122,7 +122,14 @@
 					$("#no_gps").attr("title", msg.message).show();
 				};
 			},
-			enable_pinch_zoom2 = function($image){
+			close_any_clickovers = function(){
+				if(window.close_all_clickovers) {
+        			var closer = window.close_all_clickovers;
+        			window.close_all_clickovers = undefined;
+        			closer();
+        		}
+        	},
+			enable_pinch_zoom = function($image){
 				//based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
 		        var hammer,
 		        	height,
@@ -134,13 +141,6 @@
 		        	drag_offset,
 		        	translate,
 		        	width,
-		        	close_any_clickovers = function(){
-						if(window.close_all_clickovers) {
-		        			var closer = window.close_all_clickovers;
-		        			window.close_all_clickovers = undefined;
-		        			closer();
-		        		}
-		        	},
 		        	redraw = function(){
 		        		var locations_css = 'scale3d(' + ( 1 / scale ) + ', ' + ( 1 / scale ) + ', 0)',
 		        			map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
@@ -280,11 +280,13 @@
 			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
 		
 		if(Modernizr.touch) {
-			enable_pinch_zoom2($("#map"));	
-			$locations.clickover({"placement":"top"})
+			enable_pinch_zoom($("#map"));	
+			
 		} else {
 			$locations.clickover({"placement":"top"})
 			//anything for desktop browsers
 		}
+		$locations.clickover({"placement":"top"})
+		$("#weta").clickover({"placement":"top"})
 	});	
 }(jQuery))

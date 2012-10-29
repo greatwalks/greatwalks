@@ -72,26 +72,8 @@ html {
   font-weight: bold;
 }
 body.map {
-  background: url("../img/map-background.png");
+  background: url("../img/table.png");
   padding: 41px 100px 0px 100px;
-}
-.location .description {
-  font-size: small;
-  background: white;
-  display: none;
-  margin: 0px;
-  white-space: nowrap;
-  float: left;
-  padding: 0px 20px 0px 20px;
-  line-height: 16px;
-  position: relative;
-  z-index: 1000;
-}
-.location .description h3 {
-  font-size: 10px;
-  margin: 0px;
-  padding: 5px 0px 0px 0px;
-  line-height: 10px;
 }
 .header-sprite {
   display: inline-block;
@@ -113,108 +95,84 @@ body.map {
 .header-share {
   background-position: 0px -150px;
 }
-.location-sprite {
+.location-icon {
   display: block;
-  background: transparent url('../img/icons.png') no-repeat;
   text-indent: -10000px;
-  width: 40px;
-  height: 40px;
-  border: solid 1px red;
+  width: 20px;
+  height: 20px;
+  background-image: url(../img/missing-icon.png);
+  background-size: 100%;
 }
-.location-adventure-activities {
-  background-position: 0 0px;
+@media (min-width: 600px) {
+  .location-icon {
+    width: 40px;
+    height: 40px;
+    background-size: 100%;
+  }
 }
-.location-bird-watching {
-  background-position: 0 -21px;
+.location-animal {
+  background-image: url(../img/icon-animal_species.png);
 }
-.location-motor-boating {
-  background-position: 0 -42px;
+.location-attention {
+  background-image: url(../img/icon-attention.png);
 }
-.location-camping,
-.location-Campsite {
-  background-position: 0 -63px;
+.location-carpark {
+  background-image: url(../img/icon-carpark.png);
 }
-.location-caving {
-  background-position: 0 -84px;
+.location-hot_springs {
+  background-image: url(../img/icon-hot_springs.png);
 }
-.location-activities-with-children {
-  background-position: 0 -105px;
+.location-isite,
+.location-VisitorCentre {
+  background-image: url(../img/icon-isite.png);
 }
-.location-climbing {
-  background-position: 0 -126px;
-}
-.location-diving-snorkeling {
-  background-position: 0 -147px;
-}
-.location-dog-walking {
-  background-position: 0 -168px;
-}
-.location-dolphin-swiming {
-  background-position: 0 -189px;
-}
-.location-fishing {
-  background-position: 0 -210px;
-}
-.location-four-wheel-driving {
-  background-position: 0 -231px;
-}
-.location-guided-walks {
-  background-position: 0 -252px;
-}
-.location-historic-sites {
-  background-position: 0 -273px;
-}
-.location-horse-riding {
-  background-position: 0 -294px;
-}
-.location-hot-pools {
-  background-position: 0 -315px;
-}
-.location-hunting {
-  background-position: 0 -336px;
-}
-.location-kayaking-canoeing {
-  background-position: 0 -357px;
-}
-.location-mountain-biking {
-  background-position: 0 -378px;
-}
-.location-paragliding-hanggliding {
-  background-position: 0 -399px;
-}
-.location-trail-biking {
-  background-position: 0 -420px;
-}
-.location-rafting {
-  background-position: 0 -441px;
-}
-.location-scenic-nature-tours {
-  background-position: 0 -462px;
-}
-.location-aerial-activities {
-  background-position: 0 -483px;
-}
-.location-skiing {
-  background-position: 0 -504px;
-}
-.location-specialist-activities {
-  background-position: 0 -525px;
-}
-.location-surfing {
-  background-position: 0 -546px;
-}
-.location-trail-biking {
-  background-position: 0 -567px;
-}
-.location-walking-tramping {
-  background-position: 0 -588px;
-}
-.location-whale-watching {
-  background-position: 0 -609px;
-}
-.location-hut,
+.location-lodging,
 .location-Hut {
-  background-position: 0 -630px;
+  background-image: url(../img/icon-lodging.png);
+}
+.location-plane {
+  background-image: url(../img/icon-plane.png);
+}
+.location-plant_species {
+  background-image: url(../img/icon-plant_species.png);
+}
+.location-shelter,
+.location-Shelter {
+  background-image: url(../img/icon-shelter.png);
+}
+.location-tent,
+.location-Camping,
+.location-Campsite {
+  background-image: url(../img/icon-tent.png);
+}
+.location-toilets {
+  background-image: url(../img/icon-toilets.png);
+}
+.location-trailhead {
+  background-image: url(../img/icon-trailhead.png);
+}
+.location-viewpoints,
+.location-Feature {
+  background-image: url(../img/icon-viewpoints.png);
+}
+.location-volcano {
+  background-image: url(../img/icon-volcano.png);
+}
+.location-waterfall {
+  background-image: url(../img/icon-waterfall.png);
+}
+#weta {
+  background: url(../img/weta_land.png);
+  width: 255px;
+  height: 393px;
+  background-size: 100%;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+#weta:hover,
+#weta.active {
+  background-image: url(../img/weta_twitch.png);
 }
 #logo {
   position: absolute;
