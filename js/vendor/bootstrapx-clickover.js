@@ -86,7 +86,7 @@
             if ( !that.tip().has(e.target).length ) { that.clickery(); }
           });
           if(Modernizr.touch) {
-            window.close_all_clickovers = $.proxy(this.clickery, this);
+            window.close_all_clickovers = $.proxy(this.clickery, this)
           }
         }
 
