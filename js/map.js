@@ -138,6 +138,9 @@
 		        		var locations_css = 'scale3d(' + ( 1 / scale ) + ', ' + ( 1 / scale ) + ', 0)',
 		        			map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
 		        		$image.css('-webkit-transform', map_css);
+		        		if(window.close_all_clickovers) {
+		        			window.close_all_clickovers();
+		        		}
 		        		//$locations.css({"-webkit-transform": locations_css});
 		        		//$("#debug").html(locations_css);
 		        	};
