@@ -275,7 +275,7 @@ body.map {
 }
 #show_slideout_navigation {
   position: absolute;
-  left: 50%;
+  left: 30%;
   top: 10px;
   z-index: 100000;
 }
