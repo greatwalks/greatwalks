@@ -274,7 +274,10 @@ body.map {
   -webkit-transition: 0.2s ease-in;
 }
 #show_slideout_navigation {
-  display: none;
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  z-index: 100000;
 }
 #show_slideout_navigation:checked ~ #wrapper,
 #show_slideout_navigation:checked ~ .navbar {
