@@ -3148,6 +3148,7 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 20px;
   list-style: none;
 }
+.nav > li > label,
 .nav > li > a {
   display: block;
 }
@@ -3673,7 +3674,7 @@ input[type="submit"].btn.btn-mini {
 .navbar .nav > li {
   float: left;
 }
-.navbar .nav > li > span,
+.navbar .nav > li > label,
 .navbar .nav > li > a {
   float: none;
   padding: 10px 15px 10px;
@@ -3844,11 +3845,13 @@ input[type="submit"].btn.btn-mini {
   border-color: #642246;
 }
 .navbar-inverse .brand,
+.navbar-inverse .nav > li > label,
 .navbar-inverse .nav > li > a {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 .navbar-inverse .brand:hover,
+.navbar-inverse .nav > li > label:hover,
 .navbar-inverse .nav > li > a:hover {
   color: #ffffff;
 }
