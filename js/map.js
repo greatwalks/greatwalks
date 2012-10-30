@@ -148,6 +148,7 @@
 		        	scale,
 		        	translate,
 		        	width,
+		        	screenOrigin,
 		        	redraw = function(){
 		        		var locations_css = 'scale3d(' + ( 1 / scale ) + ', ' + ( 1 / scale ) + ', 0)',
 		        			map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
@@ -161,7 +162,10 @@
 		        width = $image.width();
 		        height = $image.height();
 		        offset = $image.offset();
-		        
+		        screenOrigin = {
+		        	x: 0,
+		        	y: 0
+		        }
 		        origin = {
 		            x: 0,
 		            y: 0
