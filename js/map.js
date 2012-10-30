@@ -46,7 +46,7 @@
 			last_known_position = localStorage["geolocation-last-known-position"],
 			geolocationSettings = {
 				maximumAge:600000,
-				enableHighAccuracy: true
+				enableHighAccuracy: false
 			},
 			drag_offset = {base_x:0,base_y:0,x:0,y:0},
 		 	pixels_to_longitude_latitude = function(map_x, map_y){
