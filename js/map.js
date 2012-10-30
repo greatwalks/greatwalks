@@ -46,7 +46,7 @@
 			last_known_position = localStorage["geolocation-last-known-position"],
 			geolocationSettings = {
 				maximumAge:600000,
-				enableHighAccuracy: false
+				enableHighAccuracy: true
 			},
 			drag_offset = {base_x:0,base_y:0,x:0,y:0},
 		 	pixels_to_longitude_latitude = function(map_x, map_y){
@@ -100,6 +100,11 @@
 				}
 				youarehere_css.left = youarehere_pixels.left + "px";
 				youarehere_css.top = youarehere_pixels.top + "px";
+				if(geolocationSettings.enableHighAccuracy === true) {
+					$youarehere.removeClass("badAccuracy")
+				} else {
+					$youarehere.addClass("badAccuracy")
+				}
 				$youarehere.css(youarehere_css).show();
 				if(offmap) {
 					$youarehere_offmap.css(youarehere_offmap_css).show();
