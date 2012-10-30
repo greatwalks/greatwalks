@@ -67,6 +67,13 @@ html {
   -moz-user-drag: none;
   user-drag: none;
 }
+.popover-content {
+  font-weight: bold;
+}
+.popover-content div {
+  font-weight: normal;
+  font-size: small;
+}
 .navbar a {
   color: white;
   font-weight: bold;
@@ -106,8 +113,8 @@ body.map {
 }
 @media (min-width: 600px) {
   .location-icon {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     background-size: 100%;
   }
 }
@@ -206,10 +213,11 @@ body.map {
 #youarehere {
   width: 10px;
   height: 10px;
-  background: orange;
-  -moz-box-shadow: 10px 10px 5px orange;
-  -webkit-box-shadow: 10px 10px 5px orange;
-  box-shadow: 0px 0px 50px #fff;
+  border-radius: 100%;
+  border: solid 50px rgba(0, 85, 146, 0.4);
+  margin-left: -25px;
+  margin-top: -25px;
+  background: rgba(255, 255, 255, 0.4);
 }
 #youarehere .offmap {
   display: none;

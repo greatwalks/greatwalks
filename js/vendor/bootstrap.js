@@ -1145,11 +1145,13 @@
       var $tip = this.tip()
         , title = this.getTitle()
         , content = this.getContent()
-
-      $tip.find('.popover-title')[ $.type(title) == 'object' ? 'append' : 'html' ](title);
-      if(title.length === 0) $tip.find('.popover-title').hide();
+      if(title.length !== 0){
+        $tip.find('.popover-title')[ 'html' ](title);
+      } else {
+       $tip.find('.popover-title').hide();
+      }
       
-      $tip.find('.popover-content > *')[ $.type(content) == 'object' ? 'append' : 'html' ](content)
+      $tip.find('.popover-content > *')[  'html' ](content)
 
       $tip.removeClass('fade top bottom left right in')
     }
@@ -1161,13 +1163,38 @@
   , getContent: function () {
       var content
         , $e = this.$element
-        , o = this.options
+        , o = this.options,
+        last_known_position  = localStorage["geolocation-last-known-position"],
+        current_time_in_epoch_milliseconds,
+        distance_away_in_kilometres;
 
       content = $e.attr('data-content')
         || (typeof o.content == 'function' ? o.content.call($e[0]) :  o.content)
 
-      content = content.toString().replace(/(^\s*|\s*$)/, "")
+      content = content.toString().replace(/(^\s*|\s*$)/, "");
+      content = $("<div class=\'location\'>" + content + "</div>");
 
+      if(last_known_position !== undefined) {
+
+          last_known_position = JSON.parse(last_known_position);
+          current_time_in_epoch_milliseconds = (new Date).getTime();
+          if(last_known_position.timestamp < current_time_in_epoch_milliseconds - window.position_expires_after_milliseconds) {
+            content.find("div").hide();
+          } else {
+            distance_away_in_kilometres = window.difference_between_positions_in_kilometers(
+              last_known_position.coords.latitude,
+              last_known_position.coords.longitude,
+              $e.data("latitude"),
+              $e.data("longitude")
+            );
+
+            content.find("div").find("span").text(" " + window.format_distance(distance_away_in_kilometres));
+
+
+        }
+      } else {
+        content.find("div").hide();
+      }
       return content
     }
 

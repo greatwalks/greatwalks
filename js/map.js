@@ -1,55 +1,60 @@
 (function($){
 	"use strict";
+
+	(function(){
+		var PIx = 3.141592653589793,
+		 	degrees_to_radians = function(degrees) {
+				return degrees * PIx / 180;
+	 		},
+			kilometres_to_miles = 0.621371,
+			one_hour_in_milliseconds = 60 * 60 * 1000;
+
+		window.format_distance = function(kilometres){
+	 		 return (Math.round(kilometres * 100) / 100) + "km/ " + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
+	 	};
+		window.difference_between_positions_in_kilometers = function(lat1, lon1, lat2, lon2, lat3, lon3){
+			if(lat3 !== undefined && lon3 !== undefined) {
+				//normally lat3/lon3 aren't given and this function just figures out the distance
+				// between two points.
+				// however if lat3/lon3 are given then this function finds out the distance between
+				// a point and the closest side of a square (e.g. a map graphic).
+				// courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
+				if(lat1 < lat3) {
+					lat2 = lat3;
+				}
+				if(lon1 > lon3) {
+					lon2 = lon3;
+				}
+			}
+			var R = 6371; // Radius of the earth in km
+			var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
+			var dLon = degrees_to_radians(lon2-lon1); 
+			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+			        Math.cos(degrees_to_radians(lat1)) * Math.cos(degrees_to_radians(lat2)) * 
+			        Math.sin(dLon/2) * Math.sin(dLon/2); 
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			return R * c; // Distance in km
+		};
+		window.position_expires_after_milliseconds = one_hour_in_milliseconds;
+	}());
+
 	$(document).ready(function(){
 		if(window.map_details === undefined) { //are we on a map page?
 			return;
 		};
 		var centered_once_upon_load = false,
-			one_hour_in_milliseconds = 60 * 60 * 1000,
-			position_expires_after_milliseconds = one_hour_in_milliseconds,
 			last_known_position = localStorage["geolocation-last-known-position"],
-			kilometres_to_miles = 0.621371,
 			geolocationSettings = {
 				maximumAge:600000,
 				enableHighAccuracy: true
 			},
 			drag_offset = {base_x:0,base_y:0,x:0,y:0},
-			degrees_to_radians = function(degrees) {
-		 		var PIx = 3.141592653589793;
-				return degrees * PIx / 180;
-		 	},
 		 	pixels_to_longitude_latitude = function(map_x, map_y){
 		 		return {
 		 			longitude: map_details.longitude + (map_x / map_details.degrees_per_pixel),
 		 			latitude: map_details.latitude + (map_y / map_details.degrees_per_pixel)
 		 		};
 		 	},
-		 	format_distance = function(kilometres){
-		 		 return kilometres + "km/ " + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
-		 	},
-			difference_between_positions_in_kilometers = function(lat1, lon1, lat2, lon2, lat3, lon3){
-				if(lat3 !== undefined && lon3 !== undefined) {
-					//normally lat3/lon3 aren't given and this function just figures out the distance
-					// between two points.
-					// however if lat3/lon3 are given then this function finds out the distance between
-					// a point and the closest side of a square (e.g. a map graphic).
-					// courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
-					if(lat1 < lat3) {
-						lat2 = lat3;
-					}
-					if(lon1 > lon3) {
-						lon2 = lon3;
-					}
-				}
-				var R = 6371; // Radius of the earth in km
-				var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
-				var dLon = degrees_to_radians(lon2-lon1); 
-				var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-				        Math.cos(degrees_to_radians(lat1)) * Math.cos(degrees_to_radians(lat2)) * 
-				        Math.sin(dLon/2) * Math.sin(dLon/2); 
-				var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-				return R * c; // Distance in km
-			},
 			geolocationSuccess = function(position){
 				/*
 				Latitude:          position.coords.latitude
@@ -128,12 +133,11 @@
 			},
 			close_any_clickovers = function(){
 				if(window.close_all_clickovers) {
-        			var closer = window.close_all_clickovers;
-        			window.close_all_clickovers = undefined;
-        			closer();
+        			window.close_all_clickovers();
+        			delete window.close_all_clickovers;
         		}
         	},
-			enable_pinch_zoom = function($image){
+			enable_map = function($image){
 				//based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
 		        var hammer,
 		        	height,
@@ -186,7 +190,7 @@
 		   			redraw();
 		   		});
 
-		   		hammer.bind('tap', close_any_clickovers)
+		   		//hammer.bind('tap', close_any_clickovers)
 
 		   		hammer.bind('drag', function(event) {
 		   			drag_offset.x = drag_offset.base_x + event.distanceX;
@@ -253,15 +257,17 @@
 				}
 			},
 			centerMap = function(x, y){
-				alert("center with + " + x + "," + y);
 				var $map = $("#map"),
 					$window = $(window),
+					window_width = $window.width(),
+					window_height = $window.height(),
 					map_offset = $map.offset(),
 					map_css;
 				if(x === undefined && y === undefined) { //if no coordinates are given then center on middle of map
-					x = -(map_offset.left + (map_details.map_pixel_width / 2) - ($window.width() / 2));
-					y = -(map_offset.top + (map_details.map_pixel_height / 2) - ($window.height() / 2));
+					x = -(map_offset.left + (map_details.map_pixel_width / 2) - (window_width / 2));
+					y = -(map_offset.top + (map_details.map_pixel_height / 2) - (window_height / 2));
 				};
+				if(window_width)
 				map_css = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 				$map.css('-webkit-transform', map_css);
 				drag_offset.base_x = x;
@@ -284,12 +290,10 @@
 			centerMap();
 		}
 		geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-		enable_pinch_zoom($("#map"));	
+		enable_map($("#map"));	
 		if(Modernizr.touch) {
-			
-			
+			//touch devices
 		} else {
-			
 			//anything for desktop browsers
 		}
 		$locations.clickover({"placement":"top"})

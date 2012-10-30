@@ -45,6 +45,7 @@
             scale_treshold: 0,
             drag_min_distance: 0
         }
+
         $(element).hammer(hammer_settings).bind("tap", $.proxy(this.clickery, this) );
       } else {
         this.$element.on( 'click', this.options.selector, $.proxy(this.clickery, this) );
