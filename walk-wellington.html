@@ -21,11 +21,35 @@
         <script src="js/vendor/modernizr-2.6.1.min.js"></script>
     </head>
     <body class="map">
-    	 <div class="navbar navbar-fixed-top">
+        <input type="checkbox" id="show_slideout_navigation">
+        
+        <div id="wrapper">
+    	   <script type="text/javascript">
+	var map_details = {"latitude":-41.21341136987253,"longitude":174.72217539068876,"map_pixel_width":1742.5,"map_pixel_height":1044,"degrees_per_pixel":0.000142358133316,"extent_latitude":-41.362033261054435,"extent_longitude":174.9702344379919};
+</script>
+<a id="weta" rel="popover" data-content="<b>Weta</b><br><b>Distance away:</b> really close!">Weta</a>
+<div style="background-image: url(img/walks/wellington/map.jpg); background-size: 1742.5px 1044px; width:1742.5px; height:1044px; position:relative" id="map">
+	<div id="youarehere">
+		<div class="dot"></div>
+		<div class="offmap">offmap</div>
+	</div>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 399px; top:513px;" data-longitude="174.77900000000" data-latitude="-41.28650000000" data-content="Water Whirler<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 406px; top:532px;" data-longitude="174.78000000000" data-latitude="-41.28910000000" data-content="Kupe&#39;s Statue<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 406px; top:527px;" data-longitude="174.78000000000" data-latitude="-41.28840000000" data-content="The Great Leap<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 406px; top:532px;" data-longitude="174.78000000000" data-latitude="-41.28920000000" data-content="Hikitia Floating Crane<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 420px; top:538px;" data-longitude="174.78200000000" data-latitude="-41.29000000000" data-content="Te Papa<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
+</div>
+<div id="no_gps">Current location unavailable</div>
+        </div>
+
+        <div id="slideout_navigation">
+            stuff lots of stuff
+        </div>
+         <div class="navbar navbar-fixed-top">
    <div class="navbar-inner">
      <div class="container-fluid">
      	<ul class="nav">
-     		<li><a href="index.html"><span class="header-sprite header-threebar">Menu</span></a></li>
+     		<li><label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label></li>
      		<li><a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a></li>
      	</ul>
      	<a href="index.html" id="logo">Department of Conservation - Great Walks</a>
@@ -39,22 +63,7 @@
    </div>
  </div>
  
-<script type="text/javascript">
-	var map_details = {"latitude":-41.21341136987253,"longitude":174.72217539068876,"map_pixel_width":1742.5,"map_pixel_height":1044,"degrees_per_pixel":0.000142358133316,"extent_latitude":-41.362033261054435,"extent_longitude":174.9702344379919};
-</script>
-<a id="weta" rel="popover" data-content="<b>Weta</b><br><b>Distance away:</b> really close!">Weta</a>
-<div style="background-image: url(img/walks/wellington/map.jpg); background-size: 1742.5px 1044px; width:1742.5px; height:1044px; position:relative" id="map">
-	<div id="youarehere">
-		<a class="dot"></a>
-		<div class="offmap">offmap</div>
-	</div>
-		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 399px; top:513px;" data-longitude="174.77900000000" data-latitude="-41.28650000000" data-content="Water Whirler<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
-		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 406px; top:532px;" data-longitude="174.78000000000" data-latitude="-41.28910000000" data-content="Kupe&#39;s Statue<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
-		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 406px; top:527px;" data-longitude="174.78000000000" data-latitude="-41.28840000000" data-content="The Great Leap<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
-		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 406px; top:532px;" data-longitude="174.78000000000" data-latitude="-41.28920000000" data-content="Hikitia Floating Crane<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
-		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 420px; top:538px;" data-longitude="174.78200000000" data-latitude="-41.29000000000" data-content="Te Papa<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
-</div>
-<div id="no_gps">Current location unavailable</div>
+
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
         <script src="js/vendor/bootstrap.js"></script>

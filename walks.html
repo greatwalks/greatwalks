@@ -21,11 +21,14 @@
         <script src="js/vendor/modernizr-2.6.1.min.js"></script>
     </head>
     <body class="undefined">
-    	 <div class="navbar navbar-fixed-top">
+        <input type="checkbox" id="show_slideout_navigation">
+        
+        <div id="wrapper">
+    	    <div class="navbar navbar-fixed-top">
    <div class="navbar-inner">
      <div class="container-fluid">
      	<ul class="nav">
-     		<li><a href="index.html"><span class="header-sprite header-threebar">Menu</span></a></li>
+     		<li><label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label></li>
      		<li><a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a></li>
      	</ul>
      	<a href="index.html" id="logo">Department of Conservation - Great Walks</a>
@@ -53,6 +56,30 @@
 		<a href="walk-wellington.html" class="btn">Wellington</a>
 		<a href="walk-whanganui-journey.html" class="btn">Whanganui Journey</a>
 </div>
+        </div>
+
+        <div id="slideout_navigation">
+            stuff lots of stuff
+        </div>
+         <div class="navbar navbar-fixed-top">
+   <div class="navbar-inner">
+     <div class="container-fluid">
+     	<ul class="nav">
+     		<li><label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label></li>
+     		<li><a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a></li>
+     	</ul>
+     	<a href="index.html" id="logo">Department of Conservation - Great Walks</a>
+      <ul class="nav pull-right">
+      	<li><a href="index.html"><span class="header-sprite header-info">Info</span></a></li>
+      	<li><a href="index.html"><span class="header-sprite header-share">Share</span></a></li>
+      </ul>
+     </div>
+
+     <div id="debug"></div>
+   </div>
+ </div>
+ 
+
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
         <script src="js/vendor/bootstrap.js"></script>

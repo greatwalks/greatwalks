@@ -81,7 +81,6 @@ html {
 body.map {
   background: url("../img/table.png");
   padding: 41px 100px 0px 100px;
-  overflow: hidden;
 }
 .header-sprite {
   display: inline-block;
@@ -264,6 +263,31 @@ body.map {
   color: #fff;
   border-radius: 3px;
   padding: 3px 8px;
+}
+#wrapper {
+  position: fixed;
+  transition: 0.2s ease-in;
+  -webkit-transition: 0.2s ease-in;
+}
+#show_slideout_navigation {
+  display: none;
+}
+#show_slideout_navigation:checked ~ #wrapper,
+#show_slideout_navigation:checked ~ .navbar {
+  left: 300px;
+}
+#show_slideout_navigation:checked ~ #slideout_navigation {
+  left: 0px;
+}
+#slideout_navigation {
+  position: absolute;
+  top: 0px;
+  left: -300px;
+  margin-right: -300px;
+  width: 300px;
+  height: 1000px;
+  z-index: 10000;
+  background: orange;
 }
 /* ==========================================================================
    Helper classes
