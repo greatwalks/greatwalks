@@ -211,13 +211,27 @@ body.map {
   }
 }
 #youarehere {
-  width: 10px;
-  height: 10px;
+  display: none;
+  position: absolute;
+  width: 1px
+    height:1px;
+  margin-left: -1px;
+  margin-top: -1px;
   border-radius: 100%;
-  border: solid 50px rgba(0, 85, 146, 0.4);
-  margin-left: -25px;
-  margin-top: -25px;
-  background: rgba(255, 255, 255, 0.4);
+  -webkit-box-shadow: 0 0 5px 10px rgba(102, 102, 255, 0.3), 0 0 0 20px rgba(0, 0, 255, 0.3), 0 0 0 25px rgba(0, 0, 255, 0.3);
+}
+#youarehere.bad {
+  -webkit-box-shadow: 0 0 5px 35px rgba(102, 102, 255, 0.3), 0 0 0 45px rgba(0, 0, 255, 0.3), 0 0 0 50px rgba(0, 0, 255, 0.3);
+}
+#youarehere .dot {
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  display: block;
+  width: 15px;
+  height: 15px;
+  background: url(../img/youarehere.png) no-repeat center center;
+  background-size: 100%;
 }
 #youarehere .offmap {
   display: none;
@@ -231,6 +245,14 @@ body.map {
   border: solid 1px #777777;
   border-radius: 3px;
   padding: 3px 8px;
+}
+#youarehere2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin-left: -1px;
+  margin-top: -1px;
+  background: red;
 }
 #no_gps {
   display: none;

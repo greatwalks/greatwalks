@@ -100,9 +100,10 @@
 				}
 				youarehere_css.left = youarehere_pixels.left + "px";
 				youarehere_css.top = youarehere_pixels.top + "px";
-				$youarehere.css(youarehere_css);
+				$youarehere.css(youarehere_css).show();
 				if(offmap) {
 					$youarehere_offmap.css(youarehere_offmap_css).show();
+
 				} else {
 					$youarehere_offmap.hide();
 				}
