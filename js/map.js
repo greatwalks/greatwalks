@@ -44,9 +44,11 @@
 		};
 		var centered_once_upon_load = false,
 			last_known_position = localStorage["geolocation-last-known-position"],
+			one_second_in_milliseconds = 1000,
 			geolocationSettings = {
 				maximumAge:600000,
-				enableHighAccuracy: true
+				enableHighAccuracy: true,
+				timeout: one_second_in_milliseconds * 30
 			},
 			drag_offset = {base_x:0,base_y:0,x:0,y:0},
 		 	pixels_to_longitude_latitude = function(map_x, map_y){
