@@ -272,8 +272,11 @@
 					x = -(map_offset.left + (map_details.map_pixel_width / 2) - (window_width / 2));
 					y = -(map_offset.top + (map_details.map_pixel_height / 2) - (window_height / 2));
 				};
-				if(window_width)
+				if(x > 0 && x < map_details.map_pixel_width / 2) {
+					x = -map_offset.left;
+				}
 				map_css = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+				//$("#debug").text(map_css);
 				$map.css('-webkit-transform', map_css);
 				drag_offset.base_x = x;
 				drag_offset.base_y = y;
