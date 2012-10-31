@@ -282,6 +282,7 @@ body.map {
   height: 100px;
   border: solid 1px red;
   background: red;
+  -webkit-transform: scale3d(5, 5, 1);
 }
 #show_slideout_navigation:checked ~ #wrapper,
 #show_slideout_navigation:checked ~ .navbar {
