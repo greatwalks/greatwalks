@@ -139,13 +139,15 @@
 					$("#no_gps").attr("title", msg.message).show();
 				};
 			},
+			
 			close_any_clickovers = function(){
 				if(window.close_all_clickovers) {
 					var closer = window.close_all_clickovers;
+					delete window.close_all_clickovers;
         			closer();
-        			delete window.close_all_clickovers;
         		}
         	},
+
 			enable_map = function($image){
 				//based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
 		        var hammer,

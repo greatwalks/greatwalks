@@ -74,6 +74,9 @@ html {
   font-weight: normal;
   font-size: small;
 }
+label {
+  cursor: pointer;
+}
 .navbar a {
   color: white;
   font-weight: bold;
@@ -244,14 +247,6 @@ body.map {
   border-radius: 3px;
   padding: 3px 8px;
 }
-#youarehere2 {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin-left: -1px;
-  margin-top: -1px;
-  background: red;
-}
 #no_gps {
   display: none;
   position: absolute;
@@ -275,18 +270,6 @@ body.map {
 }
 #show_slideout_navigation {
   display: none;
-  /*
-    position:absolute;
-    left:30%;
-    top: 150px;
-    z-index:100000;
-    width:100px;
-    height:100px;
-    border: solid 1px red;
-    background:red;
-    -webkit-transform: scale3d(5,5,1);
-    */
-
 }
 #show_slideout_navigation:checked + #wrapper,
 #show_slideout_navigation:checked + #wrapper .navbar {
@@ -300,39 +283,95 @@ body.map {
   width: 300px;
   height: 1000px;
   z-index: 10000;
-  background: orange;
+  background: #3d692a;
   text-transform: uppercase;
   font-weight: bold;
+  font-size: 12px;
 }
 #slideoutnavigation a,
 #slideoutnavigation label {
   color: white;
+  display: block;
 }
-#slideoutnavigation .menu {
+#slideoutnavigation a:hover {
+  text-decoration: none;
+}
+#slideoutnavigation ul.menu {
   background: #3eb4e4;
   color: white;
   padding: 0px;
   margin: 0px;
   list-style: none;
 }
-#slideoutnavigation .menu li {
+#slideoutnavigation ul.menu li {
   border-top: solid 1px #2b80a3;
   border-bottom: solid 1px #7cc6e3;
   border-left: solid 1px #32728d;
   border-right: solid 1px #9ed9f1;
-  padding: 9px 0px 9px 7px;
+  background: url("../img/slideout-menu.png") no-repeat right 9px;
 }
-#slideoutnavigation .menu li:first-child {
+#slideoutnavigation ul.menu li a {
+  padding: 4px 0px 4px 30px;
+}
+#slideoutnavigation ul.menu li a.booking {
+  background: url("../img/slideout-menu.png") no-repeat 5px -95px;
+}
+#slideoutnavigation ul.menu li a.offers {
+  background: url("../img/slideout-menu.png") no-repeat 5px -145px;
+}
+#slideoutnavigation ul.menu li:hover {
+  background-color: #6bc5ea;
+}
+#slideoutnavigation ul.menu li:first-child {
   padding: 0px;
   border-right: solid 1px #1d546b;
+  background: none;
 }
-#slideoutnavigation .menu li:first-child label {
+#slideoutnavigation ul.menu li:first-child label {
+  color: #b3e1f5;
   font-weight: bold;
-  display: block;
   padding: 0px 0px 0px 7px;
   height: 48px;
   line-height: 55px;
   margin: 0px;
+  font-size: inherit;
+}
+#slideoutnavigation ul.walks {
+  background: #60a342;
+  color: white;
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+  font-family: serif;
+  font-size: 14px;
+}
+#slideoutnavigation ul.walks li {
+  border-top: solid 1px #40712d;
+  border-bottom: solid 1px #94be82;
+  border-right: solid 1px #90c5a0;
+  background: url("../img/slideout-menu.png") no-repeat right bottom;
+}
+#slideoutnavigation ul.walks li a {
+  padding: 5px 0px 5px 7px;
+}
+#slideoutnavigation ul.walks li:hover {
+  background-color: #79bd5b;
+}
+#slideoutnavigation ul.maps {
+  color: white;
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+}
+#slideoutnavigation ul.maps li {
+  background: url("../img/slideout-menu.png") no-repeat right -40px;
+}
+#slideoutnavigation ul.maps li a {
+  padding: 4px 0px 4px 30px;
+  background: url("../img/slideout-menu.png") no-repeat 5px -195px;
+}
+#slideoutnavigation ul.maps li:hover {
+  background-color: #528d39;
 }
 /* ==========================================================================
    Helper classes
