@@ -266,6 +266,7 @@ body.map {
 }
 #wrapper {
   position: relative;
+  border: solid 1px red;
   transition: 0.2s ease-in;
   -webkit-transition: 0.2s ease-in;
 }
@@ -284,14 +285,11 @@ body.map {
   background: red;
   -webkit-transform: scale3d(5, 5, 1);
 }
-#show_slideout_navigation:checked ~ #wrapper,
-#show_slideout_navigation:checked ~ .navbar {
+#show_slideout_navigation:checked + #wrapper,
+#show_slideout_navigation:checked + #wrapper .navbar {
   left: 300px;
 }
-#show_slideout_navigation:checked ~ #slideout_navigation {
-  left: 0px;
-}
-#slideout_navigation {
+#slideoutnavigation {
   position: absolute;
   top: 0px;
   left: -300px;

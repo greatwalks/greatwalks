@@ -24,6 +24,26 @@
         <input type="checkbox" id="show_slideout_navigation">
         
         <div id="wrapper">
+         <div class="navbar navbar-fixed-top">
+           <div class="navbar-inner">
+             <div class="container-fluid">
+                <ul class="nav">
+                    <li><label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label></li>
+                    <li><a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a></li>
+                </ul>
+                <a href="index.html" id="logo">Department of Conservation - Great Walks</a>
+              <ul class="nav pull-right">
+                <li><a href="index.html"><span class="header-sprite header-info">Info</span></a></li>
+                <li><a href="index.html"><span class="header-sprite header-share">Share</span></a></li>
+              </ul>
+             </div>
+
+             <div id="debug"></div>
+           </div>
+         </div>
+         <div id="slideoutnavigation">
+            stuff lots of stuff
+        </div>
     	   <script type="text/javascript">
 	var map_details = {"latitude":-45.34650584038335,"longitude":167.46068593304253,"map_pixel_width":1742.5,"map_pixel_height":1044,"degrees_per_pixel":0.000174704669218,"extent_latitude":-45.52889751504694,"extent_longitude":167.7651088191549};
 </script>
@@ -51,27 +71,7 @@
 <div id="no_gps">Current location unavailable</div>
         </div>
 
-        <div id="slideout_navigation">
-            stuff lots of stuff
-        </div>
-         <div class="navbar navbar-fixed-top">
-   <div class="navbar-inner">
-     <div class="container-fluid">
-     	<ul class="nav">
-     		<li><label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label></li>
-     		<li><a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a></li>
-     	</ul>
-     	<a href="index.html" id="logo">Department of Conservation - Great Walks</a>
-      <ul class="nav pull-right">
-      	<li><a href="index.html"><span class="header-sprite header-info">Info</span></a></li>
-      	<li><a href="index.html"><span class="header-sprite header-share">Share</span></a></li>
-      </ul>
-     </div>
-
-     <div id="debug"></div>
-   </div>
- </div>
- 
+        
 
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
