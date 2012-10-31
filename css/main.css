@@ -80,7 +80,6 @@ html {
 }
 body.map {
   background: url("../img/table.png");
-  padding: 41px 100px 0px 100px;
 }
 .header-sprite {
   display: inline-block;
