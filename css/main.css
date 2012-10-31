@@ -276,10 +276,12 @@ body.map {
 #show_slideout_navigation {
   position: absolute;
   left: 30%;
-  top: 10px;
+  top: 150px;
   z-index: 100000;
   width: 100px;
   height: 100px;
+  border: solid 1px red;
+  background: red;
 }
 #show_slideout_navigation:checked ~ #wrapper,
 #show_slideout_navigation:checked ~ .navbar {
