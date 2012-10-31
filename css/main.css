@@ -219,6 +219,8 @@ body.map {
   margin-left: -1px;
   margin-top: -1px;
   border-radius: 100%;
+}
+#youarehere.goodAccuracy {
   -webkit-box-shadow: 0 0 5px 10px rgba(102, 102, 255, 0.3), 0 0 0 20px rgba(0, 0, 255, 0.3), 0 0 0 25px rgba(0, 0, 255, 0.3);
 }
 #youarehere.badAccuracy {

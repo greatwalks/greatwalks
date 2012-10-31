@@ -71,10 +71,11 @@
 						"top": -parseInt((position.coords.latitude - window.map_details.latitude) / window.map_details.degrees_per_pixel, 10),
 						"left": parseInt((position.coords.longitude - window.map_details.longitude) / window.map_details.degrees_per_pixel, 10)
 					},
+					edge_buffer_pixels = 10,
 					$youarehere = $("#youarehere").data("latitude", position.coords.latitude).data("longitude", position.coords.longitude),
 					$youarehere_offmap = $youarehere.find(".offmap"),
 					youarehere_css = {position: "absolute"},
-					youarehere_offmap_css = {position: "relative", left: $youarehere.width() + "px", top: $youarehere.height() + "px"},
+					youarehere_offmap_css = {position: "absolute", left: $youarehere.width() - 15, top: $youarehere.height()},
 					offmap = false,
 					difference_distance_in_kilometres = Math.round(
 							difference_between_positions_in_kilometers(
@@ -85,35 +86,39 @@
 				
 				$youarehere_offmap.html("you are off the map by about " + format_distance(difference_distance_in_kilometres));
 				if(youarehere_pixels.left < 0) {
-					youarehere_pixels.left = 0;
+					youarehere_pixels.left = edge_buffer_pixels;
+					youarehere_offmap_css.left = edge_buffer_pixels;
 					offmap = true;
 				} else if(youarehere_pixels.left > window.map_details.map_pixel_width){
-					youarehere_pixels.left = window.map_details.map_pixel_width - $youarehere.width();
+					youarehere_pixels.left = window.map_details.map_pixel_width - edge_buffer_pixels;
+					youarehere_offmap_css.left -= $youarehere_offmap.width() + edge_buffer_pixels;
 					offmap = true;
-					youarehere_offmap_css.left = (-$youarehere_offmap.width() - 10) + "px"
 				}
 				if(youarehere_pixels.top < 0) {
-					youarehere_pixels.top = 0;
+					youarehere_pixels.top = edge_buffer_pixels;
+					youarehere_offmap_css.top = edge_buffer_pixels;
 					offmap = true;
 				} else if(youarehere_pixels.top > window.map_details.map_pixel_height){
-					youarehere_pixels.top = window.map_details.map_pixel_height - $youarehere.height();
+					youarehere_pixels.top = window.map_details.map_pixel_height - edge_buffer_pixels;
+					youarehere_offmap_css.top = -$youarehere_offmap.height() - edge_buffer_pixels;
 					offmap = true;
-					youarehere_offmap_css.top = (-$youarehere_offmap.height() - 10) + "px"
 				}
 				youarehere_css.left = youarehere_pixels.left + "px";
 				youarehere_css.top = youarehere_pixels.top + "px";
-				if(geolocationSettings.enableHighAccuracy === true) {
-					$youarehere.removeClass("badAccuracy")
+				youarehere_offmap_css.left += "px";
+				youarehere_offmap_css.top += "px";
+				if(!offmap){
+					if(geolocationSettings.enableHighAccuracy === true) {
+						$youarehere.removeClass("badAccuracy").addClass("goodAccuracy");
+					} else {
+						$youarehere.removeClass("goodAccuracy").addClass("badAccuracy");
+					}
+					$youarehere_offmap.hide();
 				} else {
-					$youarehere.addClass("badAccuracy")
+					$youarehere.removeClass("badAccuracy goodAccuracy");
+					$youarehere_offmap.css(youarehere_offmap_css).show();
 				}
 				$youarehere.css(youarehere_css).show();
-				if(offmap) {
-					$youarehere_offmap.css(youarehere_offmap_css).show();
-
-				} else {
-					$youarehere_offmap.hide();
-				}
 				if(centered_once_upon_load === false) {
 					var $map = $("#map"),
 						$window = $(window),
