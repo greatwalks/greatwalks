@@ -302,6 +302,38 @@ body.map {
   height: 1000px;
   z-index: 10000;
   background: orange;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+#slideoutnavigation a,
+#slideoutnavigation label {
+  color: white;
+}
+#slideoutnavigation .menu {
+  background: #3eb4e4;
+  color: white;
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+}
+#slideoutnavigation .menu li {
+  border-top: solid 1px #2b80a3;
+  border-bottom: solid 1px #7cc6e3;
+  border-left: solid 1px #32728d;
+  border-right: solid 1px #9ed9f1;
+  padding: 9px 0px 9px 7px;
+}
+#slideoutnavigation .menu li:first-child {
+  padding: 0px;
+  border-right: solid 1px #1d546b;
+}
+#slideoutnavigation .menu li:first-child label {
+  font-weight: bold;
+  display: block;
+  padding: 0px 0px 0px 7px;
+  height: 48px;
+  line-height: 55px;
+  margin: 0px;
 }
 /* ==========================================================================
    Helper classes
