@@ -123,8 +123,8 @@
 					var $map = $("#map"),
 						$window = $(window),
 						map_offset = $map.offset(),
-						x = -map_offset.left - youarehere_pixels.left + ($window.width() / 2),
-						y = -map_offset.top - youarehere_pixels.top + ($window.height() / 2);
+						x = Math.abs(youarehere_pixels.left),
+						y = Math.abs(youarehere_pixels.top);
 					
 					centered_once_upon_load = true;
 					centerMap(x, y);
@@ -286,10 +286,25 @@
 				if(x === undefined && y === undefined) { //if no coordinates are given then center on middle of map
 					x = -(map_offset.left + (map_details.map_pixel_width / 2) - (window_width / 2));
 					y = -(map_offset.top + (map_details.map_pixel_height / 2) - (window_height / 2));
+					
 				};
-				if(x > 0 && x < map_details.map_pixel_width / 2) {
+				if(x > 0 && x < window_width / 2) {
 					x = -map_offset.left;
+				} else if(x > window_width / 2 && x < map_details.map_pixel_width - (window_width / 2)) {
+					x = -map_offset.left - (x / 2);
+				} else {
+					x =  -map_details.map_pixel_width + window_width;
+					
 				}
+
+				if(y > 0 && y < window_height / 2) {
+					y = 0;
+				} else if(y > window_height / 2 && y < map_details.map_pixel_height - (window_height / 2)) {
+					y = -map_offset.top - (y / 2);
+				} else {
+					y = -map_offset.top - map_details.map_pixel_height + window_height;
+				}
+				
 				map_css = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
 				//$("#debug").text(map_css);
 				$map.css('-webkit-transform', map_css);
