@@ -278,6 +278,8 @@ body.map {
   left: 30%;
   top: 10px;
   z-index: 100000;
+  width: 100px;
+  height: 100px;
 }
 #show_slideout_navigation:checked ~ #wrapper,
 #show_slideout_navigation:checked ~ .navbar {
