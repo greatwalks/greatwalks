@@ -26,7 +26,7 @@
 					lon2 = lon3;
 				}
 			}
-			var R = 6371; // Radius of the earth in km
+			var R = 6371; // adverage radius of the earth in km
 			var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
 			var dLon = degrees_to_radians(lon2-lon1); 
 			var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -141,7 +141,8 @@
 			},
 			close_any_clickovers = function(){
 				if(window.close_all_clickovers) {
-        			window.close_all_clickovers();
+					var closer = window.close_all_clickovers;
+        			closer();
         			delete window.close_all_clickovers;
         		}
         	},
@@ -312,6 +313,6 @@
 			//anything for desktop browsers
 		}
 		$locations.clickover({"placement":"top"})
-		$("#weta").css("margin-top", "-200px").clickover({"placement":"bottom"})
+		$("#weta").css("margin-top", "-200px").clickover({"placement":"right"})
 	});	
 }(jQuery))
