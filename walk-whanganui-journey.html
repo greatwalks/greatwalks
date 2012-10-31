@@ -22,37 +22,44 @@
     </head>
     <body class="map">
         <input type="checkbox" id="show_slideout_navigation">
-        
         <div id="wrapper">
-         <div class="navbar navbar-fixed-top">
-           <div class="navbar-inner">
-             <div class="container-fluid">
-                <ul class="nav">
-                    <li><label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label></li>
-                    <li><a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a></li>
-                </ul>
-                <a href="index.html" id="logo">Department of Conservation - Great Walks</a>
-              <ul class="nav pull-right">
-                <li><a href="index.html"><span class="header-sprite header-info">Info</span></a></li>
-                <li><a href="index.html"><span class="header-sprite header-share">Share</span></a></li>
-              </ul>
-             </div>
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <ul class="nav">
+                            <li>
+                                <label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label>
+                            </li>
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a>
+                            </li>
+                        </ul>
+                        <a href="index.html" id="logo">Department of Conservation - Great Walks</a>
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-info">Info</span></a>
+                            </li>
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-share">Share</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                 <div id="debug"></div>
+               </div>
+            </div>
 
-             <div id="debug"></div>
-           </div>
-         </div>
-         <div id="slideoutnavigation">
-            <ul class="menu">
-                <li><label for="show_slideout_navigation">Menu</label></li>
-                <li><a href="">Make a booking</a></li>
-                <li><a href="">Special offers</a></li>
-            </ul>
-            <ul class="walks">
-                <li><a href="">Lake Waikaremoana</a></li>
-            </ul>
-            {{{menu}}}
-        </div>
-    	   <script type="text/javascript">
+            <div id="slideoutnavigation">
+                <ul class="menu">
+                    <li><label for="show_slideout_navigation">Menu</label></li>
+                    <li><a href="">Make a booking</a></li>
+                    <li><a href="">Special offers</a></li>
+                </ul>
+                <ul class="walks">
+                    <li><a href="">Lake Waikaremoana</a></li>
+                </ul>
+                {{{menu}}}
+            </div>
+    	    <script type="text/javascript">
 	var map_details = {"latitude":-39.043598354843745,"longitude":175.44773655679015,"map_pixel_width":1742.5,"map_pixel_height":1044,"degrees_per_pixel":0.000234666432478,"extent_latitude":-39.288590110350775,"extent_longitude":175.85664281538305};
 </script>
 <a id="weta" rel="popover" data-content="<b>Weta</b><br><b>Distance away:</b> really close!">Weta</a>
@@ -61,6 +68,7 @@
 		<div class="dot"></div>
 		<div class="offmap">offmap</div>
 	</div>
+	<div id="no_gps">Current location unavailable</div>
 		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: -1286px; top:-435px;" data-longitude="175.14600000000" data-latitude="-38.94160000000" data-content="Ohinepane Campsite<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
 		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: -1397px; top:-219px;" data-longitude="175.12000000000" data-latitude="-38.99210000000" data-content="Poukaria Campsite<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
 		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: -1912px; top:366px;" data-longitude="174.99900000000" data-latitude="-39.12950000000" data-content="Managpapa Campsite<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
@@ -80,10 +88,8 @@
 		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: -1708px; top:1532px;" data-longitude="175.04700000000" data-latitude="-39.40320000000" data-content="Managanui O Te Ao River<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
 		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: -1844px; top:1668px;" data-longitude="175.01500000000" data-latitude="-39.43500000000" data-content="Drop Scene<div><b>Distance away</b> <span></span></div>">Click to toggle popover</a>
 </div>
-<div id="no_gps">Current location unavailable</div>
-        </div>
 
-        
+        </div>
 
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
@@ -92,7 +98,6 @@
         <!--<script src="js/vendor/bootstrap-popover.js"></script>-->
         <script src="js/vendor/hammer.js"></script>
         <script src="js/vendor/jquery.hammer.js"></script>
-        
         <script src="js/helper.js"></script>
         <script src="js/console.js"></script>
         <script src="js/index.js"></script>
