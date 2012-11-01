@@ -311,9 +311,40 @@
 				drag_offset.base_x = x;
 				drag_offset.base_y = y;
 			},
+			no_camera_available_timer,
+			toggle_user_actions_panel = function(event){
+				var $user_actions_panel = $("#user_actions"),
+					$no_camera_available = $("#no_camera_available"),
+					camera_success = function(imageURI) {
+					    $camera = $user_actions_panel.find("#camera");
+					    $camera.attr("src", imageURI);
+					},
+					camera_fail = function onFail(message) {
+					    alert('Failed because: ' + message);
+					},
+					no_camera_available_fadeOut = function(){
+						$no_camera_available.fadeOut();
+					}
+				if(navigator.camera) {
+					if($user_actions_panel.hasClass("hidden")){
+						$user_actions_panel.removeClass("hidden");
+						navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+					} else {
+						$user_actions_panel.addClass("hidden");
+					}
+				} else {
+					$no_camera_available.fadeIn("fast", function(){
+						if(no_camera_available_timer) {
+							clearTimeout(no_camera_available_timer);
+						}
+						no_camera_available_timer = setTimeout(no_camera_available_fadeOut, 2000);
+					}).click(no_camera_available_fadeOut);
+				}
+			},
 			current_time_in_epoch_milliseconds,
 			$locations = $(".location"),
-			geolocationWatchId;
+			geolocationWatchId,
+			youarehere_hammer;
 			
 
 		if(last_known_position !== undefined) {
@@ -334,7 +365,14 @@
 		} else {
 			//anything for desktop browsers
 		}
-		$locations.clickover({"placement":"top"})
-		$("#weta").css("margin-top", "-200px").clickover({"placement":"right"})
+		youarehere_hammer = $("#youarehere").hammer({
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        });
+        youarehere_hammer.bind("tap", toggle_user_actions_panel);
+
+		//$locations.clickover({"placement":"top"})
+		//$("#weta").css("margin-top", "-200px").clickover({"placement":"right"})
 	});	
 }(jQuery))

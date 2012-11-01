@@ -252,13 +252,46 @@ body.map {
 #no_gps {
   display: none;
   position: absolute;
-  left: 5px;
-  top: 45px;
+  left: 10px;
+  top: 60px;
   background: #666666;
-  border: solid 1px #777777;
+  border: solid 2px #aaaaaa;
   color: #fff;
-  border-radius: 3px;
+  border-radius: 5px;
   padding: 3px 8px;
+}
+#user_actions {
+  display: block;
+  position: fixed;
+  top: 150px;
+  left: 50%;
+  margin-left: -150px;
+  width: 300px;
+  min-width: 200px;
+  max-width: 600px;
+  background: #666666;
+  border: solid 2px #aaaaaa;
+  color: #fff;
+  border-radius: 5px;
+  padding: 3px 8px;
+}
+#user_actions.hidden {
+  display: none;
+}
+#no_camera_available {
+  display: none;
+  position: fixed;
+  top: 150px;
+  left: 50%;
+  margin-left: -150px;
+  width: 300px;
+  background: #ffeeaa;
+  padding: 10px;
+  color: #806600;
+  border: solid 2px #806600;
+  border-radius: 3px;
+  text-align: center;
+  font-weight: bold;
 }
 #wrapper {
   padding-top: 50px;
