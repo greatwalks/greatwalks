@@ -38,7 +38,7 @@
 		window.position_expires_after_milliseconds = one_hour_in_milliseconds;
 	}());
 
-	$(document).ready(function(){
+	document.addEventListener("deviceready", function(){
 		if(window.map_details === undefined) { //are we on a map page?
 			return;
 		};
@@ -327,7 +327,7 @@
 					}
 				alert("navigator.camera:" + navigator.camera);
 				alert("navigator.camera.getPicture:" + navigator.camera.getPicture);
-				
+
 				navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: navigator.camera.DestinationType.FILE_URI, targetWidth: 100, targetHeight: 100 });
 				if(navigator.camera) {
 					if($user_actions_panel.hasClass("hidden")){
