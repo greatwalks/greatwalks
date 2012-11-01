@@ -365,12 +365,13 @@
 		} else {
 			//anything for desktop browsers
 		}
-		youarehere_hammer = $("#youarehere").hammer({
+		youarehere_hammer = $("#youarehere, #no_gps").hammer({
             prevent_default: true,
             scale_treshold: 0,
             drag_min_distance: 0
         });
         youarehere_hammer.bind("tap", toggle_user_actions_panel);
+
 
 		//$locations.clickover({"placement":"top"})
 		//$("#weta").css("margin-top", "-200px").clickover({"placement":"right"})
