@@ -51,6 +51,7 @@
         this.$element.on( 'click', this.options.selector, $.proxy(this.clickery, this) );
       }
 
+     
       // soon add click hanlder to body to close this element
       // will need custom handler inside here
     }
@@ -59,7 +60,7 @@
       // only run our click handler and  
       // need to stop progration or body click handler would fire right away
       
-      if (e) {
+      if (e && e.preventDefault) {
         e.preventDefault();
         e.stopPropagation();
       }
@@ -83,9 +84,7 @@
 
         // close on global request, exclude clicks inside clickover
         if(this.options.global_close) {
-          $('body, #map').on( this.attr.click_event_ns, function(e) {
-            if ( !that.tip().has(e.target).length ) { that.clickery(); }
-          });
+          
           window.close_all_clickovers = $.proxy(this.clickery, this)
         }
 
