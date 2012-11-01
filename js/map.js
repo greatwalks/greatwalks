@@ -170,7 +170,6 @@
 		        		var locations_css = 'scale3d(' + ( 1 / scale ) + ', ' + ( 1 / scale ) + ', 0)',
 		        			map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
 		        		$image.css('-webkit-transform', map_css);
-		        		close_any_clickovers();
 		        		//$locations.css({"-webkit-transform": locations_css});
 		        		//$("#debug").html(locations_css);
 		        	};
@@ -204,6 +203,10 @@
 		            scale_treshold: 0,
 		            drag_min_distance: 0
 		        });
+
+		        hammer.bind('dragstart', function(event) {
+		        	close_any_clickovers();
+		        })
 
 		   		hammer.bind('dragend', function(event) {
 		   			drag_offset.base_x = drag_offset.x;
