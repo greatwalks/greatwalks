@@ -316,7 +316,7 @@
 				var $user_actions_panel = $("#user_actions"),
 					$no_camera_available = $("#no_camera_available"),
 					camera_success = function(imageURI) {
-					    $camera = $("#camera");
+					    var $camera = $("#camera");
 					    $camera.attr("src", imageURI);
 					},
 					camera_fail = function onFail(message) {
@@ -325,10 +325,7 @@
 					no_camera_available_fadeOut = function(){
 						$no_camera_available.fadeOut();
 					}
-				alert("navigator.camera:" + navigator.camera);
-				alert("navigator.camera.getPicture:" + navigator.camera.getPicture);
 
-				navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: navigator.camera.DestinationType.FILE_URI, targetWidth: 100, targetHeight: 100 });
 				if(navigator.camera) {
 					if($user_actions_panel.hasClass("hidden")){
 						$user_actions_panel.removeClass("hidden");
