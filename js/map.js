@@ -38,11 +38,12 @@
 		window.position_expires_after_milliseconds = one_hour_in_milliseconds;
 	}());
 
-	document.addEventListener("deviceready", function(){
+	var map_start = function(){
 		if(window.map_details === undefined) { //are we on a map page?
 			return;
 		};
 		var centered_once_upon_load = false,
+			open_tooltip,
 			last_known_position = localStorage["geolocation-last-known-position"],
 			one_second_in_milliseconds = 1000,
 			geolocationSettings = {
@@ -149,7 +150,7 @@
 				if(window.close_all_clickovers) {
 					var closer = window.close_all_clickovers;
 					delete window.close_all_clickovers;
-        			closer();
+        			closer('hide');
         		}
         	},
 
@@ -220,6 +221,7 @@
 		   		});
 
 		        hammer.bind('transformstart', function(event) {
+		        	close_any_clickovers();
 		            screenOrigin.x = (event.originalEvent.touches[0].clientX + event.originalEvent.touches[1].clientX) / 2;
 		            return screenOrigin.y = (event.originalEvent.touches[0].clientY + event.originalEvent.touches[1].clientY) / 2;
 		        });
@@ -345,7 +347,8 @@
 			current_time_in_epoch_milliseconds,
 			$locations = $(".location"),
 			geolocationWatchId,
-			youarehere_hammer;
+			youarehere_hammer,
+			popover_show = function(){};
 			
 
 		if(last_known_position !== undefined) {
@@ -359,22 +362,36 @@
 		} else {
 			centerMap();
 		}
-		geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-		enable_map($("#map"));	
+
+		if (navigator.geolocation) {
+			geolocationWatchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
+		} else {
+			geolocationError();
+		}
+		
+		enable_map($("#map"));
 		if(Modernizr.touch) {
 			//touch devices
 		} else {
+			
 			//anything for desktop browsers
 		}
 		youarehere_hammer = $("#youarehere, #no_gps").hammer({
             prevent_default: true,
             scale_treshold: 0,
             drag_min_distance: 0
-        });
-        youarehere_hammer.bind("tap", toggle_user_actions_panel);
+		});
+		youarehere_hammer.bind("tap", toggle_user_actions_panel);
 
 
-		//$locations.clickover({"placement":"top"})
-		//$("#weta").css("margin-top", "-200px").clickover({"placement":"right"})
-	});	
+		$locations.clickover();
+		$("#weta").clickover()
+
+	};
+
+	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+        document.addEventListener("deviceready", map_start, false);
+    } else {
+        $(document).ready(map_start);
+    }
 }(jQuery))
