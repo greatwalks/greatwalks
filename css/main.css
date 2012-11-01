@@ -176,7 +176,7 @@ body.map {
   height: 393px;
   background-size: 100%;
   position: absolute;
-  top: 100px;
+  top: 60px;
   left: 0px;
   text-indent: -10000px;
 }
@@ -276,6 +276,9 @@ body.map {
   padding: 3px 8px;
 }
 #user_actions.hidden {
+  display: none;
+}
+#camera {
   display: none;
 }
 #no_camera_available {
