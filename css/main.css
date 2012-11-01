@@ -278,9 +278,6 @@ body.map {
 #user_actions.hidden {
   display: none;
 }
-#camera {
-  display: none;
-}
 #no_camera_available {
   display: none;
   position: fixed;
