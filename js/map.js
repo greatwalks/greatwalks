@@ -326,7 +326,7 @@
 						$no_camera_available.fadeOut();
 					}
 
-				navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: DestinationType.FILE_URI });
+				navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: navigator.camera.DestinationType.FILE_URI, targetWidth: 100, targetHeight: 100 });
 				if(navigator.camera) {
 					if($user_actions_panel.hasClass("hidden")){
 						$user_actions_panel.removeClass("hidden");
