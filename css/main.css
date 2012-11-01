@@ -176,7 +176,7 @@ body.map {
   height: 393px;
   background-size: 100%;
   position: absolute;
-  top: 180px;
+  top: 100px;
   left: 0px;
   text-indent: -10000px;
 }
@@ -251,7 +251,7 @@ body.map {
 }
 #no_gps {
   display: none;
-  position: absolute;
+  position: fixed;
   left: 10px;
   top: 60px;
   background: #666666;
