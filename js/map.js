@@ -351,7 +351,11 @@
 			$locations = $(".location"),
 			geolocationWatchId,
 			youarehere_hammer,
-			popover_show = function(){};
+			hammer_defaults = {
+	            prevent_default: true,
+	            scale_treshold: 0,
+	            drag_min_distance: 0
+			};
 			
 
 		if(last_known_position !== undefined) {
@@ -374,22 +378,16 @@
 		
 		enable_map($("#map"));
 		if(Modernizr.touch) {
+			$("#weta").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
 			//touch devices
 		} else {
-			
+			$("#weta").click(window.toggle_popover);
 			//anything for desktop browsers
 		}
-		youarehere_hammer = $("#youarehere, #no_gps").hammer({
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
-		});
+		youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
 		youarehere_hammer.bind("tap", toggle_user_actions_panel);
 
-
-		$locations.clickover();
-		$("#weta").clickover()
-
+		$locations.popover();
 	};
 
 	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
