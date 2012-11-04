@@ -13,8 +13,8 @@
             drag_min_distance: 0
 		},
 		popover_init = function(event){
-			$("body,#wrapper").click(function(event){
-				if($(event.target).is(this)) {
+			$("body,#wrapper,#map").click(function(event){
+				if($(event.target).is(this)) { //if we reached this event directly without bubbling...
 					window.hide_all_popovers_no_bubbling(event);
 				}
 			});

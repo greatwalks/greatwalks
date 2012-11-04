@@ -170,8 +170,7 @@
 		        		var locations_css = 'scale3d(' + ( 1 / scale ) + ', ' + ( 1 / scale ) + ', 0)',
 		        			map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
 		        		$image.css('-webkit-transform', map_css);
-		        		//$locations.css({"-webkit-transform": locations_css});
-		        		//$("#debug").html(locations_css);
+		        		window.hide_all_popovers();
 		        	};
 
 		        //wrap = $('#wrap');
@@ -379,9 +378,11 @@
 		enable_map($("#map"));
 		if(Modernizr.touch) {
 			$("#weta").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
+			$("#map .location").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
 			//touch devices
 		} else {
 			$("#weta").click(window.toggle_popover);
+			$("#map .location").click(window.toggle_popover);
 			//anything for desktop browsers
 		}
 		youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
