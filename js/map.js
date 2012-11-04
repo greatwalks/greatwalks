@@ -213,7 +213,7 @@
 		   			redraw();
 		   		});
 
-		   		//hammer.bind('tap', close_any_clickovers)
+		   		hammer.bind('tap', window.hide_all_popovers);
 
 		   		hammer.bind('drag', function(event) {
 		   			drag_offset.x = drag_offset.base_x + event.distanceX;
