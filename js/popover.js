@@ -13,10 +13,14 @@
             drag_min_distance: 0
 		},
 		popover_init = function(event){
-			$("body").click(window.hide_all_popovers_no_bubbling);
+			$("body,#wrapper").click(function(event){
+				if($(event.target).is(this)) {
+					window.hide_all_popovers_no_bubbling(event);
+				}
+			});
 		};
 
-	window.hide_all_popovers = function(except_this_one){
+	window.hide_all_popovers = function(event, except_this_one){
 		var $popover;
 		while(existing_popovers.length){
 			$popover = $(existing_popovers.pop());
@@ -42,7 +46,7 @@
 	window.toggle_popover = function(event, override_content){
 		var	$sender = $(this),
 			options = {html: true};
-		hide_all_popovers($sender);
+		hide_all_popovers(event, $sender);
 		if(override_content !== undefined) {
 			options.content = override_content;
 		}
@@ -57,7 +61,7 @@
 	window.show_popover = function(event, override_content){
 		var	$sender = $(this),
 			options = {html: true};
-		hide_all_popovers($sender);
+		hide_all_popovers(event, $sender);
 		if(override_content !== undefined) {
 			options.content = override_content;
 		}

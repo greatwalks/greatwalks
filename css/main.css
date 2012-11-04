@@ -67,22 +67,21 @@ html {
   -moz-user-drag: none;
   user-drag: none;
 }
-.popover {
-  z-index: 10000;
-}
-.popover-content {
-  font-weight: bold;
-}
-.popover-content div {
-  font-weight: normal;
-  font-size: small;
-}
 label {
   cursor: pointer;
 }
-.navbar a {
-  color: white;
+.popover {
+  z-index: 10000;
+}
+.popover .popover-title {
+  display: none;
+}
+.popover .popover-content {
   font-weight: bold;
+}
+.popover .popover-content div {
+  font-weight: normal;
+  font-size: small;
 }
 #logo {
   position: absolute;
@@ -110,12 +109,6 @@ label {
     height: 64px;
   }
 }
-#wrapper {
-  padding-top: 50px;
-  position: relative;
-  transition: 0.2s ease-in;
-  -webkit-transition: 0.2s ease-in;
-}
 .navbar {
   transition: 0.2s ease-in;
   -webkit-transition: 0.2s ease-in;
@@ -127,7 +120,13 @@ label {
 #show_slideout_navigation:checked + #wrapper .navbar {
   left: 300px;
 }
-#slideoutnavigation {
+#wrapper {
+  padding-top: 50px;
+  position: relative;
+  transition: 0.2s ease-in;
+  -webkit-transition: 0.2s ease-in;
+}
+#slideout_navigation {
   position: absolute;
   top: 0px;
   left: -300px;
@@ -140,46 +139,46 @@ label {
   font-weight: bold;
   font-size: 12px;
 }
-#slideoutnavigation a,
-#slideoutnavigation label {
+#slideout_navigation a,
+#slideout_navigation label {
   color: white;
   display: block;
 }
-#slideoutnavigation a:hover {
+#slideout_navigation a:hover {
   text-decoration: none;
 }
-#slideoutnavigation ul.menu {
+#slideout_navigation ul.menu {
   background: #3eb4e4;
   color: white;
   padding: 0px;
   margin: 0px;
   list-style: none;
 }
-#slideoutnavigation ul.menu li {
+#slideout_navigation ul.menu li {
   border-top: solid 1px #2b80a3;
   border-bottom: solid 1px #7cc6e3;
   border-left: solid 1px #32728d;
   border-right: solid 1px #9ed9f1;
   background: url("../img/slideout-menu.png") no-repeat right 9px;
 }
-#slideoutnavigation ul.menu li a {
+#slideout_navigation ul.menu li a {
   padding: 4px 0px 4px 30px;
 }
-#slideoutnavigation ul.menu li a.booking {
+#slideout_navigation ul.menu li a.booking {
   background: url("../img/slideout-menu.png") no-repeat 5px -95px;
 }
-#slideoutnavigation ul.menu li a.offers {
+#slideout_navigation ul.menu li a.offers {
   background: url("../img/slideout-menu.png") no-repeat 5px -145px;
 }
-#slideoutnavigation ul.menu li:hover {
+#slideout_navigation ul.menu li:hover {
   background-color: #6bc5ea;
 }
-#slideoutnavigation ul.menu li:first-child {
+#slideout_navigation ul.menu li:first-child {
   padding: 0px;
   border-right: solid 1px #1d546b;
   background: none;
 }
-#slideoutnavigation ul.menu li:first-child label {
+#slideout_navigation ul.menu li:first-child label {
   color: #b3e1f5;
   font-weight: bold;
   padding: 0px 0px 0px 7px;
@@ -188,7 +187,7 @@ label {
   margin: 0px;
   font-size: inherit;
 }
-#slideoutnavigation ul.walks {
+#slideout_navigation ul.walks {
   background: #60a342;
   color: white;
   padding: 0px;
@@ -197,32 +196,32 @@ label {
   font-family: serif;
   font-size: 14px;
 }
-#slideoutnavigation ul.walks li {
+#slideout_navigation ul.walks li {
   border-top: solid 1px #40712d;
   border-bottom: solid 1px #94be82;
   border-right: solid 1px #90c5a0;
   background: url("../img/slideout-menu.png") no-repeat right bottom;
 }
-#slideoutnavigation ul.walks li a {
+#slideout_navigation ul.walks li a {
   padding: 5px 0px 5px 7px;
 }
-#slideoutnavigation ul.walks li:hover {
+#slideout_navigation ul.walks li:hover {
   background-color: #79bd5b;
 }
-#slideoutnavigation ul.maps {
+#slideout_navigation ul.maps {
   color: white;
   padding: 0px;
   margin: 0px;
   list-style: none;
 }
-#slideoutnavigation ul.maps li {
+#slideout_navigation ul.maps li {
   background: url("../img/slideout-menu.png") no-repeat right -40px;
 }
-#slideoutnavigation ul.maps li a {
+#slideout_navigation ul.maps li a {
   padding: 4px 0px 4px 30px;
   background: url("../img/slideout-menu.png") no-repeat 5px -195px;
 }
-#slideoutnavigation ul.maps li:hover {
+#slideout_navigation ul.maps li:hover {
   background-color: #528d39;
 }
 .header-sprite {
@@ -311,11 +310,8 @@ label {
 .location-waterfall {
   background-image: url(../img/icon-waterfall.png);
 }
-body.map {
+body.map #wrapper {
   background: url("../img/table.png");
-}
-body.map .popover-title {
-  display: none;
 }
 body.map #weta {
   background: url(../img/weta_land.png);
