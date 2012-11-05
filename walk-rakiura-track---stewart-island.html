@@ -71,14 +71,14 @@
 		<div class="dot"></div>
 		<div class="offmap">offmap</div>
 	</div>
-		<a class="location location-icon location-VisitorCentre" rel="popover" style="position:absolute; left: 1159px; top:642px;" data-longitude="168.12800000000" data-latitude="-46.89830000000" data-content="<b>Rakiura National Park Visitor Centre</b><br>blah">Click to toggle popover</a>
-		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 798px; top:273px;" data-longitude="168.08800000000" data-latitude="-46.85730000000" data-content="<b>Maori Beach Campsite</b><br>blah">Click to toggle popover</a>
-		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 762px; top:89px;" data-longitude="168.08400000000" data-latitude="-46.83690000000" data-content="<b>Port William Campsite</b><br>blah">Click to toggle popover</a>
-		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 807px; top:268px;" data-longitude="168.08900000000" data-latitude="-46.85680000000" data-content="<b>Maori Beach Shelter</b><br>blah">Click to toggle popover</a>
-		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 789px; top:81px;" data-longitude="168.08700000000" data-latitude="-46.83600000000" data-content="<b>Port William Hut</b><br>blah">Click to toggle popover</a>
-		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 177px; top:502px;" data-longitude="168.01900000000" data-latitude="-46.88280000000" data-content="<b>North Arm Hut</b><br>blah">Click to toggle popover</a>
-		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 303px; top:644px;" data-longitude="168.03300000000" data-latitude="-46.89850000000" data-content="<b>North Arm Campsite</b><br>blah">Click to toggle popover</a>
-		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 312px; top:645px;" data-longitude="168.03400000000" data-latitude="-46.89860000000" data-content="<b>North Arm Shelter</b><br>blah">Click to toggle popover</a>
+		<a class="location location-icon location-VisitorCentre" rel="popover" style="position:absolute; left: 1159px; top:642px;" data-longitude="168.12800000000" data-latitude="-46.89830000000" data-content-template="<b>Rakiura National Park Visitor Centre</b><br>[DISTANCE]">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 798px; top:273px;" data-longitude="168.08800000000" data-latitude="-46.85730000000" data-content-template="<b>Maori Beach Campsite</b><br>[DISTANCE]">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 762px; top:89px;" data-longitude="168.08400000000" data-latitude="-46.83690000000" data-content-template="<b>Port William Campsite</b><br>[DISTANCE]">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 807px; top:268px;" data-longitude="168.08900000000" data-latitude="-46.85680000000" data-content-template="<b>Maori Beach Shelter</b><br>[DISTANCE]">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 789px; top:81px;" data-longitude="168.08700000000" data-latitude="-46.83600000000" data-content-template="<b>Port William Hut</b><br>[DISTANCE]">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 177px; top:502px;" data-longitude="168.01900000000" data-latitude="-46.88280000000" data-content-template="<b>North Arm Hut</b><br>[DISTANCE]">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 303px; top:644px;" data-longitude="168.03300000000" data-latitude="-46.89850000000" data-content-template="<b>North Arm Campsite</b><br>[DISTANCE]">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 312px; top:645px;" data-longitude="168.03400000000" data-latitude="-46.89860000000" data-content-template="<b>North Arm Shelter</b><br>[DISTANCE]">Click to toggle popover</a>
 </div>
 <div id="no_gps">Current location unavailable</div>
 <div id="user_actions" class="hidden">
@@ -91,8 +91,6 @@
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
         <script src="js/vendor/bootstrap.js"></script>
-        <script src="js/vendor/bootstrap-popover.js"></script>
-        
         <script src="js/vendor/hammer.js"></script>
         <script src="js/vendor/jquery.hammer.js"></script>
         <script src="js/helper.js"></script>

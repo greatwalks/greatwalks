@@ -328,7 +328,7 @@
 					$no_camera_available = $("#no_camera_available"),
 					add_photo_to_map = function(imageURI, latitude, longitude){
 						$("#map").append( $("<a/>").addClass("location location-icon location-Campsite").data("content", "<img src='" + imageURI + "'>").click(window.toggle_popover))
-					}
+					},
 					camera_success = function(imageURI) {
 					    var $camera = $("#camera");
 					    $camera.attr("src", imageURI);
