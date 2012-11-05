@@ -15,8 +15,7 @@
 		popover_init = function(event){
 			$("body,#wrapper,#map").click(function(event){
 				if($(event.target).is(this)) { //if we reached this event directly without bubbling...
-					console.log("BODY CLICK");
-					//window.hide_all_popovers_no_bubbling(event);
+					window.hide_all_popovers_no_bubbling(event);
 				}
 			});
 		},
@@ -35,13 +34,10 @@
 		}
 
 	window.hide_all_popovers = function(event, except_this_one){
-		console.log("hide all popovers")
 		var $popover;
 		while(existing_popovers.length){
 			$popover = existing_popovers.pop();
-			console.log("same as?", $popover.is(except_this_one))
 			if(!except_this_one || !$popover.is(except_this_one)) {
-				console.log("actually hiding")
 				$popover.popover('hide');
 			}
 		}
@@ -69,18 +65,15 @@
 		if(override_content !== undefined) {
 			options.content = override_content;
 		} else if(content_template !== undefined) { //if there is a template then there is dynamic content. bootstrap popovers cache content so we need to destroy the content and then rebuild it
-			console.log("custom template")
 			options.content = content_template.replace(/\[DISTANCE\]/g,
-				get_distance($this.data("latitude"), $this.data("longitude"))) + Math.random();
+				get_distance($this.data("latitude"), $this.data("longitude")));
 			old_options = $this.data('popover');
 			if(old_options) {
 				old_options.options.content = options.content;
 				$this.data('popover', old_options);
 			}
-		} 
+		}
 		$this.popover(options).popover('toggle');
-		
-
 		existing_popovers.push($this);
 		event.stopPropagation();
 		if(event.originalEvent) {
