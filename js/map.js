@@ -1,3 +1,12 @@
+/* ===========================================================
+ * map.js v1
+ * Developed at Department of Conservation by Matthew Holloway
+ * <matth@catalyst.net.nz>
+ * -----------------------------------------------------------
+ *
+ * Provides maps with pinchzoom, drag scrolling etc with popups.
+ *
+ * ========================================================== */
 (function($){
 	"use strict";
 
@@ -39,7 +48,7 @@
 	}());
 
 	var map_start = function(){
-		if(window.map_details === undefined) { //are we on a map page?
+		if(window.map_details === undefined) { //are we on a map page? If not, there's nothing to do so just return
 			return;
 		};
 		var centered_once_upon_load = false,
@@ -213,8 +222,6 @@
 		   			redraw();
 		   		});
 
-		   		hammer.bind('tap', window.hide_all_popovers);
-
 		   		hammer.bind('drag', function(event) {
 		   			drag_offset.x = drag_offset.base_x + event.distanceX;
 		   			drag_offset.y = drag_offset.base_y + event.distanceY;
@@ -319,9 +326,21 @@
 			toggle_user_actions_panel = function(event){
 				var $user_actions_panel = $("#user_actions"),
 					$no_camera_available = $("#no_camera_available"),
+					add_photo_to_map = function(imageURI, latitude, longitude){
+						$("#map").append( $("<a/>").addClass("location location-icon location-Campsite").data("content", "<img src='" + imageURI + "'>").click(window.toggle_popover))
+					}
 					camera_success = function(imageURI) {
 					    var $camera = $("#camera");
 					    $camera.attr("src", imageURI);
+					    last_known_position = localStorage["geolocation-last-known-position"];
+					    if(last_known_position !== undefined) {
+							last_known_position = JSON.parse(last_known_position);
+							if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
+								addPhotoToMap(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude);
+							} else {
+								addPhotoToMap(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude);
+							}
+						}
 					},
 					camera_fail = function onFail(message) {
 					    alert('Failed because: ' + message);
@@ -388,7 +407,7 @@
 		youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
 		youarehere_hammer.bind("tap", toggle_user_actions_panel);
 
-		$locations.popover();
+		
 	};
 
 	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {

@@ -50,7 +50,7 @@
 		if(override_content !== undefined) {
 			options.content = override_content;
 		}
-		$sender.popover(options).popover('toggle'); //popover(options).
+		$sender.popover(options).popover('toggle');
 		existing_popovers.push(this);
 		event.stopPropagation();
 		if(event.originalEvent) {
