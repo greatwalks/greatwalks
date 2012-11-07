@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>Great Walks - Milford Track</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0"">
+        <meta http-equiv="cleartype" content="on">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap-responsive.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.1.min.js"></script>
+        <script src="cordova-2.1.0.js"></script>
+    </head>
+    <body class="map">
+        <input type="checkbox" id="show_slideout_navigation">
+        <div id="wrapper">
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <ul class="nav">
+                            <li>
+                                <label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label>
+                            </li>
+                            <!--
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a>
+                            </li>
+                            -->
+                        </ul>
+                        <a href="index.html" id="logo">Department of Conservation - Great Walks</a>
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-info">Info</span></a>
+                            </li>
+                            <li id="share-social">
+                                <a href="#" rel="popover" data-popover-class="social" data-content="<a href='mailto:enquiries@doc.govt.nz?subject=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20MILFORD%20TRACK&body=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20MILFORD%20TRACK%20http%3A%2F%2Fwww.greatwalks.co.nz%2Fmilford-track' class='email'>Email</a> <a href='http://www.facebook.com/sharer.php?s=100&p[url]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fmilford-track&p[title]=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20MILFORD%20TRACK&p[images][0]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fsites%2Fall%2Fthemes%2Fsparks_responsive%2Flogo.png&p[summary]=.' class='facebook'>Facebook</a> <a href='http://twitter.com/share?url=http%3A%2F%2Fbit.ly%2FSYbOOu&text=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20MILFORD%20TRACK%20@NZGreatWalks&hashtags=NZGreatWalks' class='twitter'>Twitter</a>" data-placement="bottom"><span class="header-sprite header-share">Share</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                 <div id="debug"></div>
+               </div>
+            </div>
+            <div id="slideout_navigation">
+                <ul class="menu">
+                    <li><label for="show_slideout_navigation">Menu</label></li>
+                    <li><a href="walks.html" class="booking">Make a booking</a></li>
+                    <li><a href="walks.html" class="offers">Special offers</a></li>
+                </ul>
+                <ul class="walks">
+                    <li><a href="walk-abel-tasman-coast-track.html">Abel Tasman Coast Track</a></li><li><a href="walk-heaphy-track.html">Heaphy Track</a></li><li><a href="walk-kepler-track.html">Kepler Track</a></li><li><a href="walk-lake-waikaremoana-track.html">Lake Waikaremoana Track</a></li><li><a href="walk-milford-track.html">Milford Track</a></li><li><a href="walk-rakiura-track---stewart-island.html">Rakiura Track - Stewart Island</a></li><li><a href="walk-routeburn-track.html">Routeburn Track</a></li><li><a href="walk-tongariro-northern-circuit.html">Tongariro Northern Circuit</a></li><li><a href="walk-wellington.html">Wellington</a></li><li><a href="walk-whanganui-journey.html">Whanganui Journey</a></li>
+                </ul>
+                <ul class="maps">
+                    <li><a href="walks.html">Maps</a></li>
+                </ul>
+            </div>
+    	    <script type="text/javascript">
+	var map_details = {"latitude":-44.65180781421633,"longitude":167.65907612771002,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000285569459308,"extent_latitude":-44.94994232973389,"extent_longitude":168.15653812582457};
+</script>
+
+<a id="weta" rel="popover" data-content="<h3>Weta</h3><b class='distance_away'>Distance: really close!</b>">Weta</a>
+
+<div style="background-image: url(img/walks/milford-track/map.jpg); background-size: 1742px 1044px; width:1742px; height:1044px; position:relative" id="map">
+	<div id="youarehere">
+
+		<div class="dot"></div>
+		<div class="offmap">offmap</div>
+	</div>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 679px; top:185px;" data-longitude="167.853" data-latitude="-44.7046" data-content-template="<h3>Giant Gate Falls</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 367px; top:411px;" data-longitude="167.764" data-latitude="-44.7691" data-content-template="<h3>Dumpling Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 259px; top:513px;" data-longitude="167.733" data-latitude="-44.7984" data-content-template="<h3>Sutherland Falls</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 851px; top:110px;" data-longitude="167.902" data-latitude="-44.6833" data-content-template="<h3>Sandfly Point Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 672px; top:191px;" data-longitude="167.851" data-latitude="-44.7064" data-content-template="<h3>Giants Gate Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 486px; top:278px;" data-longitude="167.798" data-latitude="-44.7312" data-content-template="<h3>Mackay Falls</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 504px; top:301px;" data-longitude="167.803" data-latitude="-44.7379" data-content-template="<h3>Historic Boatshed Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 406px; top:494px;" data-longitude="167.775" data-latitude="-44.7928" data-content-template="<h3>Andersons Cascade Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 430px; top:554px;" data-longitude="167.782" data-latitude="-44.8099" data-content-template="<h3>Mintaro Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 332px; top:488px;" data-longitude="167.754" data-latitude="-44.7913" data-content-template="<h3>Quintin Lodge Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 409px; top:527px;" data-longitude="167.776" data-latitude="-44.8024" data-content-template="<h3>Mackinnon Pass Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 371px; top:527px;" data-longitude="167.765" data-latitude="-44.8022" data-content-template="<h3>Mackinnon Memorial</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 507px; top:660px;" data-longitude="167.804" data-latitude="-44.8404" data-content-template="<h3>Bus Stop Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 872px; top:888px;" data-longitude="167.908" data-latitude="-44.9053" data-content-template="<h3>Clinton Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 949px; top:982px;" data-longitude="167.93" data-latitude="-44.9323" data-content-template="<h3>Glade Wharf</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 441px; top:580px;" data-longitude="167.785" data-latitude="-44.8175" data-content-template="<h3>Mirror Lake</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+</div>
+
+<div id="no_gps">
+	Current location unavailable
+</div>
+
+<div id="user_actions" class="hidden">
+	<img id="camera" src="img/camera-placeholder.jpg">
+	what
+</div>
+
+<div id="no_camera_available">
+	No camera available
+</div>
+
+        </div>
+        <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
+        <script src="js/vendor/jquery-1.8.2.min.js"></script>
+        <script src="js/vendor/bootstrap.js"></script>
+        <script src="js/vendor/hammer.js"></script>
+        <script src="js/vendor/jquery.hammer.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>Great Walks - Kepler Track</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0"">
+        <meta http-equiv="cleartype" content="on">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap-responsive.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.1.min.js"></script>
+        <script src="cordova-2.1.0.js"></script>
+    </head>
+    <body class="map">
+        <input type="checkbox" id="show_slideout_navigation">
+        <div id="wrapper">
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <ul class="nav">
+                            <li>
+                                <label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label>
+                            </li>
+                            <!--
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a>
+                            </li>
+                            -->
+                        </ul>
+                        <a href="index.html" id="logo">Department of Conservation - Great Walks</a>
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-info">Info</span></a>
+                            </li>
+                            <li id="share-social">
+                                <a href="#" rel="popover" data-popover-class="social" data-content="<a href='mailto:enquiries@doc.govt.nz?subject=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20KEPLER%20TRACK&body=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20KEPLER%20TRACK%20http%3A%2F%2Fwww.greatwalks.co.nz%2Fkepler-track' class='email'>Email</a> <a href='http://www.facebook.com/sharer.php?s=100&p[url]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fkepler-track&p[title]=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20KEPLER%20TRACK&p[images][0]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fsites%2Fall%2Fthemes%2Fsparks_responsive%2Flogo.png&p[summary]=.' class='facebook'>Facebook</a> <a href='http://twitter.com/share?url=http%3A%2F%2Fbit.ly%2FVRNca2&text=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20KEPLER%20TRACK%20@NZGreatWalks&hashtags=NZGreatWalks' class='twitter'>Twitter</a>" data-placement="bottom"><span class="header-sprite header-share">Share</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                 <div id="debug"></div>
+               </div>
+            </div>
+            <div id="slideout_navigation">
+                <ul class="menu">
+                    <li><label for="show_slideout_navigation">Menu</label></li>
+                    <li><a href="walks.html" class="booking">Make a booking</a></li>
+                    <li><a href="walks.html" class="offers">Special offers</a></li>
+                </ul>
+                <ul class="walks">
+                    <li><a href="walk-abel-tasman-coast-track.html">Abel Tasman Coast Track</a></li><li><a href="walk-heaphy-track.html">Heaphy Track</a></li><li><a href="walk-kepler-track.html">Kepler Track</a></li><li><a href="walk-lake-waikaremoana-track.html">Lake Waikaremoana Track</a></li><li><a href="walk-milford-track.html">Milford Track</a></li><li><a href="walk-rakiura-track---stewart-island.html">Rakiura Track - Stewart Island</a></li><li><a href="walk-routeburn-track.html">Routeburn Track</a></li><li><a href="walk-tongariro-northern-circuit.html">Tongariro Northern Circuit</a></li><li><a href="walk-wellington.html">Wellington</a></li><li><a href="walk-whanganui-journey.html">Whanganui Journey</a></li>
+                </ul>
+                <ul class="maps">
+                    <li><a href="walks.html">Maps</a></li>
+                </ul>
+            </div>
+    	    <script type="text/javascript">
+	var map_details = {"latitude":-45.34650584038335,"longitude":167.46068593304253,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000174704669218,"extent_latitude":-45.52889751504694,"extent_longitude":167.7650214668203};
+</script>
+
+<a id="weta" rel="popover" data-content="<h3>Weta</h3><b class='distance_away'>Distance: really close!</b>">Weta</a>
+
+<div style="background-image: url(img/walks/kepler-track/map.jpg); background-size: 1742px 1044px; width:1742px; height:1044px; position:relative" id="map">
+	<div id="youarehere">
+
+		<div class="dot"></div>
+		<div class="offmap">offmap</div>
+	</div>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 1307px; top:548px;" data-longitude="167.689" data-latitude="-45.4422" data-content-template="<h3>Kepler Track Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1221px; top:330px;" data-longitude="167.674" data-latitude="-45.4041" data-content-template="<h3>Brod Bay Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 906px; top:222px;" data-longitude="167.619" data-latitude="-45.3853" data-content-template="<h3>Luxmore Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 609px; top:238px;" data-longitude="167.567" data-latitude="-45.3881" data-content-template="<h3>Forest Burn Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 431px; top:209px;" data-longitude="167.536" data-latitude="-45.383" data-content-template="<h3>Hanging Valley Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 277px; top:300px;" data-longitude="167.509" data-latitude="-45.3989" data-content-template="<h3>Iris Burn Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 1227px; top:334px;" data-longitude="167.675" data-latitude="-45.4048" data-content-template="<h3>Brod Bay Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 889px; top:243px;" data-longitude="167.616" data-latitude="-45.389" data-content-template="<h3>Luxmore Cave</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 271px; top:305px;" data-longitude="167.508" data-latitude="-45.3998" data-content-template="<h3>Iris Burn Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 196px; top:283px;" data-longitude="167.495" data-latitude="-45.3959" data-content-template="<h3>Iris Burn Falls</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 609px; top:583px;" data-longitude="167.567" data-latitude="-45.4483" data-content-template="<h3>Rocky Point Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 860px; top:774px;" data-longitude="167.611" data-latitude="-45.4818" data-content-template="<h3>Moturau Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 1158px; top:831px;" data-longitude="167.663" data-latitude="-45.4917" data-content-template="<h3>Rainbow Reach Carpark Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-VisitorCentre" rel="popover" style="position:absolute; left: 1461px; top:427px;" data-longitude="167.716" data-latitude="-45.4211" data-content-template="<h3>Fiordland National Park Visitor Centre</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+</div>
+
+<div id="no_gps">
+	Current location unavailable
+</div>
+
+<div id="user_actions" class="hidden">
+	<img id="camera" src="img/camera-placeholder.jpg">
+	what
+</div>
+
+<div id="no_camera_available">
+	No camera available
+</div>
+
+        </div>
+        <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
+        <script src="js/vendor/jquery-1.8.2.min.js"></script>
+        <script src="js/vendor/bootstrap.js"></script>
+        <script src="js/vendor/hammer.js"></script>
+        <script src="js/vendor/jquery.hammer.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>

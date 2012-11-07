@@ -116,6 +116,41 @@ label {
 .header-share {
   background-position: 0px -150px;
 }
+.popover.social {
+  width: 60px;
+  border: 2px solid white;
+  margin-left: -15px;
+}
+.popover.social .arrow {
+  border-bottom-color: white;
+  left: 80%;
+}
+.popover.social .popover-content {
+  border-radius: 5px;
+  background: black;
+  padding: 0px;
+}
+.popover.social .popover-content .email,
+.popover.social .popover-content .facebook,
+.popover.social .popover-content .twitter {
+  background: url("../img/social-buttons.png") no-repeat;
+  width: 38px;
+  height: 38px;
+  display: block;
+  text-indent: -10000px;
+  padding: 10px;
+}
+.popover.social .popover-content .email {
+  background-position: 10px 10px;
+  margin-bottom: 10px;
+}
+.popover.social .popover-content .facebook {
+  background-position: 10px -61px;
+  margin-bottom: 10px;
+}
+.popover.social .popover-content .twitter {
+  background-position: 10px -129px;
+}
 .popover {
   z-index: 10000;
 }
@@ -246,6 +281,20 @@ label {
 }
 #slideout_navigation ul.maps li:hover {
   background-color: #528d39;
+}
+body.index #wrapper {
+  background: url("../img/Waikaremoana-NEW-home.jpg") no-repeat center 40px;
+  color: #fff;
+}
+body.index #wrapper .navbar-fixed-bottom .container-fluid * {
+  width: auto;
+  text-align: center;
+  float: none;
+}
+@media (min-width: 640px) {
+  body.index #wrapper {
+    background: url("../img/Waikaremoana-NEW-home@2x.jpg") no-repeat center 20px;
+  }
 }
 body.map #wrapper {
   background: url("../img/table.png");

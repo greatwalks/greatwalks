@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>Great Walks - Abel Tasman Coast Track</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0"">
+        <meta http-equiv="cleartype" content="on">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap-responsive.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.1.min.js"></script>
+        <script src="cordova-2.1.0.js"></script>
+    </head>
+    <body class="map">
+        <input type="checkbox" id="show_slideout_navigation">
+        <div id="wrapper">
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <ul class="nav">
+                            <li>
+                                <label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label>
+                            </li>
+                            <!--
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-bookmark">Bookmark</span></a>
+                            </li>
+                            -->
+                        </ul>
+                        <a href="index.html" id="logo">Department of Conservation - Great Walks</a>
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="index.html"><span class="header-sprite header-info">Info</span></a>
+                            </li>
+                            <li id="share-social">
+                                <a href="#" rel="popover" data-popover-class="social" data-content="<a href='mailto:enquiries@doc.govt.nz?subject=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20ABEL%20TASMEN%20COAST%20TRACK&body=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20ABEL%20TASMEN%20COAST%20TRACK%20http%3A%2F%2Fwww.greatwalks.co.nz%2Fabel-tasman-coast-track' class='email'>Email</a> <a href='http://www.facebook.com/sharer.php?s=100&p[url]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fabel-tasman-coast-track&p[title]=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20ABEL%20TASMEN%20COAST%20TRACK&p[images][0]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fsites%2Fall%2Fthemes%2Fsparks_responsive%2Flogo.png&p[summary]=.' class='facebook'>Facebook</a> <a href='http://twitter.com/share?url=http%3A%2F%2Fbit.ly%2FPBKyah&text=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%2C%20the%20ABEL%20TASMEN%20COAST%20TRACK%20@NZGreatWalks&hashtags=NZGreatWalks' class='twitter'>Twitter</a>" data-placement="bottom"><span class="header-sprite header-share">Share</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                 <div id="debug"></div>
+               </div>
+            </div>
+            <div id="slideout_navigation">
+                <ul class="menu">
+                    <li><label for="show_slideout_navigation">Menu</label></li>
+                    <li><a href="walks.html" class="booking">Make a booking</a></li>
+                    <li><a href="walks.html" class="offers">Special offers</a></li>
+                </ul>
+                <ul class="walks">
+                    <li><a href="walk-abel-tasman-coast-track.html">Abel Tasman Coast Track</a></li><li><a href="walk-heaphy-track.html">Heaphy Track</a></li><li><a href="walk-kepler-track.html">Kepler Track</a></li><li><a href="walk-lake-waikaremoana-track.html">Lake Waikaremoana Track</a></li><li><a href="walk-milford-track.html">Milford Track</a></li><li><a href="walk-rakiura-track---stewart-island.html">Rakiura Track - Stewart Island</a></li><li><a href="walk-routeburn-track.html">Routeburn Track</a></li><li><a href="walk-tongariro-northern-circuit.html">Tongariro Northern Circuit</a></li><li><a href="walk-wellington.html">Wellington</a></li><li><a href="walk-whanganui-journey.html">Whanganui Journey</a></li>
+                </ul>
+                <ul class="maps">
+                    <li><a href="walks.html">Maps</a></li>
+                </ul>
+            </div>
+    	    <script type="text/javascript">
+	var map_details = {"latitude":-40.77160911578638,"longitude":172.68815992588924,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000285453325972,"extent_latitude":-41.06962238810115,"extent_longitude":173.18541961973247};
+</script>
+
+<a id="weta" rel="popover" data-content="<h3>Weta</h3><b class='distance_away'>Distance: really close!</b>">Weta</a>
+
+<div style="background-image: url(img/walks/abel-tasman-coast-track/map.jpg); background-size: 1742px 1044px; width:1742px; height:1044px; position:relative" id="map">
+	<div id="youarehere">
+
+		<div class="dot"></div>
+		<div class="offmap">offmap</div>
+	</div>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 942px; top:134px;" data-longitude="172.957" data-latitude="-40.8099" data-content-template="<h3>Wainui Carpark Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 1001px; top:61px;" data-longitude="172.974" data-latitude="-40.789" data-content-template="<h3>Whariwharangi Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1005px; top:59px;" data-longitude="172.975" data-latitude="-40.7885" data-content-template="<h3>Whariwharangi Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1071px; top:68px;" data-longitude="172.994" data-latitude="-40.791" data-content-template="<h3>Mutton Cove Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1106px; top:109px;" data-longitude="173.004" data-latitude="-40.8028" data-content-template="<h3>Anapai Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1106px; top:179px;" data-longitude="173.004" data-latitude="-40.8227" data-content-template="<h3>Totaranui Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1148px; top:272px;" data-longitude="173.016" data-latitude="-40.8493" data-content-template="<h3>Waiharakeke campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 1155px; top:328px;" data-longitude="173.018" data-latitude="-40.8652" data-content-template="<h3>Awaroa Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1159px; top:326px;" data-longitude="173.019" data-latitude="-40.8648" data-content-template="<h3>Awaroa Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1257px; top:411px;" data-longitude="173.047" data-latitude="-40.889" data-content-template="<h3>Onetahuti Beach Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 1264px; top:506px;" data-longitude="173.049" data-latitude="-40.9161" data-content-template="<h3>Bark Bay Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1271px; top:509px;" data-longitude="173.051" data-latitude="-40.9169" data-content-template="<h3>Bark Bay Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1271px; top:430px;" data-longitude="173.051" data-latitude="-40.8943" data-content-template="<h3>Tonga Quarry Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1285px; top:523px;" data-longitude="173.055" data-latitude="-40.9209" data-content-template="<h3>Medlands Beach Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1254px; top:616px;" data-longitude="173.046" data-latitude="-40.9475" data-content-template="<h3>Torrent Bay Village Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1317px; top:636px;" data-longitude="173.064" data-latitude="-40.9532" data-content-template="<h3>Te Puketea Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Hut" rel="popover" style="position:absolute; left: 1303px; top:647px;" data-longitude="173.06" data-latitude="-40.9564" data-content-template="<h3>Anchorage Hut</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1299px; top:648px;" data-longitude="173.059" data-latitude="-40.9567" data-content-template="<h3>Anchorage Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1289px; top:673px;" data-longitude="173.056" data-latitude="-40.9638" data-content-template="<h3>Watering Cove Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1257px; top:702px;" data-longitude="173.047" data-latitude="-40.9721" data-content-template="<h3>Akersten Bay Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1226px; top:738px;" data-longitude="173.038" data-latitude="-40.9823" data-content-template="<h3>Apple Tree Bay Campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Campsite" rel="popover" style="position:absolute; left: 1180px; top:760px;" data-longitude="173.025" data-latitude="-40.9885" data-content-template="<h3>Tinline campsite</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Shelter" rel="popover" style="position:absolute; left: 1110px; top:786px;" data-longitude="173.005" data-latitude="-40.996" data-content-template="<h3>Marahau Roadend Information Shelter</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 1327px; top:418px;" data-longitude="173.067" data-latitude="-40.8908" data-content-template="<h3>Tonga Island</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 1303px; top:727px;" data-longitude="173.06" data-latitude="-40.9792" data-content-template="<h3>Adele Island</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+		<a class="location location-icon location-Feature" rel="popover" style="position:absolute; left: 1222px; top:646px;" data-longitude="173.037" data-latitude="-40.9559" data-content-template="<h3>Cleopatras Pool</h3>[DISTANCE]<br><b> </b>">Click to toggle popover</a>
+</div>
+
+<div id="no_gps">
+	Current location unavailable
+</div>
+
+<div id="user_actions" class="hidden">
+	<img id="camera" src="img/camera-placeholder.jpg">
+	what
+</div>
+
+<div id="no_camera_available">
+	No camera available
+</div>
+
+        </div>
+        <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
+        <script src="js/vendor/jquery-1.8.2.min.js"></script>
+        <script src="js/vendor/bootstrap.js"></script>
+        <script src="js/vendor/hammer.js"></script>
+        <script src="js/vendor/jquery.hammer.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
