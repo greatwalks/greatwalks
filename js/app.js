@@ -776,10 +776,19 @@ if(!(window.console && console.log)) {
 (function($){
 	"use strict";
 	var navbar_init = function(){
-		$("#share-social a").click(window.toggle_popover);
+		var $navbar_social = $("#share-social a"),
+			navbar_timer,
+			hide_social_popout = function(event){
+				window.hide_popover.bind($navbar_social)(event);
+			};
+		$navbar_social.click(window.toggle_popover);
+		$(window).scroll(function(){
+			if(navbar_timer !== undefined) {
+				clearTimeout(navbar_timer);
+			}
+			navbar_timer = setTimeout(hide_social_popout, 100);
+		});
 	}
-
-	
 
 	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
         document.addEventListener("deviceready", navbar_init, false);
@@ -856,7 +865,7 @@ if(!(window.console && console.log)) {
 	}
 
 	window.hide_popover = function(event){
-		//$(this).popover('hide');
+		$(this).popover('hide');
 	}
 
 	window.toggle_popover = function(event){
@@ -880,10 +889,10 @@ if(!(window.console && console.log)) {
 		}
 		$this.popover(options).popover('toggle');
 		existing_popovers.push($this);
-		event.stopPropagation();
 		if(event.originalEvent) {
 			event.originalEvent.stopPropagation();
 		}
+		return false;
 	}
 
 	window.show_popover = function(event, override_content){
