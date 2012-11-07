@@ -771,7 +771,7 @@ if(!(window.console && console.log)) {
         $(document).ready(map_start);
     }
 }(jQuery));/*
- * 
+ * Handles the navbars (including the bottom one, if it's there)
  */ 
 (function($){
 	"use strict";
@@ -781,12 +781,19 @@ if(!(window.console && console.log)) {
 			hide_social_popout = function(event){
 				window.hide_popover.bind($navbar_social)(event);
 			};
-		$navbar_social.click(window.toggle_popover);
-		$(window).scroll(function(){
+		$navbar_social.click(function(event){
 			if(navbar_timer !== undefined) {
 				clearTimeout(navbar_timer);
+				navbar_timer = undefined;
 			}
-			navbar_timer = setTimeout(hide_social_popout, 100);
+			window.toggle_popover.bind($navbar_social)(event);
+		});
+		$(window).scroll(function(){
+			if(navbar_timer !== undefined) {
+				window.clearTimeout(navbar_timer);
+				navbar_timer = undefined;
+			}
+			navbar_timer = window.setTimeout(hide_social_popout, 100);
 		});
 	}
 

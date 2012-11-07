@@ -296,6 +296,85 @@ body.index #wrapper .navbar-fixed-bottom .container-fluid * {
     background: url("../img/Waikaremoana-NEW-home@2x.jpg") no-repeat center 20px;
   }
 }
+/* map of new zealand */
+body.maps #wrapper {
+  padding-top: 150px;
+  background: #79ccec;
+  /* Old browsers */
+
+  background: -moz-radial-gradient(center, ellipse cover, #79ccec 0%, #eaf6fc 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #79ccec), color-stop(100%, #eaf6fc));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-radial-gradient(center, ellipse cover, #79ccec 0%, #eaf6fc 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-radial-gradient(center, ellipse cover, #79ccec 0%, #eaf6fc 100%);
+  /* Opera 12+ */
+
+  background: -ms-radial-gradient(center, ellipse cover, #79ccec 0%, #eaf6fc 100%);
+  /* IE10+ */
+
+  background: radial-gradient(ellipse at center, #79ccec 0%, #eaf6fc 100%);
+  /* W3C */
+
+}
+body.maps #wrapper #new-zealand-map {
+  position: relative;
+  margin: 0px auto;
+  width: 752px;
+  height: 1056px;
+  background: url("../img/new-zealand-map.png");
+}
+body.maps #wrapper #new-zealand-map .map-location {
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  line-height: normal;
+  text-align: center;
+  color: black;
+}
+body.maps #wrapper #new-zealand-map h2.map-location {
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 23px;
+}
+body.maps #wrapper #new-zealand-map a.map-location {
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+}
+body.maps #wrapper #new-zealand-map a.map-location:hover {
+  text-decoration: none;
+}
+body.maps #wrapper #new-zealand-map .map-icon-bottom {
+  padding-bottom: 60px;
+}
+body.maps #wrapper #new-zealand-map .map-icon-bottom2 {
+  padding-bottom: 55px;
+}
+body.maps #wrapper #new-zealand-map .map-icon-left {
+  padding-left: 60px;
+}
+body.maps #wrapper #new-zealand-map .map-icon-right {
+  padding-right: 60px;
+}
+body.maps #wrapper #new-zealand-map .map-icon-height {
+  min-height: 50px;
+  line-height: 50px;
+}
+body.maps #wrapper #new-zealand-map .map-icon-height2 {
+  min-height: 40px;
+  line-height: 70px;
+}
+body.maps #wrapper #new-zealand-map .map-icon-height3 {
+  min-height: 50px;
+  line-height: normal;
+}
+/* an individual map walk */
 body.map #wrapper {
   background: url("../img/table.png");
 }
