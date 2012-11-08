@@ -179,6 +179,9 @@ label {
 #show_slideout_navigation:checked + #wrapper .navbar {
   left: 300px;
 }
+#show_slideout_navigation:checked + #wrapper #slideout_navigation {
+  left: 0px;
+}
 #wrapper {
   padding-top: 50px;
   position: relative;
@@ -186,17 +189,19 @@ label {
   -webkit-transition: 0.2s ease-in;
 }
 #slideout_navigation {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: -300px;
   margin-right: -300px;
   width: 300px;
-  height: 1000px;
+  min-height: 100%;
   z-index: 10000;
   background: #3d692a;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 12px;
+  transition: 0.2s ease-in;
+  -webkit-transition: 0.2s ease-in;
 }
 #slideout_navigation a,
 #slideout_navigation label {
@@ -283,13 +288,12 @@ label {
 #slideout_navigation ul.maps li:hover {
   background-color: #528d39;
 }
-body.index {
-  height: 100%;
-}
 body.index #wrapper {
-  background: url("../img/Waikaremoana-NEW-home.jpg") no-repeat center 20px;
   color: #fff;
-  min-height: 100%;
+}
+body.index #wrapper #carousel {
+  background: url("../img/Waikaremoana-NEW-home@2x.jpg") no-repeat center 0px;
+  background-size: cover ;
 }
 body.index #wrapper .navbar-fixed-bottom .container-fluid * {
   width: auto;
@@ -308,9 +312,7 @@ body.index #wrapper #doc-sign {
   margin: 0px auto -227px auto;
 }
 @media (min-width: 640px) {
-  body.index #wrapper {
-    background: url("../img/Waikaremoana-NEW-home@2x.jpg") no-repeat center 0px;
-  }
+  
 }
 @media (max-width: 600px) {
   body.index #wrapper #doc-sign {
@@ -400,7 +402,7 @@ body.maps #wrapper #new-zealand-map .map-icon-height3 {
   min-height: 50px;
   line-height: normal;
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   body.maps #wrapper {
     padding-top: 110px;
   }
@@ -441,7 +443,7 @@ body.maps #wrapper #new-zealand-map .map-icon-height3 {
     line-height: normal;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   body.maps #wrapper {
     padding-top: 80px;
   }
