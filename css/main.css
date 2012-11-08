@@ -103,10 +103,11 @@ label {
   text-indent: -10000px;
   width: 25px;
   height: 25px;
-  background-size: 100%;
+  background-size: 25px 173px;
 }
 .header-threebar {
   background-position: 0px 0px;
+  padding-right: 80px;
 }
 .header-bookmark {
   background-position: 0px -50px;
@@ -307,10 +308,44 @@ body.index #wrapper #carousel .slide4 {
   background: url("../img/Whanganui-Journey-home@2x.jpg") no-repeat center 0px;
   background-size: cover ;
 }
-body.index #wrapper .navbar-fixed-bottom .container-fluid * {
+body.index #wrapper .navbar-fixed-bottom .navbar-inner {
+  padding-top: 0px;
+  background: #427630;
+}
+body.index #wrapper .navbar-fixed-bottom .navbar-inner .container-fluid * {
   width: auto;
   text-align: center;
   float: none;
+}
+body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options {
+  margin: 0px auto;
+}
+body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li {
+  display: inline;
+}
+body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a {
+  display: inline-block;
+  background: url("../img/homepage-buttons.png") no-repeat;
+  background-size: 258px 44px;
+  width: 100px;
+  padding-top: 60px;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a:hover {
+  text-decoration: none;
+}
+body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a.maps {
+  background-position: 30px 10px;
+}
+body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a.offers {
+  background-position: -80px 10px;
+}
+body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a.booknow {
+  background-position: -193px 10px;
 }
 body.index #wrapper #doc-sign {
   display: block;
