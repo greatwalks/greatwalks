@@ -66,13 +66,15 @@ html {
   -webkit-user-drag: none;
   -moz-user-drag: none;
   user-drag: none;
-  height: 100%;
 }
 label {
   cursor: pointer;
 }
 .navbar-fixed-top {
   z-index: 10000;
+}
+.navbar-fixed-top .navbar .nav {
+  margin-right: 0px;
 }
 .navbar-fixed-top .header-sprite {
   display: inline-block;
@@ -84,7 +86,7 @@ label {
 }
 .navbar-fixed-top .header-threebar {
   background-position: 0px 0px;
-  padding-right: 80px;
+  padding-right: 10px;
 }
 .navbar-fixed-top .header-bookmark {
   /* note: currently unused - may be brought back */
@@ -347,6 +349,9 @@ body.index #wrapper #carousel .slide3 {
 body.index #wrapper #carousel .slide4 {
   background: url("../img/Whanganui-Journey-home@2x.jpg") no-repeat center 0px;
   background-size: cover ;
+}
+body.index #wrapper #carousel .carousel-control {
+  display: none;
 }
 body.index #wrapper .navbar-fixed-bottom .navbar-inner {
   padding-top: 0px;

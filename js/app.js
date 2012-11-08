@@ -353,7 +353,7 @@ if(!(window.console && console.log)) {
             scale_treshold: 0,
             drag_min_distance: 0
 		},
-		drag_distanceX_threshold = 100,
+		drag_distanceX_threshold = 10,
 		drag_distanceX,
 		drag_carousel = function(event){
 			drag_distanceX = event.distanceX;
@@ -381,8 +381,8 @@ if(!(window.console && console.log)) {
 			$navbar_top = $(".navbar-fixed-top");
 			$(window).resize(adjust_carousel_height);
 			adjust_carousel_height();
-			if(Modernizr.touch) {
-				$carousel.find(".carousel-control").hide();
+			if(!Modernizr.touch) {
+				$carousel.find(".carousel-control").show();
 			}
 			$carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
 			$carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
@@ -403,7 +403,7 @@ if(!(window.console && console.log)) {
  * ========================================================== */
 (function($){
 	"use strict";
-
+	if(window.location.toString().indexOf("map-") === -1) return;
 	(function(){
 		var PIx = 3.141592653589793,
 		 	degrees_to_radians = function(degrees) {
@@ -415,6 +415,7 @@ if(!(window.console && console.log)) {
 		window.format_distance = function(kilometres){
 	 		 return (Math.round(kilometres * 100) / 100) + "km/ " + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
 	 	};
+
 		window.difference_between_positions_in_kilometers = function(lat1, lon1, lat2, lon2, lat3, lon3){
 			if(lat3 !== undefined && lon3 !== undefined) {
 				//normally lat3/lon3 aren't given and this function just figures out the distance
@@ -438,6 +439,7 @@ if(!(window.console && console.log)) {
 			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 			return R * c; // Distance in km
 		};
+
 		window.position_expires_after_milliseconds = one_hour_in_milliseconds;
 	}());
 
@@ -548,15 +550,6 @@ if(!(window.console && console.log)) {
 					$("#no_gps").attr("title", msg.message).show();
 				};
 			},
-			
-			close_any_clickovers = function(){
-				if(window.close_all_clickovers) {
-					var closer = window.close_all_clickovers;
-					delete window.close_all_clickovers;
-        			closer('hide');
-        		}
-        	},
-
 			enable_map = function($image){
 				//based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
 		        var hammer,
@@ -606,10 +599,6 @@ if(!(window.console && console.log)) {
 		            drag_min_distance: 0
 		        });
 
-		        hammer.bind('dragstart', function(event) {
-		        	close_any_clickovers();
-		        })
-
 		   		hammer.bind('dragend', function(event) {
 		   			drag_offset.base_x = drag_offset.x;
 		   			drag_offset.base_y = drag_offset.y;
@@ -624,7 +613,6 @@ if(!(window.console && console.log)) {
 		   		});
 
 		        hammer.bind('transformstart', function(event) {
-		        	close_any_clickovers();
 		            screenOrigin.x = (event.originalEvent.touches[0].clientX + event.originalEvent.touches[1].clientX) / 2;
 		            return screenOrigin.y = (event.originalEvent.touches[0].clientY + event.originalEvent.touches[1].clientY) / 2;
 		        });
@@ -835,6 +823,20 @@ if(!(window.console && console.log)) {
 			}
 			navbar_timer = window.setTimeout(hide_social_popout, 100);
 		});
+		$("#show_slideout_navigation").change(function(event){
+			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
+			var $this = $(this),
+				$logo;
+			if($(window).height() > 400 && $(window).width() > 400) return;
+			$logo = $("#logo");
+			if($this.is(":checked")) {
+				$logo.hide();
+			} else {
+				$logo.show();
+			}
+			
+			
+		})
 	}
 
 	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
@@ -962,5 +964,4 @@ if(!(window.console && console.log)) {
     } else {
         $(document).ready(popover_init);
     }
-
 }(jQuery));
