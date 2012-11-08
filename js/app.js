@@ -787,6 +787,7 @@ if(!(window.console && console.log)) {
 				navbar_timer = undefined;
 			}
 			window.toggle_popover.bind($navbar_social)(event);
+			return false;
 		});
 		$(window).scroll(function(){
 			if(navbar_timer !== undefined) {
