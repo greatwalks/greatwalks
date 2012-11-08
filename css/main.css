@@ -291,8 +291,20 @@ label {
 body.index #wrapper {
   color: #fff;
 }
-body.index #wrapper #carousel {
+body.index #wrapper #carousel .slide1 {
   background: url("../img/Waikaremoana-NEW-home@2x.jpg") no-repeat center 0px;
+  background-size: cover ;
+}
+body.index #wrapper #carousel .slide2 {
+  background: url("../img/Kepler-NEW-home@2x.jpg") no-repeat center 0px;
+  background-size: cover ;
+}
+body.index #wrapper #carousel .slide3 {
+  background: url("../img/Abel-NEW-home@2x.jpg") no-repeat center 0px;
+  background-size: cover ;
+}
+body.index #wrapper #carousel .slide4 {
+  background: url("../img/Whanganui-Journey-home@2x.jpg") no-repeat center 0px;
   background-size: cover ;
 }
 body.index #wrapper .navbar-fixed-bottom .container-fluid * {

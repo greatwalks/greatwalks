@@ -343,16 +343,58 @@ if(!(window.console && console.log)) {
     };
 })(document);(function($){
 	"use strict";
-	$(document).ready(function(){
-		
-/*
-		.hammer({
-            prevent_default: false,
-            drag_vertical: false
-        })
-        .bind("hold tap doubletap transformstart transform transformend dragstart drag dragend release swipe", function(ev) {
-        	*/
-	});
+	if(window.location.toString().indexOf("index.html") === -1) return;
+	var $carousel,
+		$carousel_items,
+		$navbar_bottom,
+		$navbar_top,
+		hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+		},
+		drag_distanceX_threshold = 100,
+		drag_distanceX,
+		drag_carousel = function(event){
+			drag_distanceX = event.distanceX;
+		},
+		dragend_carousel = function(event){
+			if(drag_distanceX === undefined) return;
+			if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
+			if(drag_distanceX > 0) {
+				$carousel.carousel('next');
+			} else {
+				$carousel.carousel('prev');
+			}
+			drag_distanceX = undefined;
+		},
+		adjust_carousel_height = function(event){
+			var height = $(window).height() - $navbar_top.height() - $navbar_bottom.height() + 2,
+				width =  $(window).width() + 1;
+			$carousel.height(height);
+			$carousel_items.height(height);
+		},
+	 	index_init = function(event){
+			$carousel = $('#carousel').carousel();
+			$carousel_items = $carousel.find(".item");
+			$navbar_bottom = $(".navbar-fixed-bottom");
+			$navbar_top = $(".navbar-fixed-top");
+			$(window).resize(adjust_carousel_height);
+			adjust_carousel_height();
+			if(Modernizr.touch) {
+				$carousel.find(".carousel-control").hide();
+				//$carousel_items.hammer(hammer_defaults).bind('dragstart', drag_start);
+				//$carousel_items.hammer(hammer_defaults).bind('dragend', drag_end);
+			}
+			$carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
+			$carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
+			
+		}
+	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+        document.addEventListener("deviceready", index_init, false);
+    } else {
+        $(document).ready(index_init);
+    }
 }(jQuery));/* ===========================================================
  * map.js v1
  * Developed at Department of Conservation by Matthew Holloway
