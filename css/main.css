@@ -398,7 +398,7 @@ body.index #wrapper #doc-sign {
   height: 227px;
   margin: 0px auto -227px auto;
 }
-@media (max-width: 600px) {
+@media (max-width: 600px), (max-height: 400px) {
   body.index #wrapper #doc-sign {
     position: relative;
     top: -172px;
