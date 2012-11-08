@@ -73,9 +73,6 @@ label {
 .navbar-fixed-top {
   z-index: 10000;
 }
-.navbar-fixed-top .navbar .nav {
-  margin-right: 0px;
-}
 .navbar-fixed-top .header-sprite {
   display: inline-block;
   background: transparent url('../img/header-icons.png') no-repeat;
@@ -98,6 +95,9 @@ label {
 }
 .navbar-fixed-top .header-share {
   background-position: 0px -150px;
+}
+.navbar .nav {
+  margin: 0px;
 }
 /* Looking for the homepage's bottom navbar? Try index.less */
 .popover.social {
