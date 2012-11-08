@@ -362,9 +362,9 @@ if(!(window.console && console.log)) {
 			if(drag_distanceX === undefined) return;
 			if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
 			if(drag_distanceX > 0) {
-				$carousel.carousel('next');
-			} else {
 				$carousel.carousel('prev');
+			} else {
+				$carousel.carousel('next');
 			}
 			drag_distanceX = undefined;
 		},
@@ -383,12 +383,9 @@ if(!(window.console && console.log)) {
 			adjust_carousel_height();
 			if(Modernizr.touch) {
 				$carousel.find(".carousel-control").hide();
-				//$carousel_items.hammer(hammer_defaults).bind('dragstart', drag_start);
-				//$carousel_items.hammer(hammer_defaults).bind('dragend', drag_end);
 			}
 			$carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
 			$carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
-			
 		}
 	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
         document.addEventListener("deviceready", index_init, false);
