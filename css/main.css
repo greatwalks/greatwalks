@@ -97,7 +97,7 @@ label {
     height: 64px;
   }
 }
-.header-sprite {
+.navbar-fixed-top .header-sprite {
   display: inline-block;
   background: transparent url('../img/header-icons.png') no-repeat;
   text-indent: -10000px;
@@ -105,19 +105,22 @@ label {
   height: 25px;
   background-size: 25px 173px;
 }
-.header-threebar {
+.navbar-fixed-top .header-threebar {
   background-position: 0px 0px;
   padding-right: 80px;
 }
-.header-bookmark {
+.navbar-fixed-top .header-bookmark {
+  /* note: currently unused - may be brought back */
+
   background-position: 0px -50px;
 }
-.header-info {
+.navbar-fixed-top .header-info {
   background-position: 0px -100px;
 }
-.header-share {
+.navbar-fixed-top .header-share {
   background-position: 0px -150px;
 }
+/* Looking for the homepage's bottom navbar? Try index.less */
 .popover.social {
   width: 60px;
   border: 2px solid white;
@@ -309,8 +312,17 @@ label {
   #slideout_navigation ul.menu li a,
   #slideout_navigation ul.walks li a,
   #slideout_navigation ul.maps li a {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  #slideout_navigation ul.menu li {
+    background-position: right 4px;
+  }
+  #slideout_navigation ul.walks li {
+    background-position: right -247px;
+  }
+  #slideout_navigation ul.maps li {
+    background-position: right -47px;
   }
 }
 body.index #wrapper {
@@ -389,6 +401,16 @@ body.index #wrapper #doc-sign {
     width: 299px;
     height: 172px;
     margin: 0px auto -172px auto;
+  }
+}
+@media (max-height: 400px) {
+  body.index #wrapper .navbar-fixed-bottom .navbar-inner {
+    min-height: auto;
+  }
+  body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a {
+    background: transparent;
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
 }
 /* map of new zealand */
