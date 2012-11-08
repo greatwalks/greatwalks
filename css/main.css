@@ -71,6 +71,9 @@ html {
 label {
   cursor: pointer;
 }
+.navbar-fixed-top {
+  z-index: 10000;
+}
 .navbar-fixed-top .header-sprite {
   display: inline-block;
   background: transparent url('../img/header-icons.png') no-repeat;
