@@ -71,32 +71,6 @@ html {
 label {
   cursor: pointer;
 }
-#logo {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  text-indent: -10000px;
-  margin-left: -150px;
-  background-image: url("../img/logo-x300.png");
-  width: 300px;
-  height: 128px;
-}
-@media (max-width: 600px) {
-  #logo {
-    margin-left: -112px;
-    background-image: url("../img/logo-x225.png");
-    width: 225px;
-    height: 96px;
-  }
-}
-@media (max-width: 400px) {
-  #logo {
-    margin-left: -75px;
-    background-image: url("../img/logo-x150.png");
-    width: 150px;
-    height: 64px;
-  }
-}
 .navbar-fixed-top .header-sprite {
   display: inline-block;
   background: transparent url('../img/header-icons.png') no-repeat;
@@ -155,6 +129,33 @@ label {
 }
 .popover.social .popover-content .twitter {
   background-position: 10px -129px;
+}
+#logo {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  text-indent: -10000px;
+  margin-left: -150px;
+  background-image: url("../img/logo-x300.png");
+  width: 300px;
+  height: 128px;
+}
+@media (max-width: 600px) {
+  #logo {
+    margin-left: -112px;
+    background-image: url("../img/logo-x225.png");
+    width: 225px;
+    height: 96px;
+  }
+}
+@media (max-width: 400px), (max-height: 400px) {
+  /* Note: this is an OR http://stackoverflow.com/questions/11404744/media-queries-max-width-or-max-height */
+  #logo {
+    margin-left: -75px;
+    background-image: url("../img/logo-x150.png");
+    width: 150px;
+    height: 64px;
+  }
 }
 .popover {
   z-index: 10000;
@@ -312,8 +313,8 @@ label {
   #slideout_navigation ul.menu li a,
   #slideout_navigation ul.walks li a,
   #slideout_navigation ul.maps li a {
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
   #slideout_navigation ul.menu li {
     background-position: right 4px;
