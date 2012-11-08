@@ -289,6 +289,30 @@ label {
 #slideout_navigation ul.maps li:hover {
   background-color: #528d39;
 }
+@media (max-height: 400px) {
+  #slideout_navigation {
+    font-size: 8px;
+  }
+  #slideout_navigation ul.menu li:first-child label {
+    display: none;
+  }
+  #slideout_navigation ul.menu,
+  #slideout_navigation ul.walks,
+  #slideout_navigation ul.maps {
+    font-size: 10px;
+  }
+  #slideout_navigation ul.menu li,
+  #slideout_navigation ul.walks li,
+  #slideout_navigation ul.maps li {
+    line-height: normal;
+  }
+  #slideout_navigation ul.menu li a,
+  #slideout_navigation ul.walks li a,
+  #slideout_navigation ul.maps li a {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+}
 body.index #wrapper {
   color: #fff;
 }
@@ -357,9 +381,6 @@ body.index #wrapper #doc-sign {
   width: 394px;
   height: 227px;
   margin: 0px auto -227px auto;
-}
-@media (min-width: 640px) {
-  
 }
 @media (max-width: 600px) {
   body.index #wrapper #doc-sign {
