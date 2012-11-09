@@ -516,6 +516,13 @@ body.walks #wrapper #new-zealand-map {
   background: url("../img/new-zealand-map.png");
   background-size: 100%;
 }
+body.maps #wrapper #new-zealand-map h1,
+body.walks #wrapper #new-zealand-map h1 {
+  position: absolute;
+  font-size: 30px;
+  color: #333;
+  font-family: serif;
+}
 body.maps #wrapper #new-zealand-map .map-location,
 body.walks #wrapper #new-zealand-map .map-location {
   position: absolute;
@@ -589,6 +596,9 @@ body.walks #wrapper #new-zealand-map .map-icon-height3 {
     width: 496px;
     height: 697px;
   }
+  body.maps #wrapper #new-zealand-map h1 {
+    font-size: 25px;
+  }
   body.maps #wrapper #new-zealand-map h2.map-location {
     font-size: 11px;
     line-height: 12px;
@@ -629,6 +639,9 @@ body.walks #wrapper #new-zealand-map .map-icon-height3 {
   body.maps #wrapper #new-zealand-map {
     width: 376px;
     height: 528px;
+  }
+  body.maps #wrapper #new-zealand-map h1 {
+    font-size: 20px;
   }
   body.maps #wrapper #new-zealand-map h2.map-location {
     font-size: 9px;
