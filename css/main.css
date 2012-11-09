@@ -70,6 +70,7 @@ html {
 label {
   cursor: pointer;
 }
+/* Looking for the homepage's bottom navbar? Try index.less */
 .navbar-fixed-top {
   z-index: 10000;
 }
@@ -99,7 +100,6 @@ label {
 .navbar .nav {
   margin: 0px;
 }
-/* Looking for the homepage's bottom navbar? Try index.less */
 .popover.social {
   width: 60px;
   border: 2px solid white;
@@ -153,7 +153,7 @@ label {
     height: 96px;
   }
 }
-@media (max-width: 400px), (max-height: 400px) {
+@media (max-width: 400px), (max-height: 300px) {
   /* Note: this is an OR http://stackoverflow.com/questions/11404744/media-queries-max-width-or-max-height */
   #logo {
     margin-left: -75px;
@@ -331,6 +331,66 @@ label {
     background-position: right -47px;
   }
 }
+.text-column1 {
+  width: 70%;
+  max-width: 600px;
+  min-width: 250px;
+  margin: 100px auto 0px auto;
+  color: #333333;
+}
+.text-column1 h1 {
+  color: #ac9420;
+  font-weight: normal;
+  font-family: serif;
+}
+.text-column1 h2 {
+  color: #333333;
+  font-weight: normal;
+  font-family: serif;
+}
+.text-column1 .btn {
+  display: inline-block;
+  padding: 8px;
+  border-radius: 7px;
+  background-color: #15a5de;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-family: serif;
+  font-size: 18px;
+}
+.text-column1 .btn:hover {
+  text-decoration: none;
+  background-color: #3abaec;
+}
+.text-column1 .btn.phone,
+.text-column1 .btn.email,
+.text-column1 .btn.vistorcenter,
+.text-column1 .btn.bookonline {
+  background-image: url("../img/content-buttons.png");
+  background-size: 16px 166px;
+  background-repeat: no-repeat;
+  padding-left: 30px;
+}
+.text-column1 .btn.phone {
+  background-position: 10px -140px;
+}
+.text-column1 .btn.email {
+  background-position: 10px 13px;
+  padding-left: 33px;
+}
+.text-column1 .btn.vistorcenter {
+  background-position: 10px -40px;
+}
+.text-column1 .btn.bookonline {
+  background-position: 10px -90px;
+  padding-left: 33px;
+}
+@media (max-height: 300px) {
+  .text-column1 {
+    margin: 50px auto 0px auto;
+  }
+}
+/* Index page *//* For the index page */
 body.index #wrapper {
   color: #fff;
 }
@@ -422,8 +482,8 @@ body.index #wrapper #doc-sign {
     padding-bottom: 0px;
   }
 }
-/* map of new zealand */
-body.maps #wrapper {
+/* Booking page *//* Map of new zealand */body.maps #wrapper,
+body.walks #wrapper {
   padding-top: 150px;
   background: #79ccec;
   /* Old browsers */
@@ -447,7 +507,8 @@ body.maps #wrapper {
   /* W3C */
 
 }
-body.maps #wrapper #new-zealand-map {
+body.maps #wrapper #new-zealand-map,
+body.walks #wrapper #new-zealand-map {
   position: relative;
   margin: 0px auto;
   width: 752px;
@@ -455,7 +516,8 @@ body.maps #wrapper #new-zealand-map {
   background: url("../img/new-zealand-map.png");
   background-size: 100%;
 }
-body.maps #wrapper #new-zealand-map .map-location {
+body.maps #wrapper #new-zealand-map .map-location,
+body.walks #wrapper #new-zealand-map .map-location {
   position: absolute;
   padding: 0px;
   margin: 0px;
@@ -463,41 +525,51 @@ body.maps #wrapper #new-zealand-map .map-location {
   text-align: center;
   color: black;
 }
-body.maps #wrapper #new-zealand-map h2.map-location {
+body.maps #wrapper #new-zealand-map h2.map-location,
+body.walks #wrapper #new-zealand-map h2.map-location {
   font-size: 13px;
   font-weight: bold;
   text-transform: uppercase;
   line-height: 23px;
 }
-body.maps #wrapper #new-zealand-map a.map-location {
+body.maps #wrapper #new-zealand-map a.map-location,
+body.walks #wrapper #new-zealand-map a.map-location {
   font-size: 18px;
   font-weight: bold;
   text-decoration: none;
 }
-body.maps #wrapper #new-zealand-map a.map-location:hover {
+body.maps #wrapper #new-zealand-map a.map-location:hover,
+body.walks #wrapper #new-zealand-map a.map-location:hover {
   text-decoration: none;
 }
-body.maps #wrapper #new-zealand-map .map-icon-bottom {
+body.maps #wrapper #new-zealand-map .map-icon-bottom,
+body.walks #wrapper #new-zealand-map .map-icon-bottom {
   padding-bottom: 60px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-bottom2 {
+body.maps #wrapper #new-zealand-map .map-icon-bottom2,
+body.walks #wrapper #new-zealand-map .map-icon-bottom2 {
   padding-bottom: 55px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-left {
+body.maps #wrapper #new-zealand-map .map-icon-left,
+body.walks #wrapper #new-zealand-map .map-icon-left {
   padding-left: 60px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-right {
+body.maps #wrapper #new-zealand-map .map-icon-right,
+body.walks #wrapper #new-zealand-map .map-icon-right {
   padding-right: 60px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-height {
+body.maps #wrapper #new-zealand-map .map-icon-height,
+body.walks #wrapper #new-zealand-map .map-icon-height {
   min-height: 50px;
   line-height: 50px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-height2 {
+body.maps #wrapper #new-zealand-map .map-icon-height2,
+body.walks #wrapper #new-zealand-map .map-icon-height2 {
   min-height: 40px;
   line-height: 70px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-height3 {
+body.maps #wrapper #new-zealand-map .map-icon-height3,
+body.walks #wrapper #new-zealand-map .map-icon-height3 {
   min-height: 50px;
   line-height: normal;
 }
@@ -583,8 +655,7 @@ body.maps #wrapper #new-zealand-map .map-icon-height3 {
     line-height: normal;
   }
 }
-/* an individual map walk */
-body.map #wrapper {
+/* An individual map */body.map #wrapper {
   background: url("../img/table.png");
 }
 body.map #weta {
