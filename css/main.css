@@ -532,6 +532,14 @@ body.walks #wrapper #new-zealand-map h2.map-location {
   text-transform: uppercase;
   line-height: 23px;
 }
+body.maps #wrapper #new-zealand-map h2.map-location a.secret-link,
+body.walks #wrapper #new-zealand-map h2.map-location a.secret-link {
+  color: black;
+}
+body.maps #wrapper #new-zealand-map h2.map-location a.secret-link:hover,
+body.walks #wrapper #new-zealand-map h2.map-location a.secret-link:hover {
+  text-decoration: none;
+}
 body.maps #wrapper #new-zealand-map a.map-location,
 body.walks #wrapper #new-zealand-map a.map-location {
   font-size: 18px;
