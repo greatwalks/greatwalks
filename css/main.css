@@ -770,64 +770,92 @@ body.map .location-icon {
   height: 40px;
   background-image: url(../img/missing-icon.png);
   background-size: 100%;
+  border: solid 3px red;
 }
 @media (min-width: 600px) {
   body.map .location-icon {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     background-size: 100%;
   }
 }
 body.map .location-animal {
-  background-image: url(../img/icon-animal_species.png);
+  background-image: url(../img/icon-bird-or-animal-species.png);
+  border: none;
+}
+body.map .location-alert {
+  background-image: url(../img/icon-alert.png);
+  border: none;
 }
 body.map .location-attention {
   background-image: url(../img/icon-attention.png);
+  border: none;
 }
 body.map .location-carpark {
   background-image: url(../img/icon-carpark.png);
+  border: none;
 }
-body.map .location-hot_springs {
-  background-image: url(../img/icon-hot_springs.png);
+body.map .location-camphut {
+  background-image: url(../img/icon-camp_hut.png);
+  border: none;
+}
+body.map .location-camping {
+  background-image: url(../img/icon-camping.png);
+  border: none;
+}
+body.map .location-hot_springs,
+body.map .location-hotsprings {
+  background-image: url(../img/icon-hotsprings.png);
+  border: none;
 }
 body.map .location-isite,
 body.map .location-VisitorCentre {
-  background-image: url(../img/icon-isite.png);
+  background-image: url(../img/icon-information.png);
+  border: none;
 }
-body.map .location-lodging,
-body.map .location-Hut {
-  background-image: url(../img/icon-lodging.png);
+body.map .location-hut,
+body.map .location-Hut,
+body.map .location-Huts,
+body.map .location-huts,
+body.map .location-shelter,
+body.map .location-Shelter {
+  background-image: url(../img/icon-huts.png);
+  border: none;
 }
 body.map .location-plane {
   background-image: url(../img/icon-plane.png);
+  border: none;
 }
 body.map .location-plant_species {
-  background-image: url(../img/icon-plant_species.png);
-}
-body.map .location-shelter,
-body.map .location-Shelter {
-  background-image: url(../img/icon-shelter.png);
+  background-image: url(../img/icon-plantspecies.png);
+  border: none;
 }
 body.map .location-tent,
 body.map .location-Camping,
 body.map .location-Campsite {
-  background-image: url(../img/icon-tent.png);
+  background-image: url(../img/icon-camping.png);
+  border: none;
 }
 body.map .location-toilets {
   background-image: url(../img/icon-toilets.png);
+  border: none;
 }
 body.map .location-trailhead {
   background-image: url(../img/icon-trailhead.png);
+  border: none;
 }
 body.map .location-viewpoints,
 body.map .location-Feature {
   background-image: url(../img/icon-viewpoints.png);
+  border: none;
 }
 body.map .location-volcano {
   background-image: url(../img/icon-volcano.png);
+  border: none;
 }
 body.map .location-waterfall {
   background-image: url(../img/icon-waterfall.png);
+  border: none;
 }
 /* ==========================================================================
    Helper classes
