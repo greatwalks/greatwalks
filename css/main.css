@@ -676,6 +676,50 @@ body.walks #wrapper #new-zealand-map .map-icon-height3 {
     line-height: normal;
   }
 }
+@media (max-width: 450px) {
+  body.maps #wrapper {
+    padding-top: 80px;
+  }
+  body.maps #wrapper #new-zealand-map {
+    width: 376px;
+    height: 528px;
+  }
+  body.maps #wrapper #new-zealand-map h1 {
+    font-size: 20px;
+  }
+  body.maps #wrapper #new-zealand-map h2.map-location {
+    font-size: 9px;
+    line-height: 12px;
+    font-weight: normal;
+  }
+  body.maps #wrapper #new-zealand-map a.map-location {
+    font-size: 13px;
+  }
+  body.maps #wrapper #new-zealand-map .map-icon-bottom {
+    padding-bottom: 30px;
+  }
+  body.maps #wrapper #new-zealand-map .map-icon-bottom2 {
+    padding-bottom: 27px;
+  }
+  body.maps #wrapper #new-zealand-map .map-icon-left {
+    padding-left: 30px;
+  }
+  body.maps #wrapper #new-zealand-map .map-icon-right {
+    padding-right: 30px;
+  }
+  body.maps #wrapper #new-zealand-map .map-icon-height {
+    min-height: 25px;
+    line-height: 25px;
+  }
+  body.maps #wrapper #new-zealand-map .map-icon-height2 {
+    min-height: 20px;
+    line-height: 40px;
+  }
+  body.maps #wrapper #new-zealand-map .map-icon-height3 {
+    min-height: 25px;
+    line-height: normal;
+  }
+}
 /* An individual map */body.map #wrapper {
   background: url("../img/table.png");
 }
