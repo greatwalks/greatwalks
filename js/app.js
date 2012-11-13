@@ -399,7 +399,7 @@ if(!(window.console && console.log)) {
     }
 }(jQuery));
 
-/*globals map_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr*/
+/*globals map_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
 /* ===========================================================
  * map.js v1
  * Developed at Department of Conservation by Matthew Holloway
@@ -648,11 +648,11 @@ if(!(window.console && console.log)) {
                     redraw();
                     width = newWidth;
 
-                    return height = newHeight;/*IGNORE JSLINT COMPLAINT*/
+                    return height = newHeight;/*IGNORE JSLINT COMPLAINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
                 });
 
                 hammer.bind('transformend', function(event) {
-                    return prevScale = scale;/*IGNORE JSLINT COMPLAINT*/
+                    return prevScale = scale;/*IGNORE JSLINT COMPLAINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
                 });
             },
             centerMap = function(x, y){
@@ -704,9 +704,9 @@ if(!(window.console && console.log)) {
                         if(last_known_position !== undefined) {
                             last_known_position = JSON.parse(last_known_position);
                             if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
-                                addPhotoToMap(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude);
+                                add_photo_to_map(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude);
                             } else {
-                                addPhotoToMap(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude);
+                                add_photo_to_map(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude);
                             }
                         }
                     },
@@ -715,7 +715,7 @@ if(!(window.console && console.log)) {
                     },
                     no_camera_available_fadeOut = function(){
                         $no_camera_available.fadeOut();
-                    }
+                    };
 
                 if(navigator.camera) {
                     if($user_actions_panel.hasClass("hidden")){
@@ -785,7 +785,7 @@ if(!(window.console && console.log)) {
     }
 }(jQuery));/*
  * Handles the navbars (including the bottom one, if it's there)
- */ 
+ */
 (function($){
 	"use strict";
 	var navbar_init = function(){
@@ -822,130 +822,156 @@ if(!(window.console && console.log)) {
 			}
 			
 			
-		})
-	}
+		});
+	};
 
 	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
         document.addEventListener("deviceready", navbar_init, false);
     } else {
         $(document).ready(navbar_init);
     }
-}(jQuery));(function($){
-	"use strict";
-
-	var going_online = function(){
-		$("#share-social").show();
-	},
-	going_offline = function(){
-		$("#share-social").hide();
-	}
-
-	document.addEventListener("online", going_online, false);
-	document.addEventListener("offline", going_offline, false);
-}(jQuery));/*
- * 
- */ 
+}(jQuery));/*globals Connection */
+/*
+ * Responsible for making changes to pages based on whether the device is online or offline
+ */
 (function($){
-	"use strict";
-	// Wrapper for Bootstrap's PopOver
-	// http://twitter.github.com/bootstrap/javascript.html#popovers
-	// This wrapper ensures that all other popovers are closed when
-	// a new one opens, and that they can be closed by clicking on
-	// the body tag and so on.
+    "use strict";
+    var going_online_offline_init = function(){
+            document.addEventListener("online", going_online, false);
+            document.addEventListener("offline", going_offline, false);
+            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
+                going_offline();
+            } else {
+                going_online();
+            }
+        },
+       going_online = function(){
+            $("#share-social").show();
+            $(".youtube").each(function(){
+                var $this = $(this),
+                    youtube_id = $this.data("youtube-id");
+                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
+                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
+            });
+        },
+       going_offline = function(){
+            $("#share-social").hide();
+            $(".youtube").each(function(){
+                var $this = $(this);
+                $this.empty();
+            });
+        };
 
-	var existing_popovers = [],
-		hammer_defaults = {
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+        document.addEventListener("deviceready", going_online_offline_init, false);
+    } else {
+        $(document).ready(going_online_offline_init);
+    }
+}(jQuery));/*
+ * Wrapper for Bootstrap's PopOver
+ * http://twitter.github.com/bootstrap/javascript.html#popovers
+ * This wrapper ensures that all other popovers are closed when
+ * a new one opens, and that they can be closed by clicking on
+ * the body tag and so on.
+ * NOTE: there's a popular plugin called BootstrapX that claims
+ * to do the same but it was very buggy on touch devices.
+ */
+(function($){
+    "use strict";
+
+    var existing_popovers = [],
+        hammer_defaults = {
             prevent_default: true,
             scale_treshold: 0,
             drag_min_distance: 0
-		},
-		popover_init = function(event){
-			$("body,#wrapper,#map").click(function(event){
-				if($(event.target).is(this)) { //if we reached this event directly without bubbling...
-					window.hide_all_popovers_no_bubbling(event);
-				}
-			});
-		},
-		get_distance = function(latitude, longitude){
-			var last_known_position = localStorage["geolocation-last-known-position"],
-				current_time_in_epoch_milliseconds = (new Date).getTime(),
-				distance_away_in_kilometers;
-		    if(last_known_position !== undefined) {
-				last_known_position = JSON.parse(last_known_position);
-				if(last_known_position.timestamp > current_time_in_epoch_milliseconds - window.position_expires_after_milliseconds) {
-					distance_away_in_kilometers = window.difference_between_positions_in_kilometers(last_known_position.coords.latitude, last_known_position.coords.longitude, latitude, longitude);
-					return '<b class="distance_away">Distance: ' + window.format_distance(distance_away_in_kilometers) + '</b>';
-				}
-			}
-			return "";
-		}
+        },
+        popover_init = function(event){
+            $("body,#wrapper,#map").click(function(event){
+                if($(event.target).is(this)) { //if we reached this event directly without bubbling...
+                    window.hide_all_popovers_no_bubbling(event);
+                }
+            });
+        },
+        get_distance = function(latitude, longitude){
+            var last_known_position = localStorage["geolocation-last-known-position"],
+                current_time_in_epoch_milliseconds = (new Date()).getTime(),
+                distance_away_in_kilometers;
+            if(last_known_position !== undefined) {
+                last_known_position = JSON.parse(last_known_position);
+                if(last_known_position.timestamp > current_time_in_epoch_milliseconds - window.position_expires_after_milliseconds) {
+                    distance_away_in_kilometers = window.difference_between_positions_in_kilometers(last_known_position.coords.latitude, last_known_position.coords.longitude, latitude, longitude);
+                    return '<b class="distance_away">Distance: ' + window.format_distance(distance_away_in_kilometers) + '</b>';
+                }
+            }
+            return "";
+        };
 
-	window.hide_all_popovers = function(event, except_this_one){
-		var $popover;
-		while(existing_popovers.length){
-			$popover = existing_popovers.pop();
-			if(!except_this_one || !$popover.is(except_this_one)) {
-				$popover.popover('hide');
-			}
-		}
-	}
+    window.hide_all_popovers = function(event, except_this_one){
+        var $popover;
+        while(existing_popovers.length){
+            $popover = existing_popovers.pop();
+            if(!except_this_one || !$popover.is(except_this_one)) {
+                $popover.popover('hide');
+            }
+        }
+    };
 
-	window.hide_all_popovers_no_bubbling = function(event, except_this_one){
-		window.hide_all_popovers(event, except_this_one)
-		event.preventDefault();
-		event.stopPropagation();
-		if(event.originalEvent) {
-			event.originalEvent.stopPropagation();
-		}
-	}
+    window.hide_all_popovers_no_bubbling = function(event, except_this_one){
+        window.hide_all_popovers(event, except_this_one);
+        event.preventDefault();
+        event.stopPropagation();
+        if(event.originalEvent) {
+            event.originalEvent.stopPropagation();
+        }
+    };
 
-	window.hide_popover = function(event){
-		$(this).popover('hide');
-	}
+    window.hide_popover = function(event){
+        $(this).popover('hide');
+    };
 
-	window.toggle_popover = function(event){
-		var	$this = $(this),
-			content_template = $this.data("content-template"),
-			popover_class = $this.data("popover-class"),
-			options = {html: true, trigger: "manual"},
-			old_options;
-		hide_all_popovers(event, $this);
-		if(popover_class) {
-			options.template = '<div class="popover ' + popover_class + '"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>';
-		}
-		if(content_template !== undefined) { //if there is a template then there is dynamic content. bootstrap popovers cache content so we need to destroy the content and then rebuild it
-			options.content = content_template.replace(/\[DISTANCE\]/g,
-				get_distance($this.data("latitude"), $this.data("longitude")));
-			old_options = $this.data('popover');
-			if(old_options) {
-				old_options.options.content = options.content;
-				$this.data('popover', old_options);
-			}
-		}
-		$this.popover(options).popover('toggle');
-		existing_popovers.push($this);
-		if(event.originalEvent) {
-			event.originalEvent.stopPropagation();
-		}
-		return false;
-	}
+    window.toggle_popover = function(event){
+        var $this = $(this),
+            content_template = $this.data("content-template"),
+            popover_class = $this.data("popover-class"),
+            options = {html: true, trigger: "manual"},
+            old_options;
+        window.hide_all_popovers(event, $this);
+        if(popover_class) {
+            options.template = '<div class="popover ' + popover_class + '"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>';
+        }
+        if(content_template !== undefined) { //if there is a template then there is dynamic content. bootstrap popovers cache content so we need to destroy the content and then rebuild it
+            options.content = content_template.replace(/\[DISTANCE\]/g,
+                get_distance($this.data("latitude"), $this.data("longitude")));
+            old_options = $this.data('popover');
+            if(old_options) {
+                old_options.options.content = options.content;
+                $this.data('popover', old_options);
+            }
+        }
+        $this.popover(options).popover('toggle');
+        existing_popovers.push($this);
+        if(event.originalEvent) {
+            event.originalEvent.stopPropagation();
+        }
+        return false;
+    };
 
-	window.show_popover = function(event, override_content){
-		var	$this = $(this),
-			options = {html: true};
-		hide_all_popovers(event, $this);
-		if(override_content !== undefined) {
-			options.content = override_content;
-		}
-		$this.popover(options).popover('show')
-		existing_popovers.push($this);
-		event.stopPropagation();
-		if(event.originalEvent) {
-			event.originalEvent.stopPropagation();
-		}
-	}
+    window.show_popover = function(event, override_content){
+        var $this = $(this),
+            options = {html: true};
+        window.hide_all_popovers(event, $this);
+        if(override_content !== undefined) {
+            options.content = override_content;
+        }
+        $this.popover(options).popover('show');
+        existing_popovers.push($this);
+        event.stopPropagation();
+        if(event.originalEvent) {
+            event.originalEvent.stopPropagation();
+        }
+    };
 
-	if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
         document.addEventListener("deviceready", popover_init, false);
     } else {
         $(document).ready(popover_init);
