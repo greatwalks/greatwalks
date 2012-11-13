@@ -841,7 +841,7 @@ if(!(window.console && console.log)) {
             document.addEventListener("offline", going_offline, false);
             if(navigator.network && navigator.network.connection.type === Connection.NONE) {
                 going_offline();
-            } else {
+            } else { //either we're online or the browser can't tell us if it's online, so assume online
                 going_online();
             }
         },
