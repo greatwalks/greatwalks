@@ -1069,6 +1069,14 @@ body.map .location-hotsprings {
   background-image: url(../img/icon-hotsprings.png);
   border: none;
 }
+body.map .location-swimming {
+  background-image: url(../img/icon-swimming.png);
+  border: none;
+}
+body.map .location-side-trip {
+  background-image: url(../img/icon-side_trail.png);
+  border: none;
+}
 body.map .location-isite,
 body.map .location-VisitorCentre {
   background-image: url(../img/icon-information.png);
