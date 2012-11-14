@@ -404,9 +404,32 @@ label {
 .walk .text-column1 h1 {
   background-repeat: no-repeat;
   background-size: 63px 91px;
-  padding-left: 70px;
+  padding-top: 10px;
+  padding-left: 80px;
   min-height: 91px;
   text-transform: uppercase;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.walk .text-column1.tongariro-northern-circuit h1,
+.walk .text-column1.abel-tasman-coast-track h1 {
+  font-size: 27px;
+}
+.walk .text-column1.rakiura-track---stewart-island h1 {
+  font-size: 26px;
+}
+.walk .text-column1 .info {
+  padding-left: 80px;
+  margin-top: -55px;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+.walk .text-column1 .info span {
+  display: inline-block;
+}
+.walk .text-column1 .info span.duration {
+  margin-left: 50px;
 }
 .walk .text-column1 .youtube {
   text-align: center;
@@ -914,6 +937,9 @@ body.map #weta:active,
 body.map #weta.active {
   background-image: url(../img/weta_twitch.png);
 }
+body.map #map {
+  border: solid 8px #201e1e;
+}
 body.map #youarehere {
   display: none;
   position: absolute;
@@ -1012,7 +1038,8 @@ body.map .location-icon {
     background-size: 100%;
   }
 }
-body.map .location-animal {
+body.map .location-animal,
+body.map .location-birdwatching {
   background-image: url(../img/icon-bird-or-animal-species.png);
   border: none;
 }
@@ -1020,7 +1047,8 @@ body.map .location-alert {
   background-image: url(../img/icon-alert.png);
   border: none;
 }
-body.map .location-attention {
+body.map .location-attention,
+body.map .location-generic-poi {
   background-image: url(../img/icon-attention.png);
   border: none;
 }
@@ -1078,6 +1106,10 @@ body.map .location-trailhead {
   border: none;
 }
 body.map .location-viewpoints,
+body.map .location-generic-poi,
+body.map .location-scenic-lookout,
+body.map .location-historic-site,
+body.map .location-lake,
 body.map .location-Feature {
   background-image: url(../img/icon-viewpoints.png);
   border: none;
