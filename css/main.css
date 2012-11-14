@@ -414,27 +414,182 @@ label {
   color: white;
   background: red;
   padding: 0.4em 0.5em;
+  font-size: 25px;
+}
+.walk .text-column1 .walk-detail-header span {
+  display: block;
+  background-image: url("../img/walk-icons.png");
+  background-position: right -90px;
+  background-repeat: no-repeat;
+  background-size: 35px 118px;
+}
+.walk .text-column1 .walk-detail-header.open span {
+  display: block;
+  background-image: url("../img/walk-icons.png");
+  background-repeat: no-repeat;
+  background-position: right -41px;
+  background-size: 35px 118px;
 }
 .walk .text-column1 .walk-detail-header.dont-miss {
   background: #ec9103;
+  padding-left: 50px;
+  background: #a96a00;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(left, #a96a00 0%, #f0b14a 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #a96a00), color-stop(100%, #f0b14a));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #a96a00 0%, #f0b14a 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #a96a00 0%, #f0b14a 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #a96a00 0%, #f0b14a 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #a96a00 0%, #f0b14a 100%);
+  /* W3C */
+
+}
+.walk .text-column1 .walk-detail-header.dont-miss:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  margin-top: -0.3em;
+  margin-left: -50px;
+  border-top: 1.1em solid transparent;
+  border-left: 1em solid #e5dfbd;
+  border-bottom: 1.1em solid transparent;
 }
 .walk .text-column1 .walk-detail-header.offers {
   background: #60a443;
+  background: #44762f;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(left, #44762f 0%, #8abe74 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #44762f), color-stop(100%, #8abe74));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #44762f 0%, #8abe74 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #44762f 0%, #8abe74 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #44762f 0%, #8abe74 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #44762f 0%, #8abe74 100%);
+  /* W3C */
+
 }
 .walk .text-column1 .walk-detail-header.before-you-go {
   background: #999966;
+  background: #706d4c;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(left, #706d4c 0%, #b4b48e 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #706d4c), color-stop(100%, #b4b48e));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #706d4c 0%, #b4b48e 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #706d4c 0%, #b4b48e 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #706d4c 0%, #b4b48e 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #706d4c 0%, #b4b48e 100%);
+  /* W3C */
+
 }
 .walk .text-column1 .walk-detail-header.getting-there {
   background: #ccb200;
+  background: #938000;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(left, #938000 0%, #dac746 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #938000), color-stop(100%, #dac746));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #938000 0%, #dac746 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #938000 0%, #dac746 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #938000 0%, #dac746 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #938000 0%, #dac746 100%);
+  /* W3C */
+
 }
 .walk .text-column1 .walk-detail-header.where-to-stay {
   background: #3b93c5;
+  background: #2a6a8e;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(left, #2a6a8e 0%, #71b1d5 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #2a6a8e), color-stop(100%, #71b1d5));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #2a6a8e 0%, #71b1d5 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #2a6a8e 0%, #71b1d5 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #2a6a8e 0%, #71b1d5 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #2a6a8e 0%, #71b1d5 100%);
+  /* W3C */
+
 }
 .walk .text-column1 .walk-detail-header.on-the-track {
   background: #026a5a;
+  background: #004c3f;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(left, #004c3f 0%, #479387 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #004c3f), color-stop(100%, #479387));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(left, #004c3f 0%, #479387 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(left, #004c3f 0%, #479387 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(left, #004c3f 0%, #479387 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to right, #004c3f 0%, #479387 100%);
+  /* W3C */
+
 }
 .walk .text-column1 .walk-detail {
   display: none;
+  background: white;
+  padding: 0.5em 1em;
 }
 .walk .text-column1.lake-waikaremoana h1 {
   background-image: url("../img/walks/lake-waikaremoana/national.gif");
