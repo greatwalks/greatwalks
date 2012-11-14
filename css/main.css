@@ -1047,8 +1047,7 @@ body.map .location-alert {
   background-image: url(../img/icon-alert.png);
   border: none;
 }
-body.map .location-attention,
-body.map .location-generic-poi {
+body.map .location-attention {
   background-image: url(../img/icon-attention.png);
   border: none;
 }
@@ -1117,9 +1116,14 @@ body.map .location-viewpoints,
 body.map .location-generic-poi,
 body.map .location-scenic-lookout,
 body.map .location-historic-site,
+body.map .location-historical-site,
 body.map .location-lake,
 body.map .location-Feature {
   background-image: url(../img/icon-viewpoints.png);
+  border: none;
+}
+body.map .location-lake-river-stream-beach {
+  background-image: url(../img/icon-generic_nature.png);
   border: none;
 }
 body.map .location-volcano {
