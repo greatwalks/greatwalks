@@ -395,6 +395,7 @@ label {
 }
 .below-fold {
   background: #e5dfbd;
+  padding-bottom: 50px;
 }
 .below-fold .text-column1 {
   margin-top: 20px;
@@ -414,7 +415,11 @@ label {
   color: white;
   background: red;
   padding: 0.4em 0.5em;
+  margin-bottom: 10px;
   font-size: 25px;
+  -moz-box-shadow: 3px 3px 10px #8d8874;
+  -webkit-box-shadow: 3px 3px 10px #8d8874;
+  box-shadow: 3px 3px 10px #8d8874;
 }
 .walk .text-column1 .walk-detail-header span {
   display: block;
@@ -432,7 +437,7 @@ label {
 }
 .walk .text-column1 .walk-detail-header.dont-miss {
   background: #ec9103;
-  padding-left: 50px;
+  padding-left: 40px;
   background: #a96a00;
   /* Old browsers */
 
@@ -460,11 +465,11 @@ label {
   position: absolute;
   width: 0;
   height: 0;
-  margin-top: -0.3em;
-  margin-left: -50px;
-  border-top: 1.1em solid transparent;
-  border-left: 1em solid #e5dfbd;
-  border-bottom: 1.1em solid transparent;
+  margin-top: -0.7em;
+  margin-left: -60px;
+  border-top: 1.5em solid transparent;
+  border-left: 1.5em solid #e5dfbd;
+  border-bottom: 1.5em solid transparent;
 }
 .walk .text-column1 .walk-detail-header.offers {
   background: #60a443;
@@ -590,6 +595,10 @@ label {
   display: none;
   background: white;
   padding: 0.5em 1em;
+  margin-top: -10px;
+  -moz-box-shadow: 3px 3px 10px #8d8874;
+  -webkit-box-shadow: 3px 3px 10px #8d8874;
+  box-shadow: 3px 3px 10px #8d8874;
 }
 .walk .text-column1.lake-waikaremoana h1 {
   background-image: url("../img/walks/lake-waikaremoana/national.gif");
