@@ -1059,6 +1059,7 @@ body.map .location-camphut {
   background-image: url(../img/icon-camp_hut.png);
   border: none;
 }
+body.map .location-campsite,
 body.map .location-camping {
   background-image: url(../img/icon-camping.png);
   border: none;
@@ -1077,6 +1078,7 @@ body.map .location-side-trip {
   border: none;
 }
 body.map .location-isite,
+body.map .location-visitorcentre,
 body.map .location-VisitorCentre {
   background-image: url(../img/icon-information.png);
   border: none;
@@ -1084,10 +1086,13 @@ body.map .location-VisitorCentre {
 body.map .location-hut,
 body.map .location-Hut,
 body.map .location-Huts,
-body.map .location-huts,
+body.map .location-huts {
+  background-image: url(../img/icon-huts.png);
+  border: none;
+}
 body.map .location-shelter,
 body.map .location-Shelter {
-  background-image: url(../img/icon-huts.png);
+  background-image: url(../img/icon-shelter.png);
   border: none;
 }
 body.map .location-plane {
@@ -1123,7 +1128,8 @@ body.map .location-Feature {
   background-image: url(../img/icon-viewpoints.png);
   border: none;
 }
-body.map .location-lake-river-stream-beach {
+body.map .location-lake-river-stream-beach,
+body.map .location-natural-feature {
   background-image: url(../img/icon-generic_nature.png);
   border: none;
 }
