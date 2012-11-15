@@ -1118,6 +1118,7 @@ body.map .location-scenic-lookout,
 body.map .location-historic-site,
 body.map .location-historical-site,
 body.map .location-lake,
+body.map .location-feature,
 body.map .location-Feature {
   background-image: url(../img/icon-viewpoints.png);
   border: none;
