@@ -430,7 +430,6 @@ if(!(window.console && console.log)) {
                 // between two points.
                 // however if lat3/lon3 are given then this function finds out the distance between
                 // a point and the closest side of a square (e.g. a map graphic).
-                // courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
                 if(lat1 < lat3) {
                     lat2 = lat3;
                 }
@@ -438,6 +437,7 @@ if(!(window.console && console.log)) {
                     lon2 = lon3;
                 }
             }
+            // courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
             var R = 6371; // adverage radius of the earth in km
             var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
             var dLon = degrees_to_radians(lon2-lon1);
@@ -698,8 +698,8 @@ if(!(window.console && console.log)) {
                         $("#map").append( $("<a/>").addClass("location location-icon location-Campsite").data("content", "<img src='" + imageURI + "'>").click(window.toggle_popover));
                     },
                     camera_success = function(imageURI) {
-                        var $camera = $("#camera");
-                        $camera.attr("src", imageURI);
+                        var $photo_preview = $("#photo-preview");
+                        $photo_preview.attr("src", imageURI);
                         last_known_position = localStorage["geolocation-last-known-position"];
                         if(last_known_position !== undefined) {
                             last_known_position = JSON.parse(last_known_position);
@@ -717,7 +717,7 @@ if(!(window.console && console.log)) {
                         $no_camera_available.fadeOut();
                     };
 
-                if(navigator.camera) {
+                if(!navigator.camera) {
                     if($user_actions_panel.hasClass("hidden")){
                         $user_actions_panel.removeClass("hidden");
                         navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
