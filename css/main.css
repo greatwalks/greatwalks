@@ -168,15 +168,26 @@ label {
 .popover .popover-title {
   display: none;
 }
-.popover .popover-content div {
+.popover .popover-content div,
+.popover .popover-content p {
+  font-family: sans-serif;
   font-weight: normal;
-  font-size: small;
+  font-size: 12px;
+}
+.popover .popover-content b.distance_away {
+  font-size: 12px;
+  display: block;
+  text-transform: uppercase;
+}
+.popover .popover-content b.distance_away.with-description {
+  margin-bottom: 0.3em;
 }
 .popover .popover-content h3 {
-  margin: 0px;
+  margin: 0px 0px 4px 0px;
   padding: 0px;
   font-family: serif;
-  line-height: 80%;
+  line-height: 90%;
+  font-size: 17px;
 }
 .navbar {
   transition: 0.2s ease-in;

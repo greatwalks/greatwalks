@@ -421,7 +421,7 @@ if(!(window.console && console.log)) {
             one_hour_in_milliseconds = 60 * 60 * 1000;
 
         window.format_distance = function(kilometres){
-             return (Math.round(kilometres * 100) / 100) + "km/ " + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
+             return (Math.round(kilometres * 100) / 100) + "km / " + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
         };
 
         window.difference_between_positions_in_kilometers = function(lat1, lon1, lat2, lon2, lat3, lon3){
@@ -892,15 +892,17 @@ if(!(window.console && console.log)) {
                 }
             });
         },
-        get_distance = function(latitude, longitude){
+        get_distance = function(latitude, longitude, include_description){
             var last_known_position = localStorage["geolocation-last-known-position"],
                 current_time_in_epoch_milliseconds = (new Date()).getTime(),
-                distance_away_in_kilometers;
+                distance_away_in_kilometers,
+                description_class = include_description ? "with-description" : "";
+
             if(last_known_position !== undefined) {
                 last_known_position = JSON.parse(last_known_position);
                 if(last_known_position.timestamp > current_time_in_epoch_milliseconds - window.position_expires_after_milliseconds) {
                     distance_away_in_kilometers = window.difference_between_positions_in_kilometers(last_known_position.coords.latitude, last_known_position.coords.longitude, latitude, longitude);
-                    return '<b class="distance_away">Distance: ' + window.format_distance(distance_away_in_kilometers) + '</b>';
+                    return '<b class="distance_away ' + description_class + '">Distance: ' + window.format_distance(distance_away_in_kilometers) + '</b>';
                 }
             }
             return "";
@@ -933,15 +935,18 @@ if(!(window.console && console.log)) {
         var $this = $(this),
             content_template = $this.data("content-template"),
             popover_class = $this.data("popover-class"),
-            options = {html: true, trigger: "manual"},
-            old_options;
+            options = {html: true, trigger: "manual", "placement": "top"},
+            distance_placeholder = "[DISTANCE]",
+            old_options,
+            includes_description = false;
         window.hide_all_popovers(event, $this);
         if(popover_class) {
             options.template = '<div class="popover ' + popover_class + '"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>';
         }
         if(content_template !== undefined) { //if there is a template then there is dynamic content. bootstrap popovers cache content so we need to destroy the content and then rebuild it
-            options.content = content_template.replace(/\[DISTANCE\]/g,
-                get_distance($this.data("latitude"), $this.data("longitude")));
+            includes_description = (content_template.indexOf(distance_placeholder) + distance_placeholder.length + 5) < content_template.length;
+            options.content = content_template.replace(distance_placeholder,
+                get_distance($this.data("latitude"), $this.data("longitude"), includes_description));
             old_options = $this.data('popover');
             if(old_options) {
                 old_options.options.content = options.content;
