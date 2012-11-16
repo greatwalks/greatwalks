@@ -430,7 +430,6 @@ if(!(window.console && console.log)) {
                 // between two points.
                 // however if lat3/lon3 are given then this function finds out the distance between
                 // a point and the closest side of a square (e.g. a map graphic).
-                // courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
                 if(lat1 < lat3) {
                     lat2 = lat3;
                 }
@@ -438,6 +437,7 @@ if(!(window.console && console.log)) {
                     lon2 = lon3;
                 }
             }
+            // courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
             var R = 6371; // adverage radius of the earth in km
             var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
             var dLon = degrees_to_radians(lon2-lon1);
@@ -690,16 +690,14 @@ if(!(window.console && console.log)) {
                 drag_offset.base_x = x;
                 drag_offset.base_y = y;
             },
-            no_camera_available_timer,
-            toggle_user_actions_panel = function(event){
-                var $user_actions_panel = $("#user_actions"),
-                    $no_camera_available = $("#no_camera_available"),
-                    add_photo_to_map = function(imageURI, latitude, longitude){
-                        $("#map").append( $("<a/>").addClass("location location-icon location-Campsite").data("content", "<img src='" + imageURI + "'>").click(window.toggle_popover));
+            current_time_in_epoch_milliseconds,
+            take_photo = function(){
+                var add_photo_to_map = function(imageURI, latitude, longitude){
+                    $("#map").append( $("<a/>").addClass("location location-icon location-Campsite").data("content", "<img src='" + imageURI + "'>").click(window.toggle_popover));
                     },
                     camera_success = function(imageURI) {
-                        var $camera = $("#camera");
-                        $camera.attr("src", imageURI);
+                        var $photo_preview = $("#photo-preview");
+                        $photo_preview.attr("src", imageURI);
                         last_known_position = localStorage["geolocation-last-known-position"];
                         if(last_known_position !== undefined) {
                             last_known_position = JSON.parse(last_known_position);
@@ -712,15 +710,20 @@ if(!(window.console && console.log)) {
                     },
                     camera_fail = function onFail(message) {
                         alert('Failed because: ' + message);
-                    },
+                    };
+                navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+            },
+            user_actions_panel_toggle = function(event){
+                var $user_actions_panel = $("#user_actions"),
+                    $no_camera_available = $("#no_camera_available"),
+                    no_camera_available_timer,
                     no_camera_available_fadeOut = function(){
                         $no_camera_available.fadeOut();
                     };
 
-                if(navigator.camera) {
+                if(!navigator.camera) {
                     if($user_actions_panel.hasClass("hidden")){
                         $user_actions_panel.removeClass("hidden");
-                        navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
                     } else {
                         $user_actions_panel.addClass("hidden");
                     }
@@ -733,7 +736,6 @@ if(!(window.console && console.log)) {
                     }).click(no_camera_available_fadeOut);
                 }
             },
-            current_time_in_epoch_milliseconds,
             $locations = $(".location"),
             geolocationWatchId,
             youarehere_hammer,

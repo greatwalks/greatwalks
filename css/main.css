@@ -359,7 +359,7 @@ label {
   font-weight: normal;
   font-family: serif;
 }
-.text-column1 .btn {
+.btn {
   display: inline-block;
   padding: 8px;
   border-radius: 7px;
@@ -369,30 +369,31 @@ label {
   font-family: serif;
   font-size: 18px;
 }
-.text-column1 .btn:hover {
+.btn:hover {
   text-decoration: none;
   background-color: #3abaec;
+  color: white;
 }
-.text-column1 .btn.phone,
-.text-column1 .btn.email,
-.text-column1 .btn.vistorcenter,
-.text-column1 .btn.bookonline {
+.btn.phone,
+.btn.email,
+.btn.vistorcenter,
+.btn.bookonline {
   background-image: url("../img/content-buttons.png");
   background-size: 16px 166px;
   background-repeat: no-repeat;
   padding-left: 30px;
 }
-.text-column1 .btn.phone {
+.btn.phone {
   background-position: 10px -140px;
 }
-.text-column1 .btn.email {
+.btn.email {
   background-position: 10px 13px;
   padding-left: 33px;
 }
-.text-column1 .btn.vistorcenter {
+.btn.vistorcenter {
   background-position: 10px -40px;
 }
-.text-column1 .btn.bookonline {
+.btn.bookonline {
   background-position: 10px -90px;
   padding-left: 33px;
 }
@@ -1028,13 +1029,17 @@ body.map #user_actions {
   width: 300px;
   min-width: 200px;
   max-width: 600px;
-  background: #666666;
+  background: rgba(100, 100, 100, 0.7);
   border: solid 2px #aaaaaa;
   color: #fff;
   border-radius: 5px;
   padding: 3px 8px;
+  text-align: center;
 }
 body.map #user_actions.hidden {
+  display: none;
+}
+body.map #photo-preview {
   display: none;
 }
 body.map #no_camera_available {
