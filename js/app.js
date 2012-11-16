@@ -690,12 +690,10 @@ if(!(window.console && console.log)) {
                 drag_offset.base_x = x;
                 drag_offset.base_y = y;
             },
-            no_camera_available_timer,
-            toggle_user_actions_panel = function(event){
-                var $user_actions_panel = $("#user_actions"),
-                    $no_camera_available = $("#no_camera_available"),
-                    add_photo_to_map = function(imageURI, latitude, longitude){
-                        $("#map").append( $("<a/>").addClass("location location-icon location-Campsite").data("content", "<img src='" + imageURI + "'>").click(window.toggle_popover));
+            current_time_in_epoch_milliseconds,
+            take_photo = function(){
+                var add_photo_to_map = function(imageURI, latitude, longitude){
+                    $("#map").append( $("<a/>").addClass("location location-icon location-Campsite").data("content", "<img src='" + imageURI + "'>").click(window.toggle_popover));
                     },
                     camera_success = function(imageURI) {
                         var $photo_preview = $("#photo-preview");
@@ -712,7 +710,13 @@ if(!(window.console && console.log)) {
                     },
                     camera_fail = function onFail(message) {
                         alert('Failed because: ' + message);
-                    },
+                    };
+                navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
+            },
+            user_actions_panel_toggle = function(event){
+                var $user_actions_panel = $("#user_actions"),
+                    $no_camera_available = $("#no_camera_available"),
+                    no_camera_available_timer,
                     no_camera_available_fadeOut = function(){
                         $no_camera_available.fadeOut();
                     };
@@ -720,7 +724,6 @@ if(!(window.console && console.log)) {
                 if(!navigator.camera) {
                     if($user_actions_panel.hasClass("hidden")){
                         $user_actions_panel.removeClass("hidden");
-                        navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
                     } else {
                         $user_actions_panel.addClass("hidden");
                     }
@@ -733,7 +736,6 @@ if(!(window.console && console.log)) {
                     }).click(no_camera_available_fadeOut);
                 }
             },
-            current_time_in_epoch_milliseconds,
             $locations = $(".location"),
             geolocationWatchId,
             youarehere_hammer,
