@@ -726,14 +726,12 @@ if(!(window.console && console.log)) {
                     };
                 navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
             },
+            user_actions_no_camera_available = function(){
+                $no_camera_available.fadeOut();
+            },
             user_actions_panel_toggle = function(event){
                 var $user_actions_panel = $("#user_actions"),
-                    $no_camera_available = $("#no_camera_available"),
-                    no_camera_available_timer,
-                    no_camera_available_fadeOut = function(){
-                        $no_camera_available.fadeOut();
-                    };
-
+                    no_camera_available_timer;
                 if(!navigator.camera) {
                     if($user_actions_panel.hasClass("hidden")){
                         $user_actions_panel.removeClass("hidden");
@@ -745,8 +743,8 @@ if(!(window.console && console.log)) {
                         if(no_camera_available_timer) {
                             clearTimeout(no_camera_available_timer);
                         }
-                        no_camera_available_timer = setTimeout(no_camera_available_fadeOut, 2000);
-                    }).click(no_camera_available_fadeOut);
+                        no_camera_available_timer = setTimeout(user_actions_no_camera_available, 2000);
+                    });
                 }
             },
             $locations = $(".location"),
@@ -756,7 +754,8 @@ if(!(window.console && console.log)) {
                 prevent_default: true,
                 scale_treshold: 0,
                 drag_min_distance: 0
-            };
+            },
+            $no_camera_available = $("#no_camera_available");
             
 
         if(last_known_position !== undefined) {
@@ -788,7 +787,8 @@ if(!(window.console && console.log)) {
             //anything for desktop browsers
         }
         youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
-        youarehere_hammer.bind("tap", toggle_user_actions_panel);
+        youarehere_hammer.bind("tap", user_actions_panel_toggle);
+        $no_camera_available.click(user_actions_no_camera_available);
 
         
     };
