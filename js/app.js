@@ -720,7 +720,7 @@ if(!(window.console && console.log)) {
                 panel_toggle: function(event){
                     var user_is_off_map = $("#youarehere").find(".offmap").is(":visible"),
                         error_html;
-                    if(!navigator.camera && !user_is_off_map) {
+                    if(navigator.camera && !user_is_off_map) {
                         if(user_actions.$user_actions_panel.hasClass("hidden")){
                             user_actions.$user_actions_panel.removeClass("hidden");
                         } else {
