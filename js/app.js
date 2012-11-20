@@ -479,6 +479,11 @@ if(!(window.console && console.log)) {
         }
         var centered_once_upon_load = false,
             open_tooltip,
+            hammer_defaults = {
+                prevent_default: true,
+                scale_treshold: 0,
+                drag_min_distance: 0
+            },
             last_known_position = localStorage["geolocation-last-known-position"],
             one_second_in_milliseconds = 1000,
             geolocationWatchId,
@@ -677,11 +682,11 @@ if(!(window.console && console.log)) {
                     redraw();
                     width = newWidth;
 
-                    return height = newHeight;/*IGNORE JSLINT COMPLAINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
+                    return height = newHeight;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
                 });
 
                 hammer.bind('transformend', function(event) {
-                    return prevScale = scale;/*IGNORE JSLINT COMPLAINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
+                    return prevScale = scale;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
                 });
             },
             centerMap = function(x, y){
@@ -720,10 +725,24 @@ if(!(window.console && console.log)) {
                 drag_offset.base_y = y;
             },
             current_time_in_epoch_milliseconds,
-            
             user_actions = {
                 $user_actions_panel: $("#user_actions"),
                 $photo_preview: $("#photo-preview"),
+                initialize_user_photos: function(){
+                    var user_photos_string = localStorage["user-photos"],
+                        user_photos,
+                        user_map_photos,
+                        user_map_photo,
+                        i;
+                    if(user_photos_string === undefined) return;
+                    user_photos = JSON.parse(user_photos_string);
+                    if(user_photos[map_details.map_id] === undefined) return;
+                    user_map_photos = user_photos[map_details.map_id];
+                    for(i = 0; i < user_map_photos.length; i++){
+                        user_map_photo = user_map_photos[i];
+                        user_actions.add_photo_to_map(user_map_photo.imageURI, user_map_photo.latitude, user_map_photo.longitude);
+                    }
+                },
                 panel_toggle: function(event){
                     var user_is_off_map = $("#youarehere").find(".offmap").is(":visible"),
                         error_html;
@@ -764,7 +783,9 @@ if(!(window.console && console.log)) {
                         "longitude": longitude,
                         "latitude": latitude
                         },
-                        user_photo_style;
+                        user_photo_style,
+                        user_photos,
+                        user_photo;
                     if(latitude !== undefined && longitude !== undefined) {
                         user_photo_style = longitude_latitude_to_pixels(longitude, latitude);
                         user_photo_style.position = "absolute";
@@ -780,13 +801,25 @@ if(!(window.console && console.log)) {
                     } else {
                         $photo_icon.click(user_actions.show_user_photo);
                     }
-                    if(display_immediately) {
-                        $photo_icon.click();
+                    if(display_immediately === true) {
+                        user_actions.show_user_photo.call($photo_icon); //I could unwrap it with .get(0) but it'll still work in show_user_photo
                     }
-                    if(add_to_localStorage) {
-                        //TODO
+                    if(add_to_localStorage === true) {
+                        user_photos = localStorage["user-photos"];
+                        if(user_photos === undefined) {
+                            user_photos = {};
+                        }
+                        if(user_photos[map_details.map_id] === undefined){
+                            user_photos[map_details.map_id] = [];
+                        }
+                        user_photo = {
+                            "imageURI": imageURI,
+                            "latitude": latitude,
+                            "longitude": longitude
+                        };
+                        user_photos[map_details.map_id].push(user_photo);
+                        localStorage["user-photos"] = JSON.stringify(user_photos);
                     }
-                    alert(JSON.stringify(user_photo_style));
                 },
                 take_photo: function(){
                     var camera_success = function(imageURI) {
@@ -815,12 +848,7 @@ if(!(window.console && console.log)) {
             },
             $locations = $(".location"),
             geolocationWatchId,
-            youarehere_hammer,
-            hammer_defaults = {
-                prevent_default: true,
-                scale_treshold: 0,
-                drag_min_distance: 0
-            };
+            youarehere_hammer;
 
         if(last_known_position !== undefined) {
             last_known_position = JSON.parse(last_known_position);
@@ -1013,6 +1041,9 @@ if(!(window.console && console.log)) {
                 if($(event.target).is(this)) { //if we reached this event directly without bubbling...
                     window.hide_all_popovers_no_bubbling(event);
                 }
+            });
+            $("body").on("click", ".popover", function(event){
+                window.hide_all_popovers_no_bubbling(event);
             });
         },
         get_distance = function(latitude, longitude, include_description){
