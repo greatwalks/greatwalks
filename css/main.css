@@ -641,6 +641,12 @@ body.index #wrapper #carousel .slide10 {
 body.index #wrapper #carousel .carousel-control {
   display: none;
 }
+body.index #wrapper #carousel:after {
+  /* Preload images to prevent flicker http://www.ajaxera.com/image-preloading-through-css3-caching/ */
+
+  content: url("../img/homepage-carousel-x1024-_default.jpg") url("../img/homepage-carousel-x1024-abel-tasman-coast-track.jpg") url("../img/homepage-carousel-x1024-heaphy-track.jpg") url("../img/homepage-carousel-x1024-kepler-track.jpg") url("../img/homepage-carousel-x1024-lake-waikaremoana.jpg") url("../img/homepage-carousel-x1024-milford-track.jpg") url("../img/homepage-carousel-x1024-rakiura-track---stewart-island.jpg") url("../img/homepage-carousel-x1024-routeburn-track.jpg") url("../img/homepage-carousel-x1024-tongariro-northern-circuit.jpg") url("../img/homepage-carousel-x1024-whanganui-journey.jpg");
+  display: none;
+}
 body.index #wrapper .navbar-fixed-bottom .navbar-inner {
   padding-top: 0px;
   background: #427630;
@@ -695,7 +701,11 @@ body.index #wrapper #doc-sign label,
 body.index #wrapper #doc-sign a {
   display: block;
   width: 100%;
-  text-indent: -10000px;
+  text-indent: 100%;
+  /* To hide inner text don't use text-indent:-10000px see: http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/ */
+
+  white-space: nowrap;
+  overflow: hidden;
 }
 body.index #wrapper #doc-sign .great-walks {
   height: 120px;
@@ -1011,7 +1021,11 @@ body.map #weta {
   position: absolute;
   top: 100px;
   left: 0px;
-  text-indent: -10000px;
+  text-indent: 100%;
+  /* To hide inner text don't use text-indent:-10000px see: http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/ */
+
+  white-space: nowrap;
+  overflow: hidden;
 }
 body.map #weta:hover,
 body.map #weta:active,
@@ -1119,7 +1133,11 @@ body.map #camera_error {
 }
 body.map .location-icon {
   display: block;
-  text-indent: -10000px;
+  text-indent: 100%;
+  /* To hide inner text don't use text-indent:-10000px see: http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/ */
+
+  white-space: nowrap;
+  overflow: hidden;
   width: 40px;
   height: 40px;
   background-image: url(../img/missing-icon.png);
