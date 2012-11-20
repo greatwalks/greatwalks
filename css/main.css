@@ -1093,7 +1093,7 @@ body.map #user_actions.hidden {
   display: none;
 }
 body.map #photo-preview {
-  display: block;
+  display: none;
   position: fixed;
   top: 5%;
   left: 5%;
