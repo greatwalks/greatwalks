@@ -369,6 +369,8 @@ if(!(window.console && console.log)) {
         drag_carousel = function(event){
             drag_distanceX = event.distanceX;
         },
+        slideout_navigation_animation_delay_milliseconds = 200,
+        slideout_navigation_animation_timer,
         dragend_carousel = function(event){
             if(drag_distanceX === undefined) return;
             if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
@@ -380,8 +382,9 @@ if(!(window.console && console.log)) {
             drag_distanceX = undefined;
         },
         adjust_carousel_height = function(event){
-            var height = $(window).height() - $navbar_top.height() - $navbar_bottom.height() + 2,
-                width =  $(window).width() + 1;
+            var $window = $(window),
+                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 2,
+                width = $window.width() + 1;
             if(height > 0) {
                 $carousel.height(height);
                 $carousel_items.height(height);
@@ -393,6 +396,12 @@ if(!(window.console && console.log)) {
             $navbar_bottom = $(".navbar-fixed-bottom");
             $navbar_top = $(".navbar-fixed-top");
             $(window).bind("resize orientationchange", adjust_carousel_height);
+            $("#show_slideout_navigation").change(function(){
+                if(slideout_navigation_animation_timer){
+                    clearTimeout(slideout_navigation_animation_timer);
+                }
+                slideout_navigation_animation_timer = setTimeout(adjust_carousel_height, slideout_navigation_animation_delay_milliseconds);
+            });
             adjust_carousel_height();
             if(!Modernizr.touch) {
                 $carousel.find(".carousel-control").show();
@@ -726,25 +735,28 @@ if(!(window.console && console.log)) {
                     };
                 navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
             },
-            user_actions_no_camera_available = function(){
-                $no_camera_available.fadeOut();
-            },
-            user_actions_panel_toggle = function(event){
-                var $user_actions_panel = $("#user_actions"),
-                    no_camera_available_timer;
-                if(!navigator.camera) {
-                    if($user_actions_panel.hasClass("hidden")){
-                        $user_actions_panel.removeClass("hidden");
-                    } else {
-                        $user_actions_panel.addClass("hidden");
-                    }
-                } else {
-                    $no_camera_available.fadeIn("fast", function(){
-                        if(no_camera_available_timer) {
-                            clearTimeout(no_camera_available_timer);
+            user_actions = {
+                $no_camera_available: $("#no_camera_available"),
+                panel_toggle: function(event){
+                    var $user_actions_panel = $("#user_actions"),
+                        no_camera_available_timer;
+                    if(!navigator.camera) {
+                        if($user_actions_panel.hasClass("hidden")){
+                            $user_actions_panel.removeClass("hidden");
+                        } else {
+                            $user_actions_panel.addClass("hidden");
                         }
-                        no_camera_available_timer = setTimeout(user_actions_no_camera_available, 2000);
-                    });
+                    } else {
+                        user_actions.$no_camera_available.fadeIn("fast", function(){
+                            if(no_camera_available_timer) {
+                                clearTimeout(no_camera_available_timer);
+                            }
+                            no_camera_available_timer = setTimeout(user_actions.no_camera_available, 2000);
+                        });
+                    }
+                },
+                no_camera_available: function(){
+                    user_actions.$no_camera_available.fadeOut();
                 }
             },
             $locations = $(".location"),
@@ -754,9 +766,7 @@ if(!(window.console && console.log)) {
                 prevent_default: true,
                 scale_treshold: 0,
                 drag_min_distance: 0
-            },
-            $no_camera_available = $("#no_camera_available");
-            
+            };
 
         if(last_known_position !== undefined) {
             last_known_position = JSON.parse(last_known_position);
@@ -787,9 +797,9 @@ if(!(window.console && console.log)) {
             //anything for desktop browsers
         }
         youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
-        youarehere_hammer.bind("tap", user_actions_panel_toggle);
-        $no_camera_available.click(user_actions_no_camera_available);
-
+        youarehere_hammer.bind("tap", user_actions.panel_toggle);
+        user_actions.$no_camera_available.click(user_actions.no_camera_available);
+        //$("")
         
     };
 

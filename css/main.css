@@ -692,6 +692,19 @@ body.index #wrapper #doc-sign {
   height: 227px;
   margin: 0px auto -227px auto;
 }
+body.index #wrapper #doc-sign label,
+body.index #wrapper #doc-sign a {
+  display: block;
+  width: 100%;
+  text-indent: -10000px;
+}
+body.index #wrapper #doc-sign .great-walks {
+  height: 120px;
+  margin-bottom: 0px;
+}
+body.index #wrapper #doc-sign .find-an-adventure {
+  height: 80px;
+}
 @media (max-width: 600px), (max-height: 400px) {
   body.index #wrapper #doc-sign {
     position: relative;
@@ -700,8 +713,15 @@ body.index #wrapper #doc-sign {
     height: 172px;
     margin: 0px auto -172px auto;
   }
+  body.index #wrapper #doc-sign .great-walks {
+    height: 94px;
+    margin-bottom: 0px;
+  }
+  body.index #wrapper #doc-sign .find-an-adventure {
+    height: 60px;
+  }
 }
-@media (max-height: 400px) {
+@media (max-width: 300px), (max-height: 400px) {
   body.index #wrapper .navbar-fixed-bottom .navbar-inner {
     min-height: auto;
   }
