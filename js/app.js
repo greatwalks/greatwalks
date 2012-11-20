@@ -847,7 +847,6 @@ if(!(window.console && console.log)) {
                 }
             },
             $locations = $(".location"),
-            geolocationWatchId,
             youarehere_hammer;
 
         if(last_known_position !== undefined) {
@@ -885,10 +884,8 @@ if(!(window.console && console.log)) {
         }
         youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
         youarehere_hammer.bind("tap", user_actions.panel_toggle);
+        user_actions.initialize_user_photos();
         user_actions.$camera_error.click(user_actions.camera_error_hide);
-
-        
-        
     };
 
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
