@@ -771,7 +771,7 @@ if(!(window.console && console.log)) {
                         user_photo_style.position = "absolute";
                     }
                     user_photo_data[user_actions.data_photo_uri_key] = imageURI;
-                    var $photo_icon = $("<a/>").addClass("location location-icon location-user-photo").data(user_photo_data).style(user_photo_style);
+                    var $photo_icon = $("<a/>").addClass("location location-icon location-user-photo").data(user_photo_data).css(user_photo_style);
                     $photo_icon.click(user_actions.show_user_photo); //TODO: click and hammerjs
                     $("#map").append($photo_icon);
                     if(display_immediately) {
