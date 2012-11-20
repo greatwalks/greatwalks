@@ -713,50 +713,72 @@ if(!(window.console && console.log)) {
                 drag_offset.base_y = y;
             },
             current_time_in_epoch_milliseconds,
-            take_photo = function(){
-                var add_photo_to_map = function(imageURI, latitude, longitude){
-                    $("#map").append( $("<a/>").addClass("location location-icon location-Campsite").data("content", "<img src='" + imageURI + "'>").click(window.toggle_popover));
-                    },
-                    camera_success = function(imageURI) {
-                        var $photo_preview = $("#photo-preview");
-                        $photo_preview.attr("src", imageURI);
-                        last_known_position = localStorage["geolocation-last-known-position"];
-                        if(last_known_position !== undefined) {
-                            last_known_position = JSON.parse(last_known_position);
-                            if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
-                                add_photo_to_map(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude);
-                            } else {
-                                add_photo_to_map(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude);
-                            }
-                        }
-                    },
-                    camera_fail = function onFail(message) {
-                        alert('Failed because: ' + message);
-                    };
-                navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI });
-            },
+            
             user_actions = {
-                $no_camera_available: $("#no_camera_available"),
+                $user_actions_panel: $("#user_actions"),
+                $photo_preview: $("#photo-preview"),
                 panel_toggle: function(event){
-                    var $user_actions_panel = $("#user_actions"),
-                        no_camera_available_timer;
-                    if(!navigator.camera) {
-                        if($user_actions_panel.hasClass("hidden")){
-                            $user_actions_panel.removeClass("hidden");
+                    var user_is_off_map = $("#youarehere").find(".offmap").is(":visible"),
+                        error_html;
+                    if(!navigator.camera && !user_is_off_map) {
+                        if(user_actions.$user_actions_panel.hasClass("hidden")){
+                            user_actions.$user_actions_panel.removeClass("hidden");
                         } else {
-                            $user_actions_panel.addClass("hidden");
+                            user_actions.$user_actions_panel.addClass("hidden");
                         }
                     } else {
-                        user_actions.$no_camera_available.fadeIn("fast", function(){
-                            if(no_camera_available_timer) {
-                                clearTimeout(no_camera_available_timer);
+                        if(navigator.camera && user_is_off_map) {
+                            error_html = "You're off the map so we can't take location photos<br>Use your regular camera app";
+                        } else if(!navigator.camera && user_is_off_map) {
+                            error_html = "No camera available<br>(and you're off the map anyway so we can't take location photos)";
+                        } else if(!navigator.camera && !user_is_off_map) {
+                            error_html = "No camera available";
+                        }
+                        user_actions.$camera_error.html(error_html).fadeIn(function(){
+                            if(user_actions.camera_error_timer) {
+                                clearTimeout(user_actions.camera_error_timer);
                             }
-                            no_camera_available_timer = setTimeout(user_actions.no_camera_available, 2000);
+                            user_actions.camera_error_timer = setTimeout(user_actions.camera_error_hide, 2000);
                         });
                     }
                 },
-                no_camera_available: function(){
-                    user_actions.$no_camera_available.fadeOut();
+                data_photo_uri_key: "content-image-uri",
+                show_user_photo: function(event){
+                    var $photo = user_actions.$photo_preview;
+                    $photo.attr("src", $photo.data(user_actions.data_photo_uri_key)).show();
+                },
+                hide_user_photo: function(event){
+                    var $photo = user_actions.$photo_preview;
+                    $photo.hide();
+                },
+                add_photo_to_map: function(imageURI, latitude, longitude, display_immediately){
+                    var $photo_icon = $("<a/>").addClass("location user-photo").data(user_actions.data_photo_uri_key, imageURI).click(user_actions.show_user_photo);
+                    $("#map").append($photo_icon);
+                    if(display_immediately) {
+                        $photo_icon.click();
+                    }
+                    //TODO: store in localStorage too
+                },
+                take_photo: function(){
+                    var camera_success = function(imageURI) {
+                            var $photo_preview = $("#photo-preview");
+                            $photo_preview.attr("src", imageURI);
+                            last_known_position = localStorage["geolocation-last-known-position"];
+                            if(last_known_position !== undefined) {
+                                last_known_position = JSON.parse(last_known_position);
+                                user_actions.add_photo_to_map(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude, true);
+                            }
+                        },
+                        camera_fail = function onFail(message) {
+                            alert('Failed because: ' + message);
+                        };
+                    navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI});
+                    return false;
+                },
+                camera_error_timer:undefined,
+                $camera_error: $("#camera_error"),
+                camera_error_hide: function(){
+                    user_actions.$camera_error.fadeOut();
                 }
             },
             $locations = $(".location"),
@@ -790,16 +812,22 @@ if(!(window.console && console.log)) {
         if(Modernizr.touch) {
             $("#weta").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
             $("#map .location").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
+            $("#take-photo").hammer(hammer_defaults).bind('touchstart', user_actions.take_photo);
+            $("#photo-preview").hammer(hammer_defaults).bind('touchstart', user_actions.hide_user_photo);
             //touch devices
         } else {
             $("#weta").click(window.toggle_popover);
             $("#map .location").click(window.toggle_popover);
             //anything for desktop browsers
+            $("#take-photo").click(user_actions.take_photo);
+            $("#photo-preview").click(user_actions.hide_user_photo);
+            
         }
         youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
         youarehere_hammer.bind("tap", user_actions.panel_toggle);
-        user_actions.$no_camera_available.click(user_actions.no_camera_available);
-        //$("")
+        user_actions.$camera_error.click(user_actions.camera_error_hide);
+
+        
         
     };
 
