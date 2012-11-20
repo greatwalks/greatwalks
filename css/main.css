@@ -1079,20 +1079,30 @@ body.map #user_actions {
   width: 300px;
   min-width: 200px;
   max-width: 600px;
-  background: rgba(100, 100, 100, 0.7);
+  background: rgba(50, 50, 50, 0.9);
   border: solid 2px #aaaaaa;
   color: #fff;
   border-radius: 5px;
-  padding: 3px 8px;
+  padding: 10px;
   text-align: center;
+}
+body.map #user_actions p {
+  margin: 0px;
 }
 body.map #user_actions.hidden {
   display: none;
 }
 body.map #photo-preview {
-  display: none;
+  display: block;
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  height: 90%;
+  width: 90%;
+  z-index: 10001;
+  -webkit-box-shadow: 0 0 5px 10px #000;
 }
-body.map #no_camera_available {
+body.map #camera_error {
   display: none;
   position: fixed;
   top: 150px;
@@ -1224,6 +1234,10 @@ body.map .location-volcano {
 }
 body.map .location-waterfall {
   background-image: url(../img/icon-map-waterfall.png);
+  border: none;
+}
+body.map .location-user-photo {
+  background-image: url(../img/icon-map-generic_nature.png);
   border: none;
 }
 /* ==========================================================================
