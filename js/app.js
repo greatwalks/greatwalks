@@ -770,11 +770,16 @@ if(!(window.console && console.log)) {
                         user_photo_style.position = "absolute";
                     }
                     user_photo_data[user_actions.data_photo_uri_key] = imageURI;
-                    var $photo_icon = $("<a/>").addClass("location location-icon location-user-photo").data(user_photo_data).click(user_actions.show_user_photo); //TODO: click and hammerjs
+                    var $photo_icon = $("<a/>").addClass("location location-icon location-user-photo").data(user_photo_data);
                     if(user_photo_style){
                         $photo_icon.css(user_photo_style);
                     }
                     $("#map").append($photo_icon);
+                    if(Modernizr.touch) {
+                        $photo_icon.hammer(hammer_defaults).bind('tap', user_actions.show_user_photo);
+                    } else {
+                        $photo_icon.click(user_actions.show_user_photo);
+                    }
                     if(display_immediately) {
                         $photo_icon.click();
                     }
