@@ -657,7 +657,7 @@ body.find-an-adventure ol.chooser li a {
   -webkit-box-shadow: 3px 3px 10px #8d8874;
   box-shadow: 3px 3px 10px #8d8874;
   background-image: url("../img/find-an-adventure-icons.png");
-  background-size: 50px 750px;
+  background-size: 60px 750px;
   background-repeat: no-repeat;
 }
 body.find-an-adventure ol.chooser li.where {
@@ -730,7 +730,7 @@ body.find-an-adventure .modal ol {
 body.find-an-adventure .modal ol li {
   border-top: solid 2px #bebbaa;
   background-image: url("../img/find-an-adventure-icons.png");
-  background-size: 50px 750px;
+  background-size: 60px 750px;
   background-repeat: no-repeat;
   background-position: 20px -184px;
 }
@@ -739,21 +739,21 @@ body.find-an-adventure .modal ol li.active {
 }
 body.find-an-adventure .modal ol li#where-northisland a {
   background-image: url("../img/find-an-adventure-icons.png");
-  background-size: 50px 750px;
+  background-size: 60px 750px;
   background-repeat: no-repeat;
   background-position: 50px -400px;
   padding-left: 100px;
 }
 body.find-an-adventure .modal ol li#where-southisland a {
   background-image: url("../img/find-an-adventure-icons.png");
-  background-size: 50px 750px;
+  background-size: 60px 750px;
   background-repeat: no-repeat;
   background-position: 50px -495px;
   padding-left: 100px;
 }
 body.find-an-adventure .modal ol li#where-surpriseme a {
   background-image: url("../img/find-an-adventure-icons.png");
-  background-size: 50px 750px;
+  background-size: 60px 750px;
   background-repeat: no-repeat;
   background-position: 50px -590px;
   padding-left: 100px;
