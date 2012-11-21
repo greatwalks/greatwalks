@@ -63,86 +63,117 @@
                 </ul>
             </div>
     	    <div class="text-column1">
-  <h1 class="c4">
-      <a name="h.rlz0f186eyt9" id="h.rlz0f186eyt9"></a><span>2.0 Find me an</span>
-      <span>adventure</span><sup><a href="#cmnt6" name="cmnt_ref6" id=
-      "cmnt_ref6">[f]</a></sup>
-    </h1>
-    <p class="c4">
-      <span>Where do you want to go?</span>
-    </p>
-    <ol class="c12" start="1">
-      <li class="c3">
-        <span>North Island</span>
+  <h1>Find an adventure</h1>
+
+  <ol class="chooser">
+    <li class="where"><span>1.</span><a href="#where" role="button" data-toggle="modal">Where do you want to go?</a></li>
+    <li class="see"><span>2.</span><a href="#see" role="button" data-toggle="modal">What do you want to see?</a></li>
+    <li class="time"><span>3.</span><a href="#time" role="button" data-toggle="modal">How much time do you have?</a></li>
+  </ol>
+
+  <div id="where" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <ol>
+      <li id="where-northisland">
+        <a href="#">North Island</a>
       </li>
-      <li class="c3">
-        <span>South Island</span>
+      <li id="where-southisland">
+        <a href="#">South Island</a>
       </li>
-      <li class="c3">
-        <span>Surprise me!</span>
-      </li>
-    </ol>
-    <p class="c0"></p>
-    <p class="c4">
-      <span>What do you want to do?</span>
-    </p>
-    <ol class="c12" start="1">
-      <li class="c3">
-        <span>Forest</span>
-      </li>
-      <li class="c3">
-        <span>Beaches</span>
-      </li>
-      <li class="c3">
-        <span>Birds</span>
-      </li>
-      <li class="c3">
-        <span>Volcanoes</span>
-      </li>
-      <li class="c3">
-        <span>Lakes and waterfalls</span>
-      </li>
-      <li class="c3">
-        <span>History &amp; culture</span>
-      </li>
-      <li class="c3">
-        <span>High mountains</span>
-      </li>
-      <li class="c3">
-        <span>Swimming and kayaking</span>
-      </li>
-      <li class="c3">
-        <span>Mountain biking</span>
+      <li id="where-surpriseme">
+        <a href="#">Surprise me!</a>
       </li>
     </ol>
-    <p class="c0"></p>
-    <p class="c4">
-      <span>How much time do you have?</span>
-    </p>
-    <ol class="c12" start="1">
-      <li class="c3">
-        <span>Just a couple days</span>
-      </li>
-      <li class="c3">
-        <span>Three or more days</span>
-      </li>
-    </ol>
-    <p class="c0"></p>
-    <p class="c4">
-      <span>We think you'll like...</span> <span class="c10">(show a shortlist of
-      walks)</span>
-    </p>
-    <p class="c0"></p>
-    <p class="c4">
-      <span class="c10">For the 1-2 days option, show this:</span>
-    </p>
-    <p class="c4">
-      <span>You can walk this</span> <span>track</span><span class=
-      "c7">&nbsp;</span><span>in parts. &nbsp;Some portions of the track can be covered
-      in a day. Call us or visit your nearest DOC Visitor Centre for more
-      information.</span>
-    </p>
   </div>
+
+  <div id="see" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <ol>
+      <li id="see-native-bush">
+        <a href="#">Native Bush</a>
+      </li>
+      <li id="see-birds">
+        <a href="#">Birds</a>
+      </li>
+      <li id="see-beaches">
+        <a href="#">Beaches</a>
+      </li>
+      <li id="see-mountains">
+        <a href="#">Mountains</a>
+      </li>
+      <li id="see-volcanos">
+        <a href="#">Volcanos</a>
+      </li>
+      <li id="see-lakes">
+        <a href="#">Lakes</a>
+      </li>
+      <li id="see-culture">
+        <a href="#">Culture</a>
+      </li>
+    </ol>
+  </div>
+
+  <div id="time" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <ol>
+      <li id="time-1-2-days">
+        <a href="#">1-2 days</a>
+      </li>
+      <li id="time-3-5-days">
+        <a href="#">3-5 days</a>
+      </li>
+    </ol>
+  </div>
+
+  <div id="results">
+    <h2>We think you'll like</h2>
+
+    <ol>
+      <li class="where-northisland where-surpriseme see-native-bush see-birds see-beaches see-lakes see-culture time-3-5-days">
+        <a href="walk-lake-waikaremoana.html">Lake Waikaremoana</a>
+      </li>
+
+      <li class="where-northisland where-surpriseme see-native-bush see-birds see-mountains see-volcanos see-lakes time-3-5-days">
+        <a href="walk-tongariro-northern-circuit.html">Tongariro Northern Circuit</a>
+      </li>
+
+      <li class="where-northisland where-surpriseme see-native-bush see-birds see-culture time-3-5-days">
+        <a href="walk-whanganui-journey.html">Whanganui Journey</a>
+      </li>
+
+      <li class="where-southisland where-surpriseme see-native-bush see-birds see-beaches time-1-2-days time-3-5-days">
+        <a href="walk-abel-tasman-coast-track.html">Abel Tasman Coast Track</a>
+      </li>
+
+      <li class="where-southisland where-surpriseme see-native-bush see-birds see-beaches time-3-5-days">
+        <a href="walk-heaphy-track.html">Heaphy Track</a>
+      </li>
+
+      <li class="where-southisland where-surpriseme see-native-bush see-birds see-mountains see-lakes time-1-2-days time-3-5-days">
+        <a href="walk-kepler-track.html">Kepler Track</a>
+      </li>
+
+      <li class="where-southisland where-surpriseme see-native-bush see-birds see-mountains see-lakes time-3-5-days">
+        <a href="walk-milford-track.html">Milford Track</a>
+      </li>
+
+      <li class="where-southisland where-surpriseme see-native-bush see-birds see-mountains see-lakes time-1-2-days time-3-5-days">
+        <a href="walk-routeburn-track.html">Routeburn Track</a>
+      </li>
+
+      <li class="where-southisland where-surpriseme see-native-bush see-birds see-beaches time-1-2-days time-3-5-days">
+        <a href="walk-rakiura-track---stewart-island.html">Rakiura Track - Stewart Island</a>
+      </li>
+    </ol>
+    <a href="#" class="btn resetFinder">Reset the Finder</a>
+  </div>
+
+  <div id="no-results">
+    <h2>Awesome choices!</h2>
+    <p>Unfortunately we couldn't match all your criteria.</p>
+    <p>Please choose again, or <a href="info.html" class="btn">contact us</a> to talk about your Great Walks plans -we'd love to help you.</p>
+    <a href="#" class="btn resetFinder">Reset the Finder</a>
+  </div>
+
+
+</div>
         </div>
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>

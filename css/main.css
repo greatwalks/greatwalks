@@ -72,7 +72,7 @@ label {
 }
 /* Looking for the homepage's bottom navbar? Try index.less */
 .navbar-fixed-top {
-  z-index: 10000;
+  z-index: 1000;
 }
 .navbar-fixed-top .header-sprite {
   display: inline-block;
@@ -354,7 +354,7 @@ label {
   font-family: serif;
 }
 .text-column1 h2 {
-  color: #333333;
+  color: #6c3400;
   font-weight: normal;
   font-family: serif;
 }
@@ -447,7 +447,6 @@ label {
 }
 .walk .text-column1 .walk-detail-header {
   color: white;
-  background: red;
   padding: 0.4em 0.5em;
   margin-bottom: 10px;
   font-size: 25px;
@@ -599,7 +598,208 @@ label {
 .walk .text-column1.rakiura-track---stewart-island h1 {
   background-image: url("../img/walks/rakiura-track---stewart-island/national.gif");
 }
-/* Index page *//* For the index page */
+body.find-an-adventure {
+  background: #e5dfbd;
+  color: #131009;
+}
+body.find-an-adventure h1 {
+  text-align: center;
+  text-transform: uppercase;
+  color: #ab9120;
+}
+body.find-an-adventure h2 {
+  text-align: center;
+  color: #010000;
+  margin-top: 1em;
+  font-size: large;
+  font-weight: bold;
+}
+body.find-an-adventure .resetFinder {
+  margin-top: 0.5em;
+  display: block;
+  text-align: center;
+}
+body.find-an-adventure ol.chooser {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+body.find-an-adventure ol.chooser li {
+  margin: 0px 0px 10px 0px;
+  padding: 0px;
+  position: relative;
+}
+body.find-an-adventure ol.chooser li span {
+  position: absolute;
+  left: -1px;
+  top: .8em;
+  z-index: 2;
+  color: #9e988a;
+  font-weight: bold;
+}
+body.find-an-adventure ol.chooser li:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  margin-top: -0.2em;
+  margin-left: -5px;
+  border-top: 1.8em solid transparent;
+  border-left: 1.8em solid #e5dfbd;
+  border-bottom: 1.8em solid transparent;
+}
+body.find-an-adventure ol.chooser li a {
+  display: block;
+  padding: 15px 10px 15px 35px;
+  color: white;
+  font-weight: bold;
+  -moz-box-shadow: 3px 3px 10px #8d8874;
+  -webkit-box-shadow: 3px 3px 10px #8d8874;
+  box-shadow: 3px 3px 10px #8d8874;
+  background-image: url("../img/find-an-adventure-icons.png");
+  background-size: 50px 750px;
+  background-repeat: no-repeat;
+}
+body.find-an-adventure ol.chooser li.where {
+  background: #256f92;
+  /* Old browsers */
+
+  background: -webkit-linear-gradient(left, #256f92 0%, #73b2d3 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: linear-gradient(to right, #256f92 0%, #73b2d3 100%);
+  /* W3C */
+
+}
+body.find-an-adventure ol.chooser li.where a {
+  padding-left: 80px;
+  background-position: 30px 5px;
+}
+body.find-an-adventure ol.chooser li.see {
+  background: #747249;
+  /* Old browsers */
+
+  background: -webkit-linear-gradient(left, #747249 0%, #b8b592 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: linear-gradient(to right, #747249 0%, #b8b592 100%);
+  /* W3C */
+
+}
+body.find-an-adventure ol.chooser li.see a {
+  background-position: right -45px;
+}
+body.find-an-adventure ol.chooser li.time {
+  background: #004e41;
+  /* Old browsers */
+
+  background: -webkit-linear-gradient(left, #004e41 0%, #4c918c 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: linear-gradient(to right, #004e41 0%, #4c918c 100%);
+  /* W3C */
+
+}
+body.find-an-adventure ol.chooser li.time a {
+  padding-left: 80px;
+  background-position: 30px -95px;
+}
+body.find-an-adventure #where.modal {
+  width: 15em;
+  margin-left: -7.5em;
+}
+body.find-an-adventure #see.modal {
+  width: 15em;
+  margin-left: -7.5em;
+}
+body.find-an-adventure #time.modal {
+  width: 10em;
+  margin-left: -5em;
+}
+body.find-an-adventure .modal {
+  background: #ebe8d7;
+  color: #131009;
+  padding: 5px 0px;
+  font-family: serif;
+}
+body.find-an-adventure .modal ol {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+body.find-an-adventure .modal ol li {
+  border-top: solid 2px #bebbaa;
+  background-image: url("../img/find-an-adventure-icons.png");
+  background-size: 50px 750px;
+  background-repeat: no-repeat;
+  background-position: 20px -184px;
+}
+body.find-an-adventure .modal ol li.active {
+  background-position: 20px -285px;
+}
+body.find-an-adventure .modal ol li#where-northisland a {
+  background-image: url("../img/find-an-adventure-icons.png");
+  background-size: 50px 750px;
+  background-repeat: no-repeat;
+  background-position: 50px -400px;
+  padding-left: 100px;
+}
+body.find-an-adventure .modal ol li#where-southisland a {
+  background-image: url("../img/find-an-adventure-icons.png");
+  background-size: 50px 750px;
+  background-repeat: no-repeat;
+  background-position: 50px -495px;
+  padding-left: 100px;
+}
+body.find-an-adventure .modal ol li#where-surpriseme a {
+  background-image: url("../img/find-an-adventure-icons.png");
+  background-size: 50px 750px;
+  background-repeat: no-repeat;
+  background-position: 50px -590px;
+  padding-left: 100px;
+}
+body.find-an-adventure .modal ol li a {
+  display: block;
+  padding: 15px 15px 15px 50px;
+  color: black;
+  font-weight: bold;
+}
+body.find-an-adventure .modal ol li:first-child {
+  border-top: none;
+}
+body.find-an-adventure #results {
+  display: none;
+}
+body.find-an-adventure #results ol {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+body.find-an-adventure #results ol li {
+  margin: 0px 0px 6px 0px;
+  padding: 0px;
+  line-height: normal;
+  background: #61a443;
+  border-radius: 5px;
+}
+body.find-an-adventure #results ol li a {
+  display: block;
+  background: url("../img/find-an-adventure-icons.png");
+  background-size: 50px 750px;
+  background-repeat: no-repeat;
+  background-position: right -683px;
+  color: #fff;
+  padding: 1em 1.5em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+body.find-an-adventure #results ol li a:hover {
+  background-color: #78b15f;
+}
+body.find-an-adventure #no-results {
+  display: none;
+}
+/* For the index page */
 body.index #wrapper {
   color: #fff;
 }
@@ -647,45 +847,6 @@ body.index #wrapper #carousel:after {
   content: url("../img/homepage-carousel-x1024-_default.jpg") url("../img/homepage-carousel-x1024-abel-tasman-coast-track.jpg") url("../img/homepage-carousel-x1024-heaphy-track.jpg") url("../img/homepage-carousel-x1024-kepler-track.jpg") url("../img/homepage-carousel-x1024-lake-waikaremoana.jpg") url("../img/homepage-carousel-x1024-milford-track.jpg") url("../img/homepage-carousel-x1024-rakiura-track---stewart-island.jpg") url("../img/homepage-carousel-x1024-routeburn-track.jpg") url("../img/homepage-carousel-x1024-tongariro-northern-circuit.jpg") url("../img/homepage-carousel-x1024-whanganui-journey.jpg");
   display: none;
 }
-body.index #wrapper .navbar-fixed-bottom .navbar-inner {
-  padding-top: 0px;
-  background: #427630;
-}
-body.index #wrapper .navbar-fixed-bottom .navbar-inner .container-fluid * {
-  width: auto;
-  text-align: center;
-  float: none;
-}
-body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options {
-  margin: 0px auto;
-}
-body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li {
-  display: inline;
-}
-body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a {
-  display: inline-block;
-  background: url("../img/homepage-buttons.png") no-repeat;
-  background-size: 258px 44px;
-  width: 100px;
-  padding-top: 60px;
-  padding-bottom: 5px;
-  text-transform: uppercase;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-}
-body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a:hover {
-  text-decoration: none;
-}
-body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a.maps {
-  background-position: 30px 10px;
-}
-body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a.offers {
-  background-position: -80px 10px;
-}
-body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a.booknow {
-  background-position: -193px 10px;
-}
 body.index #wrapper #doc-sign {
   display: block;
   text-decoration: none;
@@ -730,6 +891,47 @@ body.index #wrapper #doc-sign .find-an-adventure {
     height: 60px;
   }
 }
+.navbar-fixed-bottom .navbar-inner {
+  /* Also used on book.html and offers.html */
+
+  padding-top: 0px;
+  background: #427630;
+}
+.navbar-fixed-bottom .navbar-inner .container-fluid * {
+  width: auto;
+  text-align: center;
+  float: none;
+}
+.navbar-fixed-bottom .navbar-inner ul.options {
+  margin: 0px auto;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li {
+  display: inline;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a {
+  display: inline-block;
+  background: url("../img/homepage-buttons.png") no-repeat;
+  background-size: 258px 44px;
+  width: 100px;
+  padding-top: 60px;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a:hover {
+  text-decoration: none;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a.maps {
+  background-position: 30px 10px;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a.offers {
+  background-position: -80px 10px;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a.booknow {
+  background-position: -193px 10px;
+}
 @media (max-width: 300px), (max-height: 400px) {
   body.index #wrapper .navbar-fixed-bottom .navbar-inner {
     min-height: auto;
@@ -740,13 +942,11 @@ body.index #wrapper #doc-sign .find-an-adventure {
     padding-bottom: 0px;
   }
 }
-/* Booking page *//* Map of new zealand */body.maps,
-body.walks {
+body.maps {
   min-height: 100%;
   height: 100%;
 }
-body.maps #wrapper,
-body.walks #wrapper {
+body.maps #wrapper {
   padding-top: 150px;
   background: #79ccec;
   /* Old browsers */
@@ -772,8 +972,7 @@ body.walks #wrapper {
   height: 100%;
   min-height: 100%;
 }
-body.maps #wrapper #new-zealand-map,
-body.walks #wrapper #new-zealand-map {
+body.maps #wrapper #new-zealand-map {
   position: relative;
   margin: 0px auto;
   width: 752px;
@@ -781,8 +980,7 @@ body.walks #wrapper #new-zealand-map {
   background: url("../img/new-zealand-map.png");
   background-size: 100%;
 }
-body.maps #wrapper #new-zealand-map .map-location,
-body.walks #wrapper #new-zealand-map .map-location {
+body.maps #wrapper #new-zealand-map .map-location {
   position: absolute;
   padding: 0px;
   margin: 0px;
@@ -790,59 +988,47 @@ body.walks #wrapper #new-zealand-map .map-location {
   text-align: center;
   color: black;
 }
-body.maps #wrapper #new-zealand-map h2.map-location,
-body.walks #wrapper #new-zealand-map h2.map-location {
+body.maps #wrapper #new-zealand-map h2.map-location {
   font-size: 13px;
   font-weight: bold;
   text-transform: uppercase;
   line-height: 23px;
 }
-body.maps #wrapper #new-zealand-map h2.map-location a.secret-link,
-body.walks #wrapper #new-zealand-map h2.map-location a.secret-link {
+body.maps #wrapper #new-zealand-map h2.map-location a.secret-link {
   color: black;
 }
-body.maps #wrapper #new-zealand-map h2.map-location a.secret-link:hover,
-body.walks #wrapper #new-zealand-map h2.map-location a.secret-link:hover {
+body.maps #wrapper #new-zealand-map h2.map-location a.secret-link:hover {
   text-decoration: none;
 }
-body.maps #wrapper #new-zealand-map a.map-location,
-body.walks #wrapper #new-zealand-map a.map-location {
+body.maps #wrapper #new-zealand-map a.map-location {
   font-size: 18px;
   font-weight: bold;
   text-decoration: none;
 }
-body.maps #wrapper #new-zealand-map a.map-location:hover,
-body.walks #wrapper #new-zealand-map a.map-location:hover {
+body.maps #wrapper #new-zealand-map a.map-location:hover {
   text-decoration: none;
 }
-body.maps #wrapper #new-zealand-map .map-icon-bottom,
-body.walks #wrapper #new-zealand-map .map-icon-bottom {
+body.maps #wrapper #new-zealand-map .map-icon-bottom {
   padding-bottom: 60px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-bottom2,
-body.walks #wrapper #new-zealand-map .map-icon-bottom2 {
+body.maps #wrapper #new-zealand-map .map-icon-bottom2 {
   padding-bottom: 55px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-left,
-body.walks #wrapper #new-zealand-map .map-icon-left {
+body.maps #wrapper #new-zealand-map .map-icon-left {
   padding-left: 60px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-right,
-body.walks #wrapper #new-zealand-map .map-icon-right {
+body.maps #wrapper #new-zealand-map .map-icon-right {
   padding-right: 60px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-height,
-body.walks #wrapper #new-zealand-map .map-icon-height {
+body.maps #wrapper #new-zealand-map .map-icon-height {
   min-height: 50px;
   line-height: 50px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-height2,
-body.walks #wrapper #new-zealand-map .map-icon-height2 {
+body.maps #wrapper #new-zealand-map .map-icon-height2 {
   min-height: 40px;
   line-height: 70px;
 }
-body.maps #wrapper #new-zealand-map .map-icon-height3,
-body.walks #wrapper #new-zealand-map .map-icon-height3 {
+body.maps #wrapper #new-zealand-map .map-icon-height3 {
   min-height: 50px;
   line-height: normal;
 }
@@ -1010,7 +1196,7 @@ body.walks #wrapper #new-zealand-map .map-icon-height3 {
     line-height: normal;
   }
 }
-/* An individual map */body.map #wrapper {
+body.map #wrapper {
   background: url("../img/table.png");
 }
 body.map #weta {
