@@ -16,16 +16,18 @@ if(!(window.console && console.log)) {
 };/* END OF console.js */
 
 /* BEGINNING OF find-an-adventure.js */
-/*globals alert Modernizr window navigator document*/
+/*globals alert Modernizr window navigator document setTimeout clearTimeout*/
 (function($){
     "use strict";
     if(window.location.pathname.toString().indexOf("find-an-adventure.html") === -1) return;
     var find_init = function(){
+        var close_modal_timer;
         $(".resetFinder").click(function(event){
             $(".modal .active").removeClass("active");
             $("#no-results").hide();
             $("#results").hide();
-        });
+        }),
+        
         $(".modal").on("click", "a", function(event){
             var $this = $(this),
                 $list_item = $this.closest("li"),
@@ -41,7 +43,14 @@ if(!(window.console && console.log)) {
             } else if($modal.is("#see")) {
                 $list_item.toggleClass("active");
             }
-            $modal.modal('hide');
+            if(close_modal_timer) {
+                clearTimeout(close_modal_timer);
+                close_modal_timer = undefined;
+            }
+            close_modal_timer = setTimeout(function(){ //give the user time to see their choice before closing the modal dialog
+                $modal.modal('hide');
+            }, 250);
+            
             //$("#debug").text($results_search.length + " ");
             $results_search.show();
             $modals.each(function(index){
