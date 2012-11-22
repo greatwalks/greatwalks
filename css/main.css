@@ -67,6 +67,9 @@ html {
   -moz-user-drag: none;
   user-drag: none;
 }
+* {
+  -webkit-font-smoothing: antialiased;
+}
 label {
   cursor: pointer;
 }
@@ -162,6 +165,8 @@ label {
   }
 }
 .popover {
+  /* Looking for popovers on the walk info pages? See walk.less */
+
   z-index: 10000;
 }
 .popover .popover-title {
@@ -243,16 +248,16 @@ label {
   border-bottom: solid 1px #7cc6e3;
   border-left: solid 1px #32728d;
   border-right: solid 1px #9ed9f1;
-  background: url("../img/slideout-menu.png") no-repeat right 9px;
+  background: url("../img/slideout-menu.png") no-repeat right 13px;
 }
 #slideout_navigation ul.menu li a {
-  padding: 4px 0px 4px 30px;
+  padding: 10px 0px 10px 30px;
 }
 #slideout_navigation ul.menu li a.booking {
-  background: url("../img/slideout-menu.png") no-repeat 5px -95px;
+  background: url("../img/slideout-menu.png") no-repeat 5px -90px;
 }
 #slideout_navigation ul.menu li a.offers {
-  background: url("../img/slideout-menu.png") no-repeat 5px -145px;
+  background: url("../img/slideout-menu.png") no-repeat 5px -140px;
 }
 #slideout_navigation ul.menu li:hover {
   background-color: #6bc5ea;
@@ -284,10 +289,10 @@ label {
   border-top: solid 1px #40712d;
   border-bottom: solid 1px #94be82;
   border-right: solid 1px #90c5a0;
-  background: url("../img/slideout-menu.png") no-repeat right bottom;
+  background: url("../img/slideout-menu.png") no-repeat right -236px;
 }
 #slideout_navigation ul.walks li a {
-  padding: 5px 0px 5px 7px;
+  padding: 10px 0px 10px 7px;
 }
 #slideout_navigation ul.walks li:hover {
   background-color: #79bd5b;
@@ -302,13 +307,37 @@ label {
   background: url("../img/slideout-menu.png") no-repeat right -40px;
 }
 #slideout_navigation ul.maps li a {
-  padding: 4px 0px 4px 30px;
+  padding: 10px 0px 10px 30px;
   background: url("../img/slideout-menu.png") no-repeat 5px -195px;
 }
 #slideout_navigation ul.maps li:hover {
   background-color: #528d39;
 }
-@media (max-height: 400px) {
+@media (max-height: 600px) {
+  #slideout_navigation ul.menu li {
+    background-position: right 9px;
+  }
+  #slideout_navigation ul.menu li a {
+    padding: 4px 0px 4px 30px;
+  }
+  #slideout_navigation ul.menu li a.booking {
+    background-position: 5px -95px;
+  }
+  #slideout_navigation ul.menu li a.offers {
+    background-position: 5px -145px;
+  }
+  #slideout_navigation ul.walks li {
+    background-position: right bottom;
+  }
+  #slideout_navigation ul.walks li a {
+    padding: 5px 0px 5px 7px;
+  }
+  #slideout_navigation ul.maps li a {
+    padding: 4px 0px 4px 30px;
+    background-position: 5px -191px;
+  }
+}
+@media (max-height: 380px) {
   #slideout_navigation {
     font-size: 8px;
   }
@@ -343,7 +372,7 @@ label {
 }
 .text-column1 {
   width: 70%;
-  max-width: 570px;
+  max-width: 654px;
   min-width: 250px;
   margin: 100px auto 0px auto;
   color: #333333;
@@ -442,6 +471,12 @@ label {
 .walk .text-column1 .info span.duration {
   margin-left: 50px;
 }
+.walk .text-column1 .intro {
+  clear: both;
+  line-height: 300%;
+  font-family: serif;
+  font-size: small;
+}
 .walk .text-column1 .youtube {
   text-align: center;
 }
@@ -459,14 +494,14 @@ label {
   background-image: url("../img/walk-icons.png");
   background-position: right -90px;
   background-repeat: no-repeat;
-  background-size: 40px 119px;
+  background-size: 40px 200px;
 }
 .walk .text-column1 .walk-detail-header.open span span {
   display: block;
   background-image: url("../img/walk-icons.png");
   background-repeat: no-repeat;
   background-position: right -41px;
-  background-size: 40px 119px;
+  background-size: 40px 200px;
 }
 .walk .text-column1 .walk-detail-header.dont-miss {
   background: #ec9103;
@@ -509,7 +544,7 @@ label {
   background-image: url("../img/walk-icons.png");
   background-repeat: no-repeat;
   background-position: left 5px;
-  background-size: 40px 119px;
+  background-size: 40px 200px;
 }
 .walk .text-column1 .walk-detail-header.before-you-go {
   background: #999966;
@@ -561,9 +596,37 @@ label {
 }
 .walk .text-column1 .walk-detail {
   display: none;
-  background: white;
   padding: 0.5em 1em;
   margin-top: -10px;
+}
+.walk .text-column1 .walk-detail.dont-miss {
+  background: transparent;
+  position: relative;
+  width: 100%;
+}
+.walk .text-column1 .walk-detail.dont-miss p {
+  margin: 0px;
+  padding: 0px;
+}
+.walk .text-column1 .walk-detail.dont-miss p img {
+  width: 100%;
+}
+.walk .text-column1 .walk-detail.dont-miss p a {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.walk .text-column1 .walk-detail.dont-miss p a img {
+  image-rendering: -webkit-optimize-contrast;
+  max-width: 100%;
+  height: auto;
+}
+.walk .text-column1 .walk-detail.offers,
+.walk .text-column1 .walk-detail.before-you-go,
+.walk .text-column1 .walk-detail.getting-there,
+.walk .text-column1 .walk-detail.where-to-stay,
+.walk .text-column1 .walk-detail.on-the-track {
   -moz-box-shadow: 3px 3px 10px #8d8874;
   -webkit-box-shadow: 3px 3px 10px #8d8874;
   box-shadow: 3px 3px 10px #8d8874;
@@ -597,6 +660,147 @@ label {
 }
 .walk .text-column1.rakiura-track---stewart-island h1 {
   background-image: url("../img/walks/rakiura-track---stewart-island/national.gif");
+}
+.walk .text-column1 .icon-map,
+.walk .text-column1 .icon-maps-blue {
+  display: inline-block;
+  background-position: 0px 0px;
+  background-image: url("../img/icon-content-maps_blue.png");
+  background-size: 52px 50px;
+  width: 52px;
+  height: 50px;
+  float: right;
+  margin-right: 50px;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.walk .text-column1 .icon-maps-gold {
+  display: inline-block;
+  background-position: 0px 0px;
+  background-image: url("../img/icon-content-maps_gold.png");
+  background-size: 52px 50px;
+  width: 52px;
+  height: 50px;
+  float: right;
+  margin-right: 50px;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.walk .text-column1 .icon {
+  display: inline-block;
+  background-position: 0px 0px;
+  border: solid 10px red;
+  /* Used to identify unstyled icons */
+
+  vertical-align: top;
+}
+.walk .text-column1 .icon.icon-lake,
+.walk .text-column1 .icon.icon-lake2,
+.walk .text-column1 .icon.icon-lakes {
+  background-image: url("../img/icon-content-lakes.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1 .icon.icon-canoe {
+  background-image: url("../img/icon-content-canoe.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1 .icon.icon-specials {
+  background-image: url("../img/icon-content-specials.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1 .icon.icon-calendar {
+  background-image: url("../img/icon-content-calendar.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1 .icon.icon-culture {
+  background-image: url("../img/icon-content-culture.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1 .icon.icon-forest,
+.walk .text-column1 .icon.icon-plants-trees {
+  background-image: url("../img/icon-content-plants_trees.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1 .icon.icon-volcano {
+  background-image: url("../img/icon-content-volcano.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1 .icon.icon-kiwi {
+  background-image: url("../img/icon-content-kiwi.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1 .icon.icon-river {
+  background-image: url("../img/icon-content-river.png");
+  background-size: 58px 40px;
+  width: 58px;
+  height: 40px;
+  border: none;
+}
+.walk .text-column1.abel-tasman-coast-track div.dont-miss .camping {
+  left: 5%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.abel-tasman-coast-track div.dont-miss .cleopatraspool {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.abel-tasman-coast-track div.dont-miss .tongamarine-reserve {
+  left: 10%;
+  top: 36%;
+  width: 80%;
+}
+.walk .text-column1.abel-tasman-coast-track div.dont-miss .awesomeviews {
+  left: 5%;
+  bottom: 2%;
+  width: 50%;
+}
+.walk .text-column1.abel-tasman-coast-track div.dont-miss .swimming {
+  right: 5px;
+  bottom: 3.2%;
+  width: 50%;
+}
+.walk .popover {
+  background: white;
+}
+.walk .popover .popover-inner {
+  border-radius: 6px;
+  background: #80c1dd;
+  /* Old browsers */
+
+  background: -webkit-linear-gradient(top, #80c1dd 0%, #e3eef4 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: linear-gradient(to bottom, #80c1dd 0%, #e3eef4 100%);
+  /* W3C */
+
 }
 body.find-an-adventure {
   background: #e5dfbd;
@@ -1332,8 +1536,6 @@ body.map #camera_error {
 body.map .location-icon {
   display: block;
   text-indent: 100%;
-  /* To hide inner text don't use text-indent:-10000px see: http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/ */
-
   white-space: nowrap;
   overflow: hidden;
   width: 40px;
