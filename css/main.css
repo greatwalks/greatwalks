@@ -603,6 +603,7 @@ label {
   background: transparent;
   position: relative;
   width: 100%;
+  padding: 0px;
 }
 .walk .text-column1 .walk-detail.dont-miss p {
   margin: 0px;
@@ -610,6 +611,18 @@ label {
 }
 .walk .text-column1 .walk-detail.dont-miss p img {
   width: 100%;
+}
+.walk .text-column1 .walk-detail.dont-miss p img.shadow {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  opacity: 0;
+  transition: 0.2s ease-in;
+  -webkit-transition: 0.2s ease-in;
+}
+.walk .text-column1 .walk-detail.dont-miss p img.shadow.shadow-visible {
+  opacity: 1;
+  z-index: 2;
 }
 .walk .text-column1 .walk-detail.dont-miss p a {
   display: block;
