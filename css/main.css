@@ -614,8 +614,6 @@ label {
 .walk .text-column1 .walk-detail.dont-miss p a {
   display: block;
   position: absolute;
-  left: 0px;
-  top: 0px;
 }
 .walk .text-column1 .walk-detail.dont-miss p a img {
   image-rendering: -webkit-optimize-contrast;
@@ -786,6 +784,206 @@ label {
   right: 5px;
   bottom: 3.2%;
   width: 50%;
+}
+.walk .text-column1.lake-waikaremoana div.dont-miss .counterclockwise {
+  left: 5%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.lake-waikaremoana div.dont-miss .falls {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.lake-waikaremoana div.dont-miss .awesomeviews {
+  right: 10%;
+  top: 38%;
+  width: 50%;
+}
+.walk .text-column1.lake-waikaremoana div.dont-miss .notebook {
+  left: 8%;
+  bottom: 2%;
+  width: 45%;
+}
+.walk .text-column1.lake-waikaremoana div.dont-miss .swimming {
+  right: 5px;
+  bottom: 3.5%;
+  width: 45%;
+}
+.walk .text-column1.tongariro-northern-circuit div.dont-miss .hobbits {
+  left: 5%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.tongariro-northern-circuit div.dont-miss .culture {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.tongariro-northern-circuit div.dont-miss .lakes {
+  left: 8%;
+  top: 35%;
+  width: 45%;
+}
+.walk .text-column1.tongariro-northern-circuit div.dont-miss .volcanoes {
+  left: 8%;
+  bottom: 3%;
+  width: 45%;
+}
+.walk .text-column1.tongariro-northern-circuit div.dont-miss .taranakifalls {
+  right: 6%;
+  bottom: 4%;
+  width: 45%;
+}
+.walk .text-column1.whanganui-journey div.dont-miss .kiwi {
+  left: 5%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.whanganui-journey div.dont-miss .tikidude {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.whanganui-journey div.dont-miss .scenic-river {
+  left: 8%;
+  top: 30%;
+  width: 40%;
+}
+.walk .text-column1.whanganui-journey div.dont-miss .culture {
+  right: 8%;
+  top: 43%;
+  width: 40%;
+}
+.walk .text-column1.whanganui-journey div.dont-miss .bridge {
+  left: 8%;
+  bottom: 4%;
+  width: 80%;
+}
+.walk .text-column1.heaphy-track div.dont-miss .birds {
+  left: 5%;
+  top: 5%;
+  width: 35%;
+}
+.walk .text-column1.heaphy-track div.dont-miss .flora {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.heaphy-track div.dont-miss .heaphyhut {
+  left: 8%;
+  top: 35%;
+  width: 70%;
+}
+.walk .text-column1.heaphy-track div.dont-miss .mountainbiking {
+  left: 8%;
+  bottom: 2%;
+  width: 45%;
+}
+.walk .text-column1.heaphy-track div.dont-miss .snails {
+  right: 3%;
+  bottom: 6%;
+  width: 45%;
+}
+.walk .text-column1.kepler-track div.dont-miss .findkiwi {
+  left: 5%;
+  top: 5%;
+  width: 35%;
+}
+.walk .text-column1.kepler-track div.dont-miss .swingbridge {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.kepler-track div.dont-miss .caves {
+  left: 8%;
+  top: 34%;
+  width: 70%;
+}
+.walk .text-column1.kepler-track div.dont-miss .awesome-views {
+  left: 8%;
+  bottom: 3%;
+  width: 45%;
+}
+.walk .text-column1.kepler-track div.dont-miss .burnfalls {
+  right: 3%;
+  bottom: 6%;
+  width: 45%;
+}
+.walk .text-column1.milford-track div.dont-miss .earlyfootsteps {
+  left: 5%;
+  top: 4%;
+  width: 35%;
+}
+.walk .text-column1.milford-track div.dont-miss .raincoat {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.milford-track div.dont-miss .falls {
+  left: 10%;
+  top: 34%;
+  width: 60%;
+}
+.walk .text-column1.milford-track div.dont-miss .duck {
+  left: 8%;
+  bottom: 3%;
+  width: 40%;
+}
+.walk .text-column1.milford-track div.dont-miss .suspensionbridge {
+  right: 4%;
+  bottom: 6%;
+  width: 45%;
+}
+.walk .text-column1.routeburn-track div.dont-miss .earlysteps {
+  left: 5%;
+  top: 4%;
+  width: 35%;
+}
+.walk .text-column1.routeburn-track div.dont-miss .mohua {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.routeburn-track div.dont-miss .alpine-wetlands {
+  left: 10%;
+  top: 37%;
+  width: 60%;
+}
+.walk .text-column1.routeburn-track div.dont-miss .awesome-views {
+  left: 8%;
+  bottom: 3%;
+  width: 40%;
+}
+.walk .text-column1.routeburn-track div.dont-miss .blacksmith {
+  right: 4%;
+  bottom: 6%;
+  width: 45%;
+}
+.walk .text-column1.rakiura-track---stewart-island div.dont-miss .birds {
+  left: 5%;
+  top: 4%;
+  width: 35%;
+}
+.walk .text-column1.rakiura-track---stewart-island div.dont-miss .boatride {
+  right: 8%;
+  top: 5%;
+  width: 45%;
+}
+.walk .text-column1.rakiura-track---stewart-island div.dont-miss .cliff-walfs {
+  left: 10%;
+  top: 37%;
+  width: 60%;
+}
+.walk .text-column1.rakiura-track---stewart-island div.dont-miss .island-sanc {
+  left: 9%;
+  bottom: 4%;
+  width: 40%;
+}
+.walk .text-column1.rakiura-track---stewart-island div.dont-miss .cultural-points {
+  right: 4%;
+  bottom: 6%;
+  width: 45%;
 }
 .walk .popover {
   background: white;
