@@ -1135,6 +1135,37 @@ if(!(window.console && console.log)) {
                 }
             }
             return "";
+        },
+        get_popover_placement = function($sender){
+            //console.log("Determining placement");
+            var placement = $sender.data("placement"),
+                offset,
+                $window,
+                window_dimensions,
+                scroll_top;
+            if(placement !== undefined) return placement;
+            //console.log("No default placement...determining it dynamically");
+            $window = $(window);
+            window_dimensions = {"width": $window.width(), "height": $window.height()};
+            scroll_top = $window.scrollTop();
+            offset = $sender.offset();
+            offset.top -= scroll_top;
+            offset.top += $sender.height() / 2;
+            offset.left += $sender.width() / 2;
+            if(window_dimensions.width > 650) { //use left/right
+                //console.log("widescreen " + window_dimensions.width + " " + offset.left);
+                if(offset.left > window_dimensions.width / 2) {
+                    return "left";
+                } else {
+                    return "right";
+                }
+            }
+            //console.log("smallscreen" + window_dimensions.width);
+            if(offset.top > window_dimensions.height / 2) {
+                return "top";
+            } else {
+                return "bottom";
+            }
         };
 
     window.hide_all_popovers = function(event, except_this_one){
@@ -1157,6 +1188,8 @@ if(!(window.console && console.log)) {
         }
     };
 
+    
+
     window.hide_popover = function(event){
         $(this).popover('hide');
     };
@@ -1165,7 +1198,7 @@ if(!(window.console && console.log)) {
         var $this = $(this),
             content_template = $this.data("content-template"),
             popover_class = $this.data("popover-class"),
-            options = {html: true, trigger: "manual", "placement": "top"},
+            options = {html: true, trigger: "manual", "placement": get_popover_placement($this)},
             distance_placeholder = "[DISTANCE]",
             old_options,
             includes_description = false;
@@ -1193,7 +1226,7 @@ if(!(window.console && console.log)) {
 
     window.show_popover = function(event, override_content){
         var $this = $(this),
-            options = {html: true, trigger: "manual"};
+            options = {html: true, trigger: "manual", "placement": get_popover_placement($this)};
         window.hide_all_popovers(event, $this);
         if(override_content !== undefined) {
             options.content = override_content;
@@ -1232,7 +1265,12 @@ if(!(window.console && console.log)) {
                 }
                 $shadow.removeClass("shadow-visible");
             },
-            $html = $("html").bind("popover-click", disable_all_dont_miss);
+            $html = $("html").bind("popover-click", disable_all_dont_miss),
+            $elevation_profile = $("#elevation-profile");
+
+        $elevation_profile.click(function(){
+            $elevation_profile.modal("hide");
+        });
 
         $("body").on("click", ".audio", function(event){
             var $this = $(this),
