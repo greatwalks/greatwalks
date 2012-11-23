@@ -1155,6 +1155,14 @@ body.find-an-adventure #see.modal {
   width: 15em;
   margin-left: -7.5em;
 }
+body.find-an-adventure #see.modal ol li {
+  background-image: url("../img/checkbox-sprite.png");
+  background-position: 20px 15px;
+  background-size: 19px 118px;
+}
+body.find-an-adventure #see.modal ol li.active {
+  background-position: 20px -85px;
+}
 body.find-an-adventure #time.modal {
   width: 10em;
   margin-left: -5em;
