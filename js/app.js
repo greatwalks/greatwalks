@@ -1236,6 +1236,8 @@ if(!(window.console && console.log)) {
 
         $("body").on("click", ".audio", function(event){
             console.log("Trying to play");
+            /*
+            //1. HTML5 Audio approach
             var $audio = $("audio"),
                 $this = $(this),
                 audio_element;
@@ -1251,9 +1253,20 @@ if(!(window.console && console.log)) {
                 $audio.attr("src", $this.data("audio"));
                 audio_element = $audio.get(0);
             }
-            
             audio_element.load();
             audio_element.play();
+            */
+            //2. Phonegap Media approach
+            var $this = $(this),
+                onSuccess = function(){
+                    console.log("playAudio():Audio Success");
+                },
+                onError = function onError(error) {
+                    alert('code: '    + error.code    + '\nmessage: ' + error.message + '\n');
+                };
+                
+            var my_media = new Media($this.data("audio"), onSuccess, onError);
+            my_media.play();
             
             
         });
