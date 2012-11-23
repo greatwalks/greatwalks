@@ -1243,14 +1243,15 @@ if(!(window.console && console.log)) {
                 $audio = $("<audio src=\"" + $this.data("audio") + "\" />");
                 $("body").append($audio);
                 audio_element = $audio.get(0);
+                audio_element.addEventListener("load", function(){
+                    audio_element.play();
+                    console.log("Playing?");
+                });
             } else {
                 $audio.attr("src", $this.data("audio"));
                 audio_element = $audio.get(0);
             }
-            audio_element.addEventListener("load", function(){
-                audio_element.play();
-                console.log("Playing?");
-            });
+            
             audio_element.load();
             audio_element.play();
             
