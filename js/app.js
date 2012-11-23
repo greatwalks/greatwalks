@@ -1263,9 +1263,10 @@ if(!(window.console && console.log)) {
                 },
                 onError = function onError(error) {
                     alert('code: '    + error.code    + '\nmessage: ' + error.message + '\n');
-                };
-                
-            var my_media = new Media($this.data("audio"), onSuccess, onError);
+                },
+                audio_path = "/android_asset/" + $this.data("audio");
+            console.log("Trying to play " + audio_path);
+            var my_media = new Media(audio_path, onSuccess, onError);
             my_media.play();
             
             
