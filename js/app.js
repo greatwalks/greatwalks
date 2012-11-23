@@ -1235,41 +1235,31 @@ if(!(window.console && console.log)) {
             $html = $("html").bind("popover-click", disable_all_dont_miss);
 
         $("body").on("click", ".audio", function(event){
-            console.log("Trying to play");
-            /*
-            //1. HTML5 Audio approach
-            var $audio = $("audio"),
-                $this = $(this),
-                audio_element;
-            if($audio.length === 0) {
-                $audio = $("<audio src=\"" + $this.data("audio") + "\" />");
-                $("body").append($audio);
-                audio_element = $audio.get(0);
-                audio_element.addEventListener("load", function(){
-                    audio_element.play();
-                    console.log("Playing?");
-                });
-            } else {
-                $audio.attr("src", $this.data("audio"));
-                audio_element = $audio.get(0);
-            }
-            audio_element.load();
-            audio_element.play();
-            */
-            //2. Phonegap Media approach
             var $this = $(this),
-                onSuccess = function(){
-                    console.log("playAudio():Audio Success");
-                },
-                onError = function onError(error) {
-                    alert('code: '    + error.code    + '\nmessage: ' + error.message + '\n');
-                },
+                audio_path,
+                media_player;
+            if(window.Media) { //use Phonegap-style audio
+               var  onSuccess = function(){},
+                    onError = function onError(error) {
+                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
+                    };
                 audio_path = "/android_asset/www/" + $this.data("audio");
-            console.log("Trying to play " + audio_path);
-            var my_media = new Media(audio_path, onSuccess, onError);
-            my_media.play();
-            
-            
+                media_player = new window.Media(audio_path, onSuccess, onError);
+                media_player.play();
+            } else {// Use HTML5 Audio approach
+                var $audio = $("audio"),
+                    audio_element;
+                audio_path = $this.data("audio");
+                if($audio.length === 0) {
+                    $audio = $("<audio src=\"" + $this.data("audio") + "\" />");
+                    $("body").append($audio);
+                } else {
+                    $audio.attr("src", audio_path);
+                }
+                audio_element = $audio.get(0);
+                audio_element.load();
+                audio_element.play();
+            }
         });
         $(".walk-detail-header").click(function(){
             $(this).toggleClass("open").next(".walk-detail").slideToggle();
