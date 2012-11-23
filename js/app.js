@@ -1234,7 +1234,28 @@ if(!(window.console && console.log)) {
             },
             $html = $("html").bind("popover-click", disable_all_dont_miss);
 
-
+        $("body").on("click", ".audio", function(event){
+            console.log("Trying to play");
+            var $audio = $("audio"),
+                $this = $(this),
+                audio_element;
+            if($audio.length === 0) {
+                $audio = $("<audio src=\"" + $this.data("audio") + "\" />");
+                $("body").append($audio);
+                audio_element = $audio.get(0);
+            } else {
+                $audio.attr("src", $this.data("audio"));
+                audio_element = $audio.get(0);
+            }
+            audio_element.addEventListener("load", function(){
+                audio_element.play();
+                console.log("Playing?");
+            });
+            audio_element.load();
+            audio_element.play();
+            
+            
+        });
         $(".walk-detail-header").click(function(){
             $(this).toggleClass("open").next(".walk-detail").slideToggle();
         });

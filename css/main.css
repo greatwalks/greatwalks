@@ -387,6 +387,16 @@ label {
   font-weight: normal;
   font-family: serif;
 }
+.text-column1 a.audio {
+  color: black;
+  background-image: url("../img/speaker-icon.png");
+  background-size: 16px 12px;
+  background-repeat: no-repeat;
+  background-position: right;
+  padding-right: 20px;
+  display: inline-block;
+  whitespace: no-wrap;
+}
 .btn {
   display: inline-block;
   padding: 8px;
@@ -440,6 +450,10 @@ label {
 .below-fold .text-column1 {
   margin-top: 20px;
   padding-top: 20px;
+}
+.walk .text-column1 {
+  font-famiy: serif;
+  line-height: 120%;
 }
 .walk .text-column1 h1 {
   background-repeat: no-repeat;
@@ -596,6 +610,7 @@ label {
 }
 .walk .text-column1 .walk-detail {
   display: none;
+  background: white;
   padding: 0.5em 1em;
   margin-top: -10px;
 }
