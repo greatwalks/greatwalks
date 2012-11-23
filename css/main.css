@@ -451,6 +451,12 @@ label {
   margin-top: 20px;
   padding-top: 20px;
 }
+#elevation-profile {
+  top: 10px;
+  left: 10px;
+  position: absolute;
+  margin: 0px 0px;
+}
 .walk .text-column1 {
   font-famiy: serif;
   line-height: 120%;
@@ -1260,24 +1266,15 @@ body.index #wrapper #carousel .slide3 {
   background-image: url("../img/homepage-carousel-x1024-heaphy-track.jpg");
 }
 body.index #wrapper #carousel .slide4 {
-  background-image: url("../img/homepage-carousel-x1024-kepler-track.jpg");
-}
-body.index #wrapper #carousel .slide5 {
   background-image: url("../img/homepage-carousel-x1024-lake-waikaremoana.jpg");
 }
-body.index #wrapper #carousel .slide6 {
+body.index #wrapper #carousel .slide5 {
   background-image: url("../img/homepage-carousel-x1024-milford-track.jpg");
 }
-body.index #wrapper #carousel .slide7 {
+body.index #wrapper #carousel .slide6 {
   background-image: url("../img/homepage-carousel-x1024-rakiura-track---stewart-island.jpg");
 }
-body.index #wrapper #carousel .slide8 {
-  background-image: url("../img/homepage-carousel-x1024-routeburn-track.jpg");
-}
-body.index #wrapper #carousel .slide9 {
-  background-image: url("../img/homepage-carousel-x1024-tongariro-northern-circuit.jpg");
-}
-body.index #wrapper #carousel .slide10 {
+body.index #wrapper #carousel .slide7 {
   background-image: url("../img/homepage-carousel-x1024-whanganui-journey.jpg");
 }
 body.index #wrapper #carousel .carousel-control {
