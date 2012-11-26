@@ -472,27 +472,59 @@ label {
 .walk .text-column1 {
   font-famiy: serif;
   line-height: 120%;
-}
-.walk .text-column1 h1 {
   background-repeat: no-repeat;
   background-size: 63px 91px;
+}
+.walk .text-column1 h1 {
   padding-top: 10px;
   padding-left: 80px;
-  min-height: 91px;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 36px;
+  line-height: 100%;
 }
-.walk .text-column1.tongariro-northern-circuit h1,
+.walk .text-column1.lake-waikaremoana {
+  background-image: url("../img/walks/lake-waikaremoana/national.gif");
+}
+.walk .text-column1.wellington {
+  background-image: url("../img/walks/wellington/national.gif");
+}
+.walk .text-column1.tongariro-northern-circuit {
+  background-image: url("../img/walks/tongariro-northern-circuit/national.gif");
+}
+.walk .text-column1.tongariro-northern-circuit h1 {
+  font-size: 27px;
+}
+.walk .text-column1.whanganui-journey {
+  background-image: url("../img/walks/whanganui-journey/national.gif");
+}
+.walk .text-column1.abel-tasman-coast-track {
+  background-image: url("../img/walks/abel-tasman-coast-track/national.gif");
+}
 .walk .text-column1.abel-tasman-coast-track h1 {
   font-size: 27px;
+}
+.walk .text-column1.heaphy-track {
+  background-image: url("../img/walks/heaphy-track/national.gif");
+}
+.walk .text-column1.routeburn-track {
+  background-image: url("../img/walks/routeburn-track/national.gif");
+}
+.walk .text-column1.milford-track {
+  background-image: url("../img/walks/milford-track/national.gif");
+}
+.walk .text-column1.kepler-track {
+  background-image: url("../img/walks/kepler-track/national.gif");
+}
+.walk .text-column1.rakiura-track---stewart-island {
+  background-image: url("../img/walks/rakiura-track---stewart-island/national.gif");
 }
 .walk .text-column1.rakiura-track---stewart-island h1 {
   font-size: 26px;
 }
 .walk .text-column1 .info {
   padding-left: 80px;
-  margin-top: -55px;
+  margin-top: -5px;
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 1em;
@@ -691,36 +723,6 @@ label {
   -moz-box-shadow: 3px 3px 10px #8d8874;
   -webkit-box-shadow: 3px 3px 10px #8d8874;
   box-shadow: 3px 3px 10px #8d8874;
-}
-.walk .text-column1.lake-waikaremoana h1 {
-  background-image: url("../img/walks/lake-waikaremoana/national.gif");
-}
-.walk .text-column1.wellington h1 {
-  background-image: url("../img/walks/wellington/national.gif");
-}
-.walk .text-column1.tongariro-northern-circuit h1 {
-  background-image: url("../img/walks/tongariro-northern-circuit/national.gif");
-}
-.walk .text-column1.whanganui-journey h1 {
-  background-image: url("../img/walks/whanganui-journey/national.gif");
-}
-.walk .text-column1.abel-tasman-coast-track h1 {
-  background-image: url("../img/walks/abel-tasman-coast-track/national.gif");
-}
-.walk .text-column1.heaphy-track h1 {
-  background-image: url("../img/walks/heaphy-track/national.gif");
-}
-.walk .text-column1.routeburn-track h1 {
-  background-image: url("../img/walks/routeburn-track/national.gif");
-}
-.walk .text-column1.milford-track h1 {
-  background-image: url("../img/walks/milford-track/national.gif");
-}
-.walk .text-column1.kepler-track h1 {
-  background-image: url("../img/walks/kepler-track/national.gif");
-}
-.walk .text-column1.rakiura-track---stewart-island h1 {
-  background-image: url("../img/walks/rakiura-track---stewart-island/national.gif");
 }
 .walk .text-column1 .icon-map,
 .walk .text-column1 .icon-maps-blue {
@@ -1047,6 +1049,26 @@ label {
   right: 4%;
   bottom: 6%;
   width: 45%;
+}
+.walk .below-fold {
+  background: #e5dfbd;
+  padding-bottom: 50px;
+}
+.walk .below-fold .text-column1 {
+  margin-top: 20px;
+  padding-top: 20px;
+}
+.walk .below-fold .text-column1.lake-waikaremoana,
+.walk .below-fold .text-column1.wellington,
+.walk .below-fold .text-column1.tongariro-northern-circuit,
+.walk .below-fold .text-column1.whanganui-journey,
+.walk .below-fold .text-column1.abel-tasman-coast-track,
+.walk .below-fold .text-column1.heaphy-track,
+.walk .below-fold .text-column1.routeburn-track,
+.walk .below-fold .text-column1.milford-track,
+.walk .below-fold .text-column1.kepler-track,
+.walk .below-fold .text-column1.rakiura-track---stewart-island {
+  background-image: none;
 }
 .walk .popover {
   background: white;
