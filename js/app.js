@@ -24,12 +24,7 @@ if(!(window.console && console.log)) {
         var close_modal_timer,
             $last_modal,
             delete_any_modal_backdrops = function(){
-                if($last_modal.is(":visible")) return;
                 $(".modal-backdrop").remove();
-                if(close_modal_timer) {
-                    clearTimeout(close_modal_timer);
-                }
-                setTimeout(delete_any_modal_backdrops, 250);
             };
         $(".resetFinder").click(function(event){
             $(".modal .active").removeClass("active");
