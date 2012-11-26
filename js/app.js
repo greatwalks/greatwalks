@@ -44,14 +44,15 @@ if(!(window.console && console.log)) {
             } else if($modal.is("#see")) {
                 $list_item.toggleClass("active");
             }
+            $modal.modal('hide');
+
             if(close_modal_timer) {
                 clearTimeout(close_modal_timer);
                 close_modal_timer = undefined;
             }
             close_modal_timer = setTimeout(function(){ //give the user time to see their choice before closing the modal dialog
-                $modal.modal('hide');
+                $(".modal-backdrop").remove();
             }, 250);
-            
             
             $results_search.show();
             $warning_one_two_days.hide();
@@ -71,7 +72,7 @@ if(!(window.console && console.log)) {
                     }
                 });
             });
-            //$("#debug").append(". " + $results_search.filter(":visible").length);
+            
             if($results_search.length > 0) {
                 $results.show();
                 $no_results.hide();
