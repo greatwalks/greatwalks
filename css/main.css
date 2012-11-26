@@ -202,12 +202,9 @@ label {
   line-height: 90%;
   font-size: 17px;
 }
-.modal,
-.modal.fade,
 .modal.fade.in {
-  position: fixed;
+  margin-top: 0px;
   top: 10px;
-  left: 50%;
 }
 .navbar {
   transition: 0.2s ease-in;
