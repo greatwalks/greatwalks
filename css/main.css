@@ -170,7 +170,7 @@ label {
     height: 64px;
   }
   #wrapper {
-    padding-top: 74px;
+    padding-top: 20px;
   }
 }
 .popover {
@@ -385,7 +385,7 @@ label {
 .text-column1 {
   width: 70%;
   max-width: 654px;
-  min-width: 250px;
+  min-width: 300px;
   margin: 0px auto 0px auto;
   color: #333333;
 }
@@ -447,7 +447,7 @@ label {
   background-position: 10px -90px;
   padding-left: 33px;
 }
-@media (max-height: 300px) {
+@media (max-height: 400px) {
   .text-column1 {
     margin: 50px auto 0px auto;
   }
@@ -481,7 +481,7 @@ label {
   min-height: 91px;
   text-transform: uppercase;
   font-weight: bold;
-  white-space: nowrap;
+  font-size: 36px;
 }
 .walk .text-column1.tongariro-northern-circuit h1,
 .walk .text-column1.abel-tasman-coast-track h1 {
@@ -1062,6 +1062,24 @@ label {
   background: linear-gradient(to bottom, #80c1dd 0%, #e3eef4 100%);
   /* W3C */
 
+}
+@media (max-height: 400px), (max-width: 400px) {
+  body.walk .text-column1 h1 {
+    font-size: 16px;
+  }
+  body.walk .text-column1 h1.tongariro-northern-circuit h1,
+  body.walk .text-column1 h1.abel-tasman-coast-track h1 {
+    font-size: 15px;
+  }
+  body.walk .text-column1 h1.rakiura-track---stewart-island h1 {
+    font-size: 14px;
+  }
+  body.walk .text-column1 .info {
+    font-size: 14px;
+  }
+  body.walk .text-column1 .info span.duration {
+    margin-left: 10px;
+  }
 }
 body.find-an-adventure {
   background: #e5dfbd;
