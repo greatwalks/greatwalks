@@ -498,6 +498,184 @@ if(!(window.console && console.log)) {
 
 /* END OF index.js */
 
+/* BEGINNING OF map--zoom.js */
+/*globals window map_details */
+/* ===========================================================
+ * map.js v1
+ * Developed at Department of Conservation by Matthew Holloway
+ * <matth@catalyst.net.nz>
+ * -----------------------------------------------------------
+ *
+ * Provides maps with pinchzoom, drag scrolling etc with popups.
+ *
+ * ========================================================== */
+(function($){
+    "use strict";
+    if(window.location.pathname.toString().indexOf("map-") === -1) return;
+    var drag_offset = {base_x:0,base_y:0,x:0,y:0},
+        map__zoom_init = function(event){
+            //based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
+            var $window = $(window),
+                $image = $("#map").css({
+                    "left": ((-map_details.map_pixel_width / 2) + ($window.width() / 2)) + "px",
+                    "top": ((-map_details.map_pixel_height / 2) + ($window.height() / 2)) + "px"
+                }),
+                hammer,
+                height,
+                offset,
+                screenOffset,
+                origin,
+                prevScale,
+                scale,
+                translate,
+                width,
+                screenOrigin,
+                redraw = function(){
+                     if(scale < 0.1) {
+                        scale = 0.1;
+                    } else if(scale > 3) {
+                        scale = 3;
+                    }
+                    var map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
+                    $image.css('-webkit-transform', map_css);
+                    window.hide_all_popovers();
+                },
+                no_touch_zoom_init = function(){
+                    var $no_touch_zoom = $("#no-touch-zoom"),
+                        $zoom_out = $no_touch_zoom.find("a.zoom-out"),
+                        $zoom_in = $no_touch_zoom.find("a.zoom-in");
+                    $zoom_out.click(function(event){
+                        scale -= 0.1;
+                        redraw();
+                    });
+
+                    $zoom_in.click(function(event){
+                        scale += 0.1;
+                        redraw();
+                    });
+                    $("#no-touch-zoom").show();
+                };
+            if(window.Modernizr && !window.Modernizr.touch) {
+                no_touch_zoom_init();
+            }
+            //wrap = $('#wrap');
+            width = $image.width();
+            height = $image.height();
+            offset = $image.offset();
+            screenOrigin = {
+                x: 0,
+                y: 0
+            };
+            origin = {
+                x: 0,
+                y: 0
+            };
+            translate = {
+                x: 0,
+                y: 0
+            };
+            screenOffset = {
+                x: 0,
+                y: 0
+            };
+
+            scale = map_details.map_initial_scale;
+            prevScale = 1;
+
+            hammer = $image.hammer({
+                prevent_default: true,
+                scale_treshold: 0,
+                drag_min_distance: 0
+            });
+
+            hammer.bind('dragend', function(event) {
+                drag_offset.base_x = drag_offset.x;
+                drag_offset.base_y = drag_offset.y;
+                redraw();
+            });
+
+            hammer.bind('drag', function(event) {
+                drag_offset.x = drag_offset.base_x + event.distanceX;
+                drag_offset.y = drag_offset.base_y + event.distanceY;
+                //$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
+                redraw();
+            });
+
+            hammer.bind('transformstart', function(event) {
+                screenOrigin.x = (event.originalEvent.touches[0].clientX + event.originalEvent.touches[1].clientX) / 2;
+                return screenOrigin.y = (event.originalEvent.touches[0].clientY + event.originalEvent.touches[1].clientY) / 2;
+            });
+
+            hammer.bind('transform', function(event) {
+                var newHeight, newWidth;
+                scale = prevScale * event.scale;
+
+               
+
+                newWidth = $image.width() * scale;
+                newHeight = $image.height() * scale;
+
+                origin.x = screenOrigin.x - offset.left - translate.x;
+                origin.y = screenOrigin.y - offset.top - translate.y;
+
+                translate.x += -origin.x * (newWidth - width) / newWidth;
+                translate.y += -origin.y * (newHeight - height) / newHeight;
+
+                //$image.css('-webkit-transform', "translate3d(" + drag_offset.x + "px, " + drag_offset.y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)");
+                redraw();
+                width = newWidth;
+
+                return height = newHeight;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
+            });
+
+            hammer.bind('transformend', function(event) {
+                return prevScale = scale;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
+            });
+        };
+
+    window.centerMap = function(x, y){
+            return;
+            var $map = $("#map"),
+                $window = $(window),
+                window_width = $window.width(),
+                window_height = $window.height(),
+                map_offset = $map.offset(),
+                map_css;
+            if(x === undefined && y === undefined) { //if no coordinates are given then center on middle of map
+                x = -(map_offset.left + (map_details.map_pixel_width / 2) - (window_width / 2));
+                y = -(map_offset.top + (map_details.map_pixel_height / 2) - (window_height / 2));
+                
+            }
+            if(x > 0 && x < window_width / 2) {
+                x = -map_offset.left;
+            } else if(x > window_width / 2 && x < map_details.map_pixel_width - (window_width / 2)) {
+                x = -map_offset.left - (x / 2);
+            } else {
+                x =  -map_details.map_pixel_width + window_width;
+                
+            }
+
+            if(y > 0 && y < window_height / 2) {
+                y = 0;
+            } else if(y > window_height / 2 && y < map_details.map_pixel_height - (window_height / 2)) {
+                y = -map_offset.top - (y / 2);
+            } else {
+                y = -map_offset.top - map_details.map_pixel_height + window_height;
+            }
+            
+            map_css = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+            //$("#debug").text(map_css);
+            $map.css('-webkit-transform', map_css);
+            drag_offset.base_x = x;
+            drag_offset.base_y = y;
+        };
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+        document.addEventListener("deviceready", map__zoom_init, false);
+    } else {
+        $(document).ready(map__zoom_init);
+    }
+}(jQuery));/* END OF map--zoom.js */
+
 /* BEGINNING OF map.js */
 /*globals map_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
 /* ===========================================================
@@ -570,7 +748,6 @@ if(!(window.console && console.log)) {
                 enableHighAccuracy: true,
                 timeout: one_second_in_milliseconds * 15
             },
-            drag_offset = {base_x:0,base_y:0,x:0,y:0},
             pixels_to_longitude_latitude = function(map_x, map_y){
                 return {
                     longitude: map_details.longitude + (map_x / map_details.degrees_per_pixel),
@@ -653,7 +830,7 @@ if(!(window.console && console.log)) {
                         y = Math.abs(youarehere_pixels.top);
                     
                     centered_once_upon_load = true;
-                    centerMap(x, y);
+                    window.centerMap(x, y);
                 }
                 last_known_position = position;
                 localStorage["geolocation-last-known-position"] = JSON.stringify(position);
@@ -670,138 +847,7 @@ if(!(window.console && console.log)) {
                     $("#no_gps").attr("title", msg.message).show();
                 }
             },
-            enable_map = function($image){
-                //based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
-                var hammer,
-                    height,
-                    offset,
-                    screenOffset,
-                    origin,
-                    prevScale,
-                    scale,
-                    translate,
-                    width,
-                    screenOrigin,
-                    redraw = function(){
-                        var locations_css = 'scale3d(' + ( 1 / scale ) + ', ' + ( 1 / scale ) + ', 0)',
-                            map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
-                        $image.css('-webkit-transform', map_css);
-                        window.hide_all_popovers();
-                    };
 
-                //wrap = $('#wrap');
-                width = $image.width();
-                height = $image.height();
-                offset = $image.offset();
-                screenOrigin = {
-                    x: 0,
-                    y: 0
-                };
-                origin = {
-                    x: 0,
-                    y: 0
-                };
-                translate = {
-                    x: 0,
-                    y: 0
-                };
-                screenOffset = {
-                    x: 0,
-                    y: 0
-                };
-
-                scale = 1;
-                prevScale = 1;
-
-                hammer = $image.hammer({
-                    prevent_default: true,
-                    scale_treshold: 0,
-                    drag_min_distance: 0
-                });
-
-                hammer.bind('dragend', function(event) {
-                    drag_offset.base_x = drag_offset.x;
-                    drag_offset.base_y = drag_offset.y;
-                    redraw();
-                });
-
-                hammer.bind('drag', function(event) {
-                    drag_offset.x = drag_offset.base_x + event.distanceX;
-                    drag_offset.y = drag_offset.base_y + event.distanceY;
-                    //$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
-                    redraw();
-                });
-
-                hammer.bind('transformstart', function(event) {
-                    screenOrigin.x = (event.originalEvent.touches[0].clientX + event.originalEvent.touches[1].clientX) / 2;
-                    return screenOrigin.y = (event.originalEvent.touches[0].clientY + event.originalEvent.touches[1].clientY) / 2;
-                });
-
-                hammer.bind('transform', function(event) {
-                    var newHeight, newWidth;
-                    scale = prevScale * event.scale;
-
-                    if(scale < 0.3) {
-                        scale = 0.3;
-                    } else if(scale > 3) {
-                        scale = 3;
-                    }
-
-                    newWidth = $image.width() * scale;
-                    newHeight = $image.height() * scale;
-
-                    origin.x = screenOrigin.x - offset.left - translate.x;
-                    origin.y = screenOrigin.y - offset.top - translate.y;
-
-                    translate.x += -origin.x * (newWidth - width) / newWidth;
-                    translate.y += -origin.y * (newHeight - height) / newHeight;
-
-                    //$image.css('-webkit-transform', "translate3d(" + drag_offset.x + "px, " + drag_offset.y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)");
-                    redraw();
-                    width = newWidth;
-
-                    return height = newHeight;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
-                });
-
-                hammer.bind('transformend', function(event) {
-                    return prevScale = scale;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
-                });
-            },
-            centerMap = function(x, y){
-                var $map = $("#map"),
-                    $window = $(window),
-                    window_width = $window.width(),
-                    window_height = $window.height(),
-                    map_offset = $map.offset(),
-                    map_css;
-                if(x === undefined && y === undefined) { //if no coordinates are given then center on middle of map
-                    x = -(map_offset.left + (map_details.map_pixel_width / 2) - (window_width / 2));
-                    y = -(map_offset.top + (map_details.map_pixel_height / 2) - (window_height / 2));
-                    
-                }
-                if(x > 0 && x < window_width / 2) {
-                    x = -map_offset.left;
-                } else if(x > window_width / 2 && x < map_details.map_pixel_width - (window_width / 2)) {
-                    x = -map_offset.left - (x / 2);
-                } else {
-                    x =  -map_details.map_pixel_width + window_width;
-                    
-                }
-
-                if(y > 0 && y < window_height / 2) {
-                    y = 0;
-                } else if(y > window_height / 2 && y < map_details.map_pixel_height - (window_height / 2)) {
-                    y = -map_offset.top - (y / 2);
-                } else {
-                    y = -map_offset.top - map_details.map_pixel_height + window_height;
-                }
-                
-                map_css = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-                //$("#debug").text(map_css);
-                $map.css('-webkit-transform', map_css);
-                drag_offset.base_x = x;
-                drag_offset.base_y = y;
-            },
             current_time_in_epoch_milliseconds,
             user_actions = {
                 $user_actions_panel: $("#user_actions"),
@@ -931,12 +977,12 @@ if(!(window.console && console.log)) {
             last_known_position = JSON.parse(last_known_position);
             current_time_in_epoch_milliseconds = (new Date()).getTime();
             if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
-                centerMap();
+                window.centerMap();
             } else {
                 geolocationSuccess(last_known_position);
             }
         } else {
-            centerMap();
+            window.centerMap();
         }
 
         if (navigator.geolocation) {
@@ -945,7 +991,7 @@ if(!(window.console && console.log)) {
             geolocationError();
         }
         
-        enable_map($("#map"));
+        
         if(Modernizr.touch) {
             $("#weta").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
             $("#map .location").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);

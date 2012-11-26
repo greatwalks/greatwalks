@@ -63,12 +63,13 @@
                 </ul>
             </div>
     	    <script type="text/javascript">
-	var map_details = {"latitude":-39.043598354843745,"longitude":175.44773655679015,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000234666432478,"extent_latitude":-39.288590110350775,"extent_longitude":175.85652548216683,"map_id":"tongariro-northern-circuit"};
+	var map_details = {"latitude":-39.043598354843745,"longitude":175.44773655679015,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000234666432478,"extent_latitude":-39.288590110350775,"extent_longitude":175.85652548216683,"map_id":"tongariro-northern-circuit","map_initial_scale":0.1};
 </script>
 
 <a id="weta" rel="popover" data-placement="right" data-content="<h3>Weta</h3><b class='distance_away'>Distance: really close!</b>Seriously big nocturnal creatures that live in a variety of habitats including: pasture, shrub, forests, and caves. Weta excavate holes under stones, rotting logs, or in trees. They sometimes occupy pre-formed burrows.">Weta</a>
 
-<div style="background-image: url(img/walks/tongariro-northern-circuit/map.jpg); background-size: 1742px 1044px; width:1742px; height:1044px; position:relative" id="map">
+<div style="background-image: url(img/walks/tongariro-northern-circuit/map.jpg); background-size: 1742px 1044px; width:1742px; height:1044px; position:relative; -webkit-transform: scale3d(0.1, 0.1, 0)" id="map" class="have-transition">
+
 	<div id="youarehere">
 
 		<div class="dot"></div>
@@ -107,6 +108,11 @@
 </div>
  
 <img src="img/camera-placeholder.jpg" id="photo-preview">
+
+<div id="no-touch-zoom">
+	<a href="#zoom-out" class="zoom-out">-</a>
+	<a href="#zoom-in" class="zoom-in">+</a>
+</div>
         </div>
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery-1.8.2.min.js"></script>
