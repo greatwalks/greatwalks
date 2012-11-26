@@ -1013,7 +1013,7 @@ if(!(window.console && console.log)) {
             $new_zealand_map_wrapper
                 .addClass("size" + target_dimensions.chosen_text_size)
                 .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
-            $wrapper.width(available_width).height(available_height);
+            $wrapper.width(available_width).height(remaining_height);
             //$("#debug").text("size" + target_dimensions.chosen_text_size);
         },
         maps_init = function(event){
