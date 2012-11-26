@@ -170,7 +170,7 @@ label {
     height: 64px;
   }
   #wrapper {
-    padding-top: 20px;
+    padding-top: 60px;
   }
 }
 .popover {
@@ -201,6 +201,9 @@ label {
   font-family: serif;
   line-height: 90%;
   font-size: 17px;
+}
+.modal.fade {
+  left: 50%;
 }
 .modal.fade.in {
   margin-top: 0px;

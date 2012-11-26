@@ -21,7 +21,16 @@ if(!(window.console && console.log)) {
     "use strict";
     if(window.location.pathname.toString().indexOf("find-an-adventure.html") === -1) return;
     var find_init = function(){
-        var close_modal_timer;
+        var close_modal_timer,
+            $last_modal,
+            delete_any_modal_backdrops = function(){
+                if($last_modal.is(":visible")) return;
+                $(".modal-backdrop").remove();
+                if(close_modal_timer) {
+                    clearTimeout(close_modal_timer);
+                }
+                setTimeout(delete_any_modal_backdrops, 250);
+            };
         $(".resetFinder").click(function(event){
             $(".modal .active").removeClass("active");
             $("#no-results").hide();
@@ -38,7 +47,7 @@ if(!(window.console && console.log)) {
                 $results_search = $results.find("li"),
                 $modals = $(".modal"),
                 $warning_one_two_days = $("#warning-1-2-days");
-                
+            $last_modal = $modal;
             if(modal_id === "where" || modal_id === "time") {
                 $list_item.toggleClass("active").siblings().removeClass("active");
             } else if($modal.is("#see")) {
@@ -48,11 +57,8 @@ if(!(window.console && console.log)) {
 
             if(close_modal_timer) {
                 clearTimeout(close_modal_timer);
-                close_modal_timer = undefined;
             }
-            close_modal_timer = setTimeout(function(){ //give the user time to see their choice before closing the modal dialog
-                $(".modal-backdrop").remove();
-            }, 250);
+            close_modal_timer = setTimeout(delete_any_modal_backdrops, 250);
             
             $results_search.show();
             $warning_one_two_days.hide();
