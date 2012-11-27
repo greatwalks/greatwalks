@@ -605,7 +605,7 @@ if(!(window.console && console.log)) {
                 y: 0
             };
 
-            prevScale = 1;
+            prevScale = scale;
 
             hammer = $image.hammer({
                 prevent_default: true,
