@@ -1176,12 +1176,15 @@ if(!(window.console && console.log)) {
         },
        going_online = function(){
             $("#share-social").show();
+            /*
+            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
             $(".youtube").each(function(){
                 var $this = $(this),
                     youtube_id = $this.data("youtube-id");
                 $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
                     .attr("src", "http://www.youtube.com/embed/" + youtube_id));
             });
+            */
         },
        going_offline = function(){
             $("#share-social").hide();

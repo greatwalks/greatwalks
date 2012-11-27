@@ -458,6 +458,9 @@ label {
     width: 100%;
   }
 }
+body.info {
+  background: white;
+}
 #elevation-profile {
   top: 10px;
   left: 10px;
@@ -541,6 +544,13 @@ body.walk .text-column1 .intro {
 }
 body.walk .text-column1 .youtube {
   text-align: center;
+}
+body.walk .text-column1 #carousel .carousel-inner {
+  height: 200px;
+}
+body.walk .text-column1 #carousel .carousel-inner .item {
+  vertical-align: top;
+  float: left;
 }
 body.walk .text-column1 .walk-detail-header {
   color: white;
@@ -1457,6 +1467,9 @@ body.index #wrapper #doc-sign .find-an-adventure {
     padding-top: 0px;
     padding-bottom: 0px;
   }
+}
+body.book {
+  background: white;
 }
 body.maps {
   background: #eaf6fc;
