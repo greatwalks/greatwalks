@@ -516,28 +516,37 @@ if(!(window.console && console.log)) {
         map__zoom_init = function(event){
             //based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
             var $window = $(window),
-                $image = $("#map").css({
-                    "left": ((-map_details.map_pixel_width / 2) + ($window.width() / 2)) + "px",
-                    "top": ((-map_details.map_pixel_height / 2) + ($window.height() / 2)) + "px"
-                }),
+                window_width = $window.width(),
+                window_height = $window.height(),
+                $image = $("#map"),
+                $youarehere_offmap = $("#youarehere").find(".offmap"),
                 hammer,
                 height,
                 offset,
                 screenOffset,
                 origin,
                 prevScale,
-                scale,
+                scale = map_details.map_initial_scale,
                 translate,
                 width,
                 screenOrigin,
+                $locations = $(".location"),
                 redraw = function(){
-                     if(scale < 0.1) {
+                    var map_css,
+                        icon_scale;
+                    if(scale < 0.1) {
                         scale = 0.1;
                     } else if(scale > 3) {
                         scale = 3;
                     }
-                    var map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
+                    icon_scale = (1 / scale) * 30;
+                    if(icon_scale > 50) {
+                        icon_scale = 50;
+                    }
+                    map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
                     $image.css('-webkit-transform', map_css);
+                    $locations.width(icon_scale).height(icon_scale);
+                    $youarehere_offmap.css("fontSize", (icon_scale / 2) + "px");
                     window.hide_all_popovers();
                 },
                 no_touch_zoom_init = function(){
@@ -548,20 +557,34 @@ if(!(window.console && console.log)) {
                         scale -= 0.1;
                         redraw();
                     });
-
                     $zoom_in.click(function(event){
                         scale += 0.1;
                         redraw();
                     });
                     $("#no-touch-zoom").show();
                 };
+
             if(window.Modernizr && !window.Modernizr.touch) {
                 no_touch_zoom_init();
             }
-            //wrap = $('#wrap');
+
+            offset = $image.offset();
+
+            $image.css({
+                "left": ((-map_details.map_pixel_width / 2) + (window_width / 2)) + "px",
+                "top": ((-map_details.map_pixel_height / 2) + ($window.height() / 2) - $("#logo").height() ) + "px"
+            });
+
+            scale = (window_width - 50) / map_details.map_pixel_width; //ensure that the map is sized for the device width...
+            if(scale * map_details.map_pixel_height > window_height) { //..unless that's still too high, in which case scale for height
+                scale = (window_height - 50) / map_details.map_pixel_height;
+            }
+
+            redraw();
+
             width = $image.width();
             height = $image.height();
-            offset = $image.offset();
+            
             screenOrigin = {
                 x: 0,
                 y: 0
@@ -579,7 +602,6 @@ if(!(window.console && console.log)) {
                 y: 0
             };
 
-            scale = map_details.map_initial_scale;
             prevScale = 1;
 
             hammer = $image.hammer({
@@ -664,7 +686,6 @@ if(!(window.console && console.log)) {
             }
             
             map_css = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-            //$("#debug").text(map_css);
             $map.css('-webkit-transform', map_css);
             drag_offset.base_x = x;
             drag_offset.base_y = y;
@@ -970,7 +991,6 @@ if(!(window.console && console.log)) {
                     user_actions.$camera_error.fadeOut();
                 }
             },
-            $locations = $(".location"),
             youarehere_hammer;
 
         if(last_known_position !== undefined) {

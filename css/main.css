@@ -1776,6 +1776,10 @@ body.map #weta.active {
 body.map #map {
   border: solid 8px #201e1e;
 }
+body.map #map .have-transition {
+  transition: 0.2s ease-in;
+  -webkit-transition: 0.2s ease-in;
+}
 body.map #no-touch-zoom {
   display: none;
   position: fixed;
@@ -1826,7 +1830,7 @@ body.map #youarehere .offmap {
   position: absolute;
   left: 0px;
   top: 0px;
-  width: 120px;
+  width: 10em;
   font-size: x-small;
   background: #666666;
   color: #fff;
