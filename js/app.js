@@ -539,14 +539,15 @@ if(!(window.console && console.log)) {
                     } else if(scale > 3) {
                         scale = 3;
                     }
-                    icon_scale = (1 / scale) * 30;
-                    if(icon_scale > 50) {
-                        icon_scale = 50;
-                    }
                     map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
                     $image.css('-webkit-transform', map_css);
-                    $locations.width(icon_scale).height(icon_scale);
-                    $youarehere_offmap.css("fontSize", (icon_scale / 2) + "px");
+                    // Want to scale icons independently of the map? Enable this.
+                    // icon_scale = (1 / scale) * 30;
+                    // if(icon_scale > 50) {
+                    //    icon_scale = 50;
+                    // }
+                    //$locations.width(icon_scale).height(icon_scale);
+                    //$youarehere_offmap.css("fontSize", (icon_scale / 2) + "px");
                     window.hide_all_popovers();
                 },
                 no_touch_zoom_init = function(){
