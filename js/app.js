@@ -583,6 +583,8 @@ if(!(window.console && console.log)) {
 
             redraw();
 
+            $image.show();
+
             width = $image.width();
             height = $image.height();
             
