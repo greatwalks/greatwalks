@@ -144,30 +144,21 @@ label {
   left: 50%;
   text-indent: -10000px;
   margin-left: -150px;
-  background-image: url("../img/logo-x300.png");
+  background-image: url("../img/logo-x600.png");
+  background-size: 300px 128px;
   width: 300px;
   height: 128px;
 }
 #wrapper {
   padding-top: 138px;
 }
-@media (max-width: 600px), (max-height: 600px) {
-  #logo {
-    margin-left: -112px;
-    background-image: url("../img/logo-x225.png");
-    width: 225px;
-    height: 96px;
-  }
-  #wrapper {
-    padding-top: 106px;
-  }
-}
 @media (max-width: 400px), (max-height: 500px) {
   #logo {
     margin-left: -75px;
-    background-image: url("../img/logo-x150.png");
+    background-image: url("../img/logo-x300.png");
     width: 150px;
     height: 64px;
+    background-size: 150px 64px;
   }
   #wrapper {
     padding-top: 60px;
@@ -1146,7 +1137,7 @@ body.walk .popover .popover-inner {
 }
 body.walk .modal {
   position: absolute;
-  left: 10px;
+  left: 1%;
   top: 10px;
   margin: 0px;
   overflow: hidden;
@@ -2182,6 +2173,11 @@ body.map .location-waterfall {
 body.map .location-user-photo {
   background-image: url(../img/icon-map-generic_nature.png);
   border: none;
+}
+@media (max-width: 400px), (max-height: 500px) {
+  body.map #map-key {
+    top: 80px;
+  }
 }
 /* ==========================================================================
    Helper classes
