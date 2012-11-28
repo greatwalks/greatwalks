@@ -1025,7 +1025,7 @@ if(!(window.console && console.log)) {
             $("#map .location").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
             $("#take-photo").hammer(hammer_defaults).bind('touchstart', user_actions.take_photo);
             $("#photo-preview").hammer(hammer_defaults).bind('touchstart', user_actions.hide_user_photo);
-            $("#toggle-map-key").hammer(hammer_defaults).bind('touchstart', toggle_map_key);
+            $("#toggle-map-key, #map-key").hammer(hammer_defaults).bind('touchstart', toggle_map_key);
             //touch devices
         } else {
             $("#weta").click(window.toggle_popover);
@@ -1033,8 +1033,7 @@ if(!(window.console && console.log)) {
             //anything for desktop browsers
             $("#take-photo").click(user_actions.take_photo);
             $("#photo-preview").click(user_actions.hide_user_photo);
-            $("#toggle-map-key").click(toggle_map_key);
-            
+            $("#toggle-map-key, #map-key").click(toggle_map_key);
         }
         youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
         youarehere_hammer.bind("tap", user_actions.panel_toggle);
