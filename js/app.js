@@ -1383,6 +1383,8 @@ if(!(window.console && console.log)) {
             $(this).modal("hide");
         });
 
+        $('#carousel').carousel();
+
         $("body").on("click", ".audio", function(event){
             var $this = $(this),
                 audio_path,
