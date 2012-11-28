@@ -1988,15 +1988,21 @@ body.map #toggle-map-key {
   position: fixed;
   right: 20px;
   top: 60px;
-  background: #666666;
-  width: 50px;
+  background: #333333 url("../img/legend-icon.png") scroll no-repeat center center;
+  background-size: 29px 29px;
+  border: solid 2px #999999;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
   color: #fff;
   text-align: center;
+  text-indent: 100%;
+  overflow: hidden;
 }
 body.map #map-key {
   display: none;
-  border: solid 2px #cccccc;
-  background: rgba(100, 100, 100, 0.9);
+  border: none;
+  background: rgba(50, 50, 50, 0.9);
   position: absolute;
   top: 150px;
   left: 50%;
@@ -2005,10 +2011,37 @@ body.map #map-key {
   padding: 10px;
   color: #ffffff;
   border-radius: 10px;
-  text-align: center;
+  text-transform: uppercase;
+  font-size: small;
+}
+body.map #map-key ul {
+  list-style: none;
+  margin: 0px 0px 15px 0px;
+  padding: 5px 20px 0px 16px;
+}
+body.map #map-key ul li {
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+body.map #map-key ul li span {
+  background: url("../img/map-lines.png") no-repeat;
+  float: right;
+  display: block;
+  width: 200px;
+  height: 18px;
+}
+body.map #map-key ul li.greatwalk span {
+  background-position: 0px 8px;
+}
+body.map #map-key ul li.sidetrack span {
+  background-position: 0px -38px;
+}
+body.map #map-key ul li.road span {
+  background-position: 0px -85px;
 }
 body.map #map-key table {
-  margin: 0px auto;
+  margin: 0px 0px 5px 15px;
 }
 body.map #map-key table td {
   font-weight: bold;
@@ -2022,7 +2055,7 @@ body.map #map-key table td:first-child {
 body.map #map-key table td img {
   width: 30px;
   height: 30px;
-  margin-right: 6px;
+  margin-right: 5px;
   vertical-align: middle;
 }
 body.map .location-icon {
