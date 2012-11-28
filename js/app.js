@@ -994,7 +994,12 @@ if(!(window.console && console.log)) {
                     user_actions.$camera_error.fadeOut();
                 }
             },
-            youarehere_hammer;
+            youarehere_hammer,
+            toggle_map_key = function(event){
+                var $map_key = $("#map-key");
+                $map_key.toggle();
+                return false;
+            };
 
         if(last_known_position !== undefined) {
             last_known_position = JSON.parse(last_known_position);
@@ -1020,6 +1025,7 @@ if(!(window.console && console.log)) {
             $("#map .location").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
             $("#take-photo").hammer(hammer_defaults).bind('touchstart', user_actions.take_photo);
             $("#photo-preview").hammer(hammer_defaults).bind('touchstart', user_actions.hide_user_photo);
+            $("#toggle-map-key").hammer(hammer_defaults).bind('touchstart', toggle_map_key);
             //touch devices
         } else {
             $("#weta").click(window.toggle_popover);
@@ -1027,12 +1033,14 @@ if(!(window.console && console.log)) {
             //anything for desktop browsers
             $("#take-photo").click(user_actions.take_photo);
             $("#photo-preview").click(user_actions.hide_user_photo);
+            $("#toggle-map-key").click(toggle_map_key);
             
         }
         youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
         youarehere_hammer.bind("tap", user_actions.panel_toggle);
         user_actions.initialize_user_photos();
         user_actions.$camera_error.click(user_actions.camera_error_hide);
+
     };
 
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
