@@ -151,7 +151,7 @@ label {
 #wrapper {
   padding-top: 138px;
 }
-@media (max-width: 600px), (max-height: 500px) {
+@media (max-width: 600px), (max-height: 600px) {
   #logo {
     margin-left: -112px;
     background-image: url("../img/logo-x225.png");
@@ -162,7 +162,7 @@ label {
     padding-top: 106px;
   }
 }
-@media (max-width: 400px), (max-height: 400px) {
+@media (max-width: 400px), (max-height: 500px) {
   #logo {
     margin-left: -75px;
     background-image: url("../img/logo-x150.png");
@@ -1440,7 +1440,7 @@ body.index #wrapper #carousel .carousel-control {
   display: none;
 }
 body.index #wrapper #carousel:after {
-  /* Preload images to prevent flicker http://www.ajaxera.com/image-preloading-through-css3-caching/ */
+  /*Preload images to prevent flicker */
 
   content: url("../img/homepage-carousel-x1024-_default.jpg") url("../img/homepage-carousel-x1024-abel-tasman-coast-track.jpg") url("../img/homepage-carousel-x1024-heaphy-track.jpg") url("../img/homepage-carousel-x1024-lake-waikaremoana.jpg") url("../img/homepage-carousel-x1024-milford-track.jpg") url("../img/homepage-carousel-x1024-rakiura-track---stewart-island.jpg") url("../img/homepage-carousel-x1024-whanganui-journey.jpg");
   display: none;
@@ -1473,7 +1473,7 @@ body.index #wrapper #doc-sign .great-walks {
 body.index #wrapper #doc-sign .find-an-adventure {
   height: 80px;
 }
-@media (max-width: 600px), (max-height: 400px) {
+@media (max-width: 600px), (max-height: 600px) {
   body.index #wrapper #doc-sign {
     position: relative;
     top: -172px;
@@ -1972,7 +1972,7 @@ body.map #photo-preview {
 body.map #camera_error {
   display: none;
   position: fixed;
-  top: 150px;
+  top: 110px;
   left: 50%;
   margin-left: -100px;
   width: 200px;
@@ -1983,6 +1983,46 @@ body.map #camera_error {
   border-radius: 10px;
   text-align: center;
   font-weight: bold;
+}
+body.map #toggle-map-key {
+  position: fixed;
+  right: 20px;
+  top: 60px;
+  background: #666666;
+  width: 50px;
+  color: #fff;
+  text-align: center;
+}
+body.map #map-key {
+  display: none;
+  border: solid 2px #cccccc;
+  background: rgba(100, 100, 100, 0.9);
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  margin-left: -175px;
+  width: 350px;
+  padding: 10px;
+  color: #ffffff;
+  border-radius: 10px;
+  text-align: center;
+}
+body.map #map-key table {
+  margin: 0px auto;
+}
+body.map #map-key table td {
+  font-weight: bold;
+  vertical-align: top;
+  text-align: left;
+  padding-bottom: 5px;
+}
+body.map #map-key table td:first-child {
+  padding-right: 20px;
+}
+body.map #map-key table td img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 }
 body.map .location-icon {
   display: block;
