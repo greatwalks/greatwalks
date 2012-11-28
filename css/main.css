@@ -2012,7 +2012,7 @@ body.map #map-key table {
 }
 body.map #map-key table td {
   font-weight: bold;
-  vertical-align: top;
+  vertical-align: middle;
   text-align: left;
   padding-bottom: 5px;
 }
@@ -2022,7 +2022,8 @@ body.map #map-key table td:first-child {
 body.map #map-key table td img {
   width: 30px;
   height: 30px;
-  margin-right: 10px;
+  margin-right: 6px;
+  vertical-align: middle;
 }
 body.map .location-icon {
   display: block;
