@@ -482,6 +482,7 @@ body.walk .text-column1 {
   line-height: 120%;
   background-repeat: no-repeat;
   background-size: 63px 91px;
+  padding-bottom: 0px;
 }
 body.walk .text-column1 h1 {
   padding-top: 10px;
@@ -1897,20 +1898,20 @@ body.map #youarehere {
   border-radius: 100%;
 }
 body.map #youarehere.goodAccuracy {
-  -webkit-box-shadow: 0 0 5px 25px rgba(0, 0, 255, 0.3);
+  -webkit-box-shadow: 0 0 5px 35px rgba(0, 0, 255, 0.3);
 }
 body.map #youarehere.badAccuracy {
-  -webkit-box-shadow: 0 0 5px 50px rgba(0, 0, 255, 0.3);
+  -webkit-box-shadow: 0 0 5px 70px rgba(0, 0, 255, 0.3);
 }
 body.map #youarehere .dot {
   position: absolute;
-  left: -8px;
-  top: -8px;
+  left: -9px;
+  top: -18px;
   display: block;
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   background: url(../img/youarehere.png) no-repeat center center;
-  background-size: 100%;
+  background-size: 18px 18px;
 }
 body.map #youarehere .offmap {
   display: none;
