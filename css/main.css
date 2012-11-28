@@ -391,6 +391,7 @@ label {
   min-width: 300px;
   margin: 0px auto 0px auto;
   color: #333333;
+  padding-bottom: 100px;
 }
 .text-column1 h1 {
   color: #ac9420;
@@ -460,6 +461,18 @@ label {
 }
 body.info {
   background: white;
+}
+body.offers {
+  background: white;
+}
+body.offers ul.banners {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+body.offers ul.banners li {
+  margin: 0px;
+  padding: 0px;
 }
 body.walk {
   background: white;
