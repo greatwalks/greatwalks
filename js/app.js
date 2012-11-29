@@ -803,7 +803,7 @@
         },
         adjust_carousel_height = function(event){
             var $window = $(window),
-                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 2,
+                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 0,
                 width = $window.width() + 1;
             if(height > 0) {
                 $carousel.height(height);
