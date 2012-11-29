@@ -655,7 +655,6 @@ body.walk .text-column1 #carousel .carousel-control.right {
   margin-right: 0px;
 }
 body.walk .text-column1 .walk-detail-header {
-  color: white;
   padding: 0.4em 0.5em;
   margin-bottom: 10px;
   font-size: 25px;
@@ -663,14 +662,18 @@ body.walk .text-column1 .walk-detail-header {
   -webkit-box-shadow: 3px 3px 10px #8d8874;
   box-shadow: 3px 3px 10px #8d8874;
 }
-body.walk .text-column1 .walk-detail-header span span {
+body.walk .text-column1 .walk-detail-header a {
+  text-decoration: none;
+}
+body.walk .text-column1 .walk-detail-header a span {
   display: block;
+  color: white;
   background-image: url("../img/walk-icons.png");
   background-position: right -90px;
   background-repeat: no-repeat;
   background-size: 40px 200px;
 }
-body.walk .text-column1 .walk-detail-header.open span span {
+body.walk .text-column1 .walk-detail-header.open a span {
   display: block;
   background-image: url("../img/walk-icons.png");
   background-repeat: no-repeat;
