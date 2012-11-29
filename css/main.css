@@ -165,7 +165,7 @@ label {
     background-size: 150px 64px;
   }
   #wrapper {
-    padding-top: 60px;
+    padding-top: 70px;
   }
 }
 .popover {
@@ -202,6 +202,9 @@ Making changes to Bootstrap Modals?
 Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
 AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
 */
+.modal {
+  font-family: Copse, serif;
+}
 .modal.fade {
   left: 50%;
 }
@@ -354,7 +357,40 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
     background-position: 5px -191px;
   }
 }
-@media (max-height: 380px) {
+@media (max-height: 420px) {
+  #slideout_navigation {
+    font-size: 11px;
+  }
+  #slideout_navigation ul.menu li:first-child label {
+    display: none;
+  }
+  #slideout_navigation ul.menu,
+  #slideout_navigation ul.walks,
+  #slideout_navigation ul.maps {
+    font-size: 13px;
+  }
+  #slideout_navigation ul.menu li,
+  #slideout_navigation ul.walks li,
+  #slideout_navigation ul.maps li {
+    line-height: normal;
+  }
+  #slideout_navigation ul.menu li a,
+  #slideout_navigation ul.walks li a,
+  #slideout_navigation ul.maps li a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  #slideout_navigation ul.menu li {
+    background-position: right 4px;
+  }
+  #slideout_navigation ul.walks li {
+    background-position: right -247px;
+  }
+  #slideout_navigation ul.maps li {
+    background-position: right -47px;
+  }
+}
+@media (max-height: 320px) {
   #slideout_navigation {
     font-size: 8px;
   }
@@ -394,6 +430,7 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
   margin: 0px auto 0px auto;
   color: #333333;
   padding-bottom: 100px;
+  font-family: Copse, serif;
 }
 .text-column1 h1 {
   color: #ac9420;
@@ -422,7 +459,7 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
   background-color: #15a5de;
   color: #ffffff;
   text-transform: uppercase;
-  font-family: serif;
+  font-family: Copse, serif;
   font-size: 18px;
 }
 .btn:hover {
@@ -485,7 +522,6 @@ body.walk .text-column1 {
   background-repeat: no-repeat;
   background-size: 63px 91px;
   padding-bottom: 0px;
-  font-family: Copse, serif;
 }
 body.walk .text-column1 h1 {
   padding-top: 10px;
@@ -1251,7 +1287,6 @@ body.find-an-adventure ol.chooser li a {
   display: block;
   padding: 15px 10px 15px 35px;
   color: white;
-  font-weight: bold;
   -moz-box-shadow: 3px 3px 10px #8d8874;
   -webkit-box-shadow: 3px 3px 10px #8d8874;
   box-shadow: 3px 3px 10px #8d8874;
@@ -1332,7 +1367,7 @@ body.find-an-adventure .modal {
   background: #ebe8d7;
   color: #131009;
   padding: 5px 0px;
-  font-family: serif;
+  font-family: Copse, serif;
 }
 body.find-an-adventure .modal ol {
   margin: 0px;
@@ -2196,7 +2231,7 @@ body.map .location-user-photo {
 }
 @media (max-width: 400px), (max-height: 500px) {
   body.map #map-key {
-    top: 110px;
+    top: 90px;
   }
 }
 @media (max-width: 400px) {
