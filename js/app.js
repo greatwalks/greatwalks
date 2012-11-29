@@ -1063,6 +1063,20 @@ if(!(window.console && console.log)) {
 
 /* END OF maps.js */
 
+/* BEGINNING OF modal.js */
+/*global navigator document*/
+(function($){
+    "use strict";
+    var modal_init = function(event){
+        $(".modal").appendTo("body");
+    };
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+        document.addEventListener("deviceready", modal_init, false);
+    } else {
+        $(document).ready(modal_init);
+    }
+}(jQuery));/* END OF modal.js */
+
 /* BEGINNING OF navbar.js */
 /*
  * Handles the navbars (including the bottom one, if it's there)
