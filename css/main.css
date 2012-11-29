@@ -215,7 +215,6 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
 }
 .modal.horizscroll {
   overflow: scroll;
-  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
 }
 .navbar {
