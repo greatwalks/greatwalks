@@ -73,6 +73,10 @@ body {
 label {
   cursor: pointer;
 }
+@font-face {
+  font-family: "Copse";
+  src: url("../fonts/copse.woff");
+}
 /* Looking for the homepage's bottom navbar? Try index.less */
 .navbar-fixed-top {
   z-index: 1000;
@@ -294,8 +298,9 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
   padding: 0px;
   margin: 0px;
   list-style: none;
-  font-family: serif;
+  font-family: Copse, serif;
   font-size: 14px;
+  font-weight: normal;
 }
 #slideout_navigation ul.walks li {
   border-top: solid 1px #40712d;
@@ -393,12 +398,12 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
 .text-column1 h1 {
   color: #ac9420;
   font-weight: normal;
-  font-family: serif;
+  font-family: Copse, serif;
 }
 .text-column1 h2 {
   color: #6c3400;
   font-weight: normal;
-  font-family: serif;
+  font-family: Copse, serif;
 }
 .text-column1 a.audio {
   color: black;
@@ -480,6 +485,7 @@ body.walk .text-column1 {
   background-repeat: no-repeat;
   background-size: 63px 91px;
   padding-bottom: 0px;
+  font-family: Copse, serif;
 }
 body.walk .text-column1 h1 {
   padding-top: 10px;
@@ -544,7 +550,6 @@ body.walk .text-column1 .info span.duration {
 body.walk .text-column1 .intro {
   clear: both;
   line-height: 300%;
-  font-family: serif;
   font-size: small;
 }
 body.walk .text-column1 .youtube {
