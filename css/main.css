@@ -596,7 +596,7 @@ body.walk .text-column1 #carousel .carousel-control.left {
   margin-left: -10px;
 }
 body.walk .text-column1 #carousel .carousel-control.right {
-  right: 0px;
+  right: 1%;
   margin-right: 0px;
 }
 body.walk .text-column1 .walk-detail-header {
