@@ -1337,7 +1337,7 @@ if(!(window.console && console.log)) {
             $(this).modal("hide");
         });
         setInterval(function(){
-            console.log($("#elevation-profile").css("z-index") + " vs " + $(".modal-backdrop").css("z-index") + " amount=" + $(".modal-backdrop").length);
+            console.log($("#elevation-profile").css("z-index") + " / " + $("#elevation-profile img").css("z-index")  + " vs " + $(".modal-backdrop").css("z-index") + " amount=" + $(".modal-backdrop").length);
         }, 2000);
         //$('#carousel').carousel();
 
