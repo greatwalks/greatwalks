@@ -193,6 +193,11 @@ label {
   line-height: 90%;
   font-size: 17px;
 }
+/*
+Making changes to Bootstrap Modals?
+Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
+AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
+*/
 .modal.fade {
   left: 50%;
 }
@@ -1142,6 +1147,12 @@ body.walk .popover .popover-inner {
 
 }
 body.walk .modal {
+  /*
+        Making changes to Bootstrap Modals?
+        Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
+        AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
+        */
+
   left: 1%;
   top: 10px;
   margin: 0px;
