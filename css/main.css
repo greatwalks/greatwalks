@@ -213,6 +213,11 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
   top: 10px;
   z-index: 1100;
 }
+.modal.horizscroll {
+  overflow: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
 .navbar {
   transition: 0.2s ease-in;
   -webkit-transition: 0.2s ease-in;
