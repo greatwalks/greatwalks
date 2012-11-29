@@ -199,7 +199,7 @@ label {
 .modal.fade.in {
   margin-top: 0px;
   top: 10px;
-  z-index: 2000;
+  z-index: 1100;
 }
 .navbar {
   transition: 0.2s ease-in;
