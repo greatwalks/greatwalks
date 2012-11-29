@@ -658,41 +658,6 @@ if(!(window.console && console.log)) {
             });
         };
 
-    window.centerMap = function(x, y){
-            return;
-            var $map = $("#map"),
-                $window = $(window),
-                window_width = $window.width(),
-                window_height = $window.height(),
-                map_offset = $map.offset(),
-                map_css;
-            if(x === undefined && y === undefined) { //if no coordinates are given then center on middle of map
-                x = -(map_offset.left + (map_details.map_pixel_width / 2) - (window_width / 2));
-                y = -(map_offset.top + (map_details.map_pixel_height / 2) - (window_height / 2));
-                
-            }
-            if(x > 0 && x < window_width / 2) {
-                x = -map_offset.left;
-            } else if(x > window_width / 2 && x < map_details.map_pixel_width - (window_width / 2)) {
-                x = -map_offset.left - (x / 2);
-            } else {
-                x =  -map_details.map_pixel_width + window_width;
-                
-            }
-
-            if(y > 0 && y < window_height / 2) {
-                y = 0;
-            } else if(y > window_height / 2 && y < map_details.map_pixel_height - (window_height / 2)) {
-                y = -map_offset.top - (y / 2);
-            } else {
-                y = -map_offset.top - map_details.map_pixel_height + window_height;
-            }
-            
-            map_css = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
-            $map.css('-webkit-transform', map_css);
-            drag_offset.base_x = x;
-            drag_offset.base_y = y;
-        };
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
         document.addEventListener("deviceready", map__zoom_init, false);
     } else {
@@ -757,8 +722,7 @@ if(!(window.console && console.log)) {
         if(window.map_details === undefined) { //are we on a map page? If not, there's nothing to do so just return
             return;
         }
-        var centered_once_upon_load = false,
-            open_tooltip,
+        var open_tooltip,
             hammer_defaults = {
                 prevent_default: true,
                 scale_treshold: 0,
@@ -846,16 +810,6 @@ if(!(window.console && console.log)) {
                     $youarehere_offmap.css(youarehere_offmap_css).show();
                 }
                 $youarehere.css(youarehere_css).show();
-                if(centered_once_upon_load === false) {
-                    var $map = $("#map"),
-                        $window = $(window),
-                        map_offset = $map.offset(),
-                        x = Math.abs(youarehere_pixels.left),
-                        y = Math.abs(youarehere_pixels.top);
-                    
-                    centered_once_upon_load = true;
-                    window.centerMap(x, y);
-                }
                 last_known_position = position;
                 localStorage["geolocation-last-known-position"] = JSON.stringify(position);
             },
@@ -1004,13 +958,7 @@ if(!(window.console && console.log)) {
         if(last_known_position !== undefined) {
             last_known_position = JSON.parse(last_known_position);
             current_time_in_epoch_milliseconds = (new Date()).getTime();
-            if(last_known_position.timestamp < current_time_in_epoch_milliseconds - position_expires_after_milliseconds) {
-                window.centerMap();
-            } else {
-                geolocationSuccess(last_known_position);
-            }
-        } else {
-            window.centerMap();
+            geolocationSuccess(last_known_position);
         }
 
         if (navigator.geolocation) {
@@ -1025,7 +973,7 @@ if(!(window.console && console.log)) {
             $("#map .location").hammer(hammer_defaults).bind('touchstart', window.toggle_popover);
             $("#take-photo").hammer(hammer_defaults).bind('touchstart', user_actions.take_photo);
             $("#photo-preview").hammer(hammer_defaults).bind('touchstart', user_actions.hide_user_photo);
-            $("#toggle-map-key").hammer(hammer_defaults).bind('touchstart', toggle_map_key);
+            $("#toggle-map-key, #map-key").hammer(hammer_defaults).bind('touchstart', toggle_map_key);
             //touch devices
         } else {
             $("#weta").click(window.toggle_popover);
@@ -1033,8 +981,7 @@ if(!(window.console && console.log)) {
             //anything for desktop browsers
             $("#take-photo").click(user_actions.take_photo);
             $("#photo-preview").click(user_actions.hide_user_photo);
-            $("#toggle-map-key").click(toggle_map_key);
-            
+            $("#toggle-map-key, #map-key").click(toggle_map_key);
         }
         youarehere_hammer = $("#youarehere, #no_gps").hammer(hammer_defaults);
         youarehere_hammer.bind("tap", user_actions.panel_toggle);
