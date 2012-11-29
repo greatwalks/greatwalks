@@ -221,7 +221,6 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
   /* height defined inline within element */
 
   overflow: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 .navbar {
   transition: 0.2s ease-in;
