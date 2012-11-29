@@ -79,7 +79,7 @@ label {
 }
 /* Looking for the homepage's bottom navbar? Try index.less */
 .navbar-fixed-top {
-  z-index: 1000;
+  position: fixed;
 }
 .navbar-fixed-top .header-sprite {
   display: inline-block;
@@ -104,8 +104,19 @@ label {
 .navbar-fixed-top .header-share {
   background-position: 0px -150px;
 }
+.navbar-fixed-top label {
+  display: block;
+  padding: 10px 15px 10px;
+}
 .navbar .nav {
   margin: 0px;
+}
+.navbar-fixed-top {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.navbar-fixed-bottom {
+  margin-top: 0px;
 }
 .popover.social {
   width: 60px;
@@ -200,13 +211,14 @@ label {
 /*
 Making changes to Bootstrap Modals?
 Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
-AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
+AND also be sure to test the 'Elevation Profile' modal on the Samsung Galaxy Note tablet (GT-N8000) where this bug also occurs with position:absolute;
 */
 .modal {
   font-family: Copse, serif;
 }
 .modal.fade {
-  left: 50%;
+  left: 1%;
+  margin-left: 0px;
 }
 .modal.fade.in {
   margin-top: 0px;
@@ -1451,8 +1463,11 @@ body.find-an-adventure #no-results {
 }
 /* For the index page */
 body.index #wrapper {
-  padding-top: 50px;
+  padding-top: 61px;
   color: #fff;
+}
+body.index #wrapper #carousel {
+  margin-bottom: 0px;
 }
 body.index #wrapper #carousel .item {
   background-size: cover;
