@@ -2002,8 +2002,8 @@ body.map #map-key {
   position: absolute;
   top: 150px;
   left: 50%;
-  margin-left: -175px;
-  width: 350px;
+  margin-left: -165px;
+  width: 330px;
   padding: 10px;
   color: #ffffff;
   border-radius: 10px;
@@ -2024,7 +2024,7 @@ body.map #map-key ul li span {
   background: url("../img/map-lines.png") no-repeat;
   float: right;
   display: block;
-  width: 200px;
+  width: 160px;
   height: 18px;
 }
 body.map #map-key ul li.greatwalk span {
@@ -2181,7 +2181,23 @@ body.map .location-user-photo {
 }
 @media (max-width: 400px), (max-height: 500px) {
   body.map #map-key {
-    top: 80px;
+    top: 110px;
+  }
+}
+@media (max-width: 400px) {
+  body.map #map-key {
+    padding: 0px;
+  }
+}
+@media (max-width: 330px) {
+  body.map #map-key {
+    width: 200px;
+    margin-left: -100px;
+  }
+  body.map #map-key table,
+  body.map #map-key tr,
+  body.map #map-key td {
+    display: block;
   }
 }
 /* ==========================================================================
