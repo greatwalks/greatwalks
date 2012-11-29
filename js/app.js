@@ -1337,6 +1337,7 @@ if(!(window.console && console.log)) {
 /*global navigator document alert console */
 (function($){
     "use strict";
+    if(window.location.pathname.toString().indexOf("walk-") === -1) return;
     var walk_init = function(){
         var $dont_miss = $(".dont-miss"),
             $shadow = $dont_miss.find(".shadow"),
@@ -1356,10 +1357,8 @@ if(!(window.console && console.log)) {
         $(".modal").click(function(){
             $(this).modal("hide");
         });
-        setInterval(function(){
-            console.log($("#elevation-profile").css("z-index") + " / " + $("#elevation-profile img").css("z-index")  + " vs " + $(".modal-backdrop").css("z-index") + " amount=" + $(".modal-backdrop").length);
-        }, 2000);
-        //$('#carousel').carousel();
+       
+        $('#carousel').carousel();
 
         $("body").on("click", ".audio", function(event){
             var $this = $(this),
