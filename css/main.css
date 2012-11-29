@@ -214,6 +214,12 @@ AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occu
   z-index: 1100;
 }
 .modal.horizscroll {
+  width: 98%;
+  left: 1%;
+  top: 1%;
+  margin-left: 0px;
+  /* height defined inline within element */
+
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
@@ -1190,17 +1196,6 @@ body.walk .popover .popover-inner {
   background: linear-gradient(to bottom, #80c1dd 0%, #e3eef4 100%);
   /* W3C */
 
-}
-body.walk .modal {
-  /*
-        Making changes to Bootstrap Modals?
-        Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
-        AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
-        */
-
-  left: 1%;
-  top: 10px;
-  margin: 0px;
 }
 @media (max-height: 400px), (max-width: 500px) {
   body.walk .text-column1 h1 {
