@@ -1146,7 +1146,6 @@ body.walk .modal {
   left: 1%;
   top: 10px;
   margin: 0px;
-  overflow: hidden;
 }
 @media (max-height: 400px), (max-width: 500px) {
   body.walk .text-column1 h1 {
