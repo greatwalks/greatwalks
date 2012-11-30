@@ -932,8 +932,10 @@
 
         $tip
           .detach()
-          .css({ top: 0, left: 0, display: 'block' })
-          .insertAfter($("body"))
+          .css({ top: 0, left: 0, display: 'block' });
+        $("body").append($tip);
+
+          
 
         pos = this.getPosition(inside)
 
