@@ -1613,8 +1613,11 @@ body.index #wrapper #doc-sign .find-an-adventure {
     padding-bottom: 0px;
   }
 }
-body.visitor-center {
+body.visitor-centre {
   background: white;
+}
+body.visitor-centre .visitor-centre-location {
+  border-bottom: solid 2px #eeeeee;
 }
 body.book {
   background: white;
