@@ -1475,6 +1475,147 @@ body.find-an-adventure #results ol li a:hover {
 body.find-an-adventure #no-results {
   display: none;
 }
+/* For the index page */
+body.index #wrapper {
+  padding-top: 61px;
+  color: #fff;
+}
+body.index #wrapper #carousel {
+  margin-bottom: 0px;
+}
+body.index #wrapper #carousel .item {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 0px;
+}
+body.index #wrapper #carousel .slide1 {
+  background-image: url("../img/homepage-carousel-x1024-_default.jpg");
+}
+body.index #wrapper #carousel .slide2 {
+  background-image: url("../img/homepage-carousel-x1024-abel-tasman-coast-track.jpg");
+}
+body.index #wrapper #carousel .slide3 {
+  background-image: url("../img/homepage-carousel-x1024-heaphy-track.jpg");
+}
+body.index #wrapper #carousel .slide4 {
+  background-image: url("../img/homepage-carousel-x1024-lake-waikaremoana.jpg");
+}
+body.index #wrapper #carousel .slide5 {
+  background-image: url("../img/homepage-carousel-x1024-milford-track.jpg");
+}
+body.index #wrapper #carousel .slide6 {
+  background-image: url("../img/homepage-carousel-x1024-rakiura-track---stewart-island.jpg");
+}
+body.index #wrapper #carousel .slide7 {
+  background-image: url("../img/homepage-carousel-x1024-whanganui-journey.jpg");
+}
+body.index #wrapper #carousel .carousel-control {
+  display: none;
+}
+body.index #wrapper #carousel:after {
+  /*Preload images to prevent flicker */
+
+  content: url("../img/homepage-carousel-x1024-_default.jpg") url("../img/homepage-carousel-x1024-abel-tasman-coast-track.jpg") url("../img/homepage-carousel-x1024-heaphy-track.jpg") url("../img/homepage-carousel-x1024-lake-waikaremoana.jpg") url("../img/homepage-carousel-x1024-milford-track.jpg") url("../img/homepage-carousel-x1024-rakiura-track---stewart-island.jpg") url("../img/homepage-carousel-x1024-whanganui-journey.jpg");
+  display: none;
+}
+body.index #wrapper #doc-sign {
+  display: block;
+  text-decoration: none;
+  background: url("../img/homepage-sign.png");
+  background-size: 100%;
+  position: relative;
+  top: -227px;
+  width: 394px;
+  height: 227px;
+  margin: 0px auto -227px auto;
+}
+body.index #wrapper #doc-sign label,
+body.index #wrapper #doc-sign a {
+  display: block;
+  width: 100%;
+  text-indent: 100%;
+  /* To hide inner text don't use text-indent:-10000px see: http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/ */
+
+  white-space: nowrap;
+  overflow: hidden;
+}
+body.index #wrapper #doc-sign .great-walks {
+  height: 120px;
+  margin-bottom: 0px;
+}
+body.index #wrapper #doc-sign .find-an-adventure {
+  height: 80px;
+}
+@media (max-width: 600px), (max-height: 600px) {
+  body.index #wrapper #doc-sign {
+    position: relative;
+    top: -172px;
+    width: 299px;
+    height: 172px;
+    margin: 0px auto -172px auto;
+  }
+  body.index #wrapper #doc-sign .great-walks {
+    height: 94px;
+    margin-bottom: 0px;
+  }
+  body.index #wrapper #doc-sign .find-an-adventure {
+    height: 60px;
+  }
+}
+.navbar-fixed-bottom .navbar-inner {
+  /* Also used on book.html and offers.html */
+
+  padding-top: 0px;
+  background: #427630;
+}
+.navbar-fixed-bottom .navbar-inner .container-fluid * {
+  width: auto;
+  text-align: center;
+  float: none;
+}
+.navbar-fixed-bottom .navbar-inner ul.options {
+  margin: 0px auto;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li {
+  display: inline;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a {
+  display: inline-block;
+  background: url("../img/homepage-buttons.png") no-repeat;
+  background-size: 258px 44px;
+  width: 100px;
+  padding-top: 60px;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a:hover {
+  text-decoration: none;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a.maps {
+  background-position: 30px 10px;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a.offers {
+  background-position: -80px 10px;
+}
+.navbar-fixed-bottom .navbar-inner ul.options li a.booknow {
+  background-position: -193px 10px;
+}
+@media (max-width: 300px), (max-height: 400px) {
+  body.index #wrapper .navbar-fixed-bottom .navbar-inner {
+    min-height: auto;
+  }
+  body.index #wrapper .navbar-fixed-bottom .navbar-inner ul.options li a {
+    background: transparent;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
+body.visitor-center {
+  background: white;
+}
 body.book {
   background: white;
 }
