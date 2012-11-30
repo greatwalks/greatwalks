@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+        <title>Great Walks - visitor-centre.mustache</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0"">
+        <meta http-equiv="cleartype" content="on">
+        <meta name="format-detection" content="telephone=no">
+        <meta http-equiv="x-rim-auto-match" content="none">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap-responsive.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.1.min.js"></script>
+        <script src="cordova.js"></script>
+    </head>
+    <body class="visitor-centre">
+        <input type="checkbox" id="show_slideout_navigation">
+        <div id="wrapper">
+            <div class="navbar navbar-fixed-top navbar-inverse">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a href="index.html" id="logo">Department of Conservation - Great Walks</a>
+                        <ul class="nav">
+                            <li>
+                                <label for="show_slideout_navigation"><span class="header-sprite header-threebar">Menu</span></label>
+                            </li>
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="info.html"><span class="header-sprite header-info">Info</span></a>
+                            </li>
+                            <li id="share-social">
+                                <a href="#" data-popover-class="social" data-content="<a href='mailto:enquiries@doc.govt.nz?subject=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand&amp;body=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%20http%3A%2F%2Fgreatwalks.co.nz%2F' class='email'>Email</a> <a href='http://www.facebook.com/sharer.php?s=100&amp;p[url]=http%3A%2F%2Fgreatwalks.co.nz%2F&amp;p[title]=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand&amp;p[images][0]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fsites%2Fall%2Fthemes%2Fsparks_responsive%2Flogo.png&amp;p[summary]=.' class='facebook'>Facebook</a> <a href='http://twitter.com/share?url=http%3A%2F%2Fbit.ly%2FSLFPlX&amp;text=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%20@NZGreatWalks' class='twitter'>Twitter</a>" data-placement="bottom"><span class="header-sprite header-share">Share</span></a>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                 <div id="debug"></div>
+               </div>
+            </div>
+            <div id="slideout_navigation">
+                <ul class="menu">
+                    <li><label for="show_slideout_navigation">Menu</label></li>
+                    <li><a href="book.html" class="booking">Make a booking</a></li>
+                    <li><a href="offers.html" class="offers">Special offers</a></li>
+                </ul>
+                <ul class="walks">
+                    <li><a href="walk-lake-waikaremoana.html">Lake Waikaremoana</a></li><li><a href="walk-tongariro-northern-circuit.html">Tongariro Northern Circuit</a></li><li><a href="walk-whanganui-journey.html">Whanganui Journey</a></li><li><a href="walk-abel-tasman-coast-track.html">Abel Tasman Coast Track</a></li><li><a href="walk-heaphy-track.html">Heaphy Track</a></li><li><a href="walk-kepler-track.html">Kepler Track</a></li><li><a href="walk-milford-track.html">Milford Track</a></li><li><a href="walk-routeburn-track.html">Routeburn Track</a></li><li><a href="walk-rakiura-track---stewart-island.html">Rakiura Track - Stewart Island</a></li>
+                </ul>
+                <ul class="maps">
+                    <li><a href="maps.html">Maps</a></li>
+                </ul>
+            </div>
+    	     <div class="text-column1">
+ 
+  <h1>Nearest Visitor Centre</h1>
+  
+  <!-- OBJECTID SITE    ADDRESS EMAIL   PHONE   OPENING HOURS   Longitude   Latitude    OFFICE_TYP  GreatWalk -->
+  <div id="visitor-centres-list">
+        <div class="visitor-centre-location" data-longitude="171.5619814" data-latitude="-42.9407471">
+            <h3>Arthurs Pass National Park Visitor Centre</h3>
+            <p></p>
+            <p>80 West Coast Rd., Arthurs Pass Town, SH 73</p>
+            <p><a href="mailto:arthurspassvc@doc.govt.nz" class="btn email">arthurspassvc@doc.govt.nz</a></p>
+            <p><a href="tel:006433189211" class="btn phone">0064 3 318 9211</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="174.7649835" data-latitude="-36.8418484">
+            <h3>Auckland Visitor Centre</h3>
+            <p></p>
+            <p>137 Quay St, Princes Wharf, Downtown, Auckland</p>
+            <p><a href="mailto:aucklandvc@doc.govt.nz" class="btn email">aucklandvc@doc.govt.nz</a></p>
+            <p><a href="tel:006493796476" class="btn phone">0064 9 379 6476</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="172.5564952" data-latitude="-43.5403129">
+            <h3>Christchurch i-SITE Visitor Centre</h3>
+            <p></p>
+            <p>31 Nga Mahi Road, Sockburn, Christchurch</p>
+            <p><a href="mailto:christchurchvc@doc.govt.nz" class="btn email">christchurchvc@doc.govt.nz</a></p>
+            <p><a href="tel:006433419113" class="btn phone">0064 3 341 9113</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="174.1029478" data-latitude="-39.3241881">
+            <h3>Dawson Falls Visitor Centre</h3>
+            <p></p>
+            <p>end of Manaia Road, RD 29, Kaponga, Taranaki</p>
+            <p><a href="mailto:dawsonfallsvc@doc.govt.nz" class="btn email">dawsonfallsvc@doc.govt.nz</a></p>
+            <p><a href="tel:0064274430248" class="btn phone">0064 27 443 0248</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="170.506115" data-latitude="-45.8749663">
+            <h3>Dunedin Visitor Centre</h3>
+            <p></p>
+            <p>Conservation House, 77 Lower Stuart Street, Dunedin</p>
+            <p><a href="mailto:dunedinvc@doc.govt.nz" class="btn email">dunedinvc@doc.govt.nz</a></p>
+            <p><a href="tel:006434770677" class="btn phone">0064 3 477 0677</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="174.0958741" data-latitude="-39.2700834">
+            <h3>Egmont National Park Visitor Centre</h3>
+            <p></p>
+            <p>2879 Egmont Road, Egmont Village</p>
+            <p><a href="mailto:egmontvc@doc.govt.nz" class="btn email">egmontvc@doc.govt.nz</a></p>
+            <p><a href="tel:006467560990" class="btn phone">0064 6 756 0990</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="167.719484" data-latitude="-45.4237293">
+            <h3>Fiordland National Park Visitor Centre</h3>
+            <p></p>
+            <p>Fiordland National Park Visitor Centre, Lakefront Drive, Te Anau</p>
+            <p><a href="mailto:fiordlandvc@doc.govt.nz" class="btn email">fiordlandvc@doc.govt.nz</a></p>
+            <p><a href="tel:006432497924" class="btn phone">0064 3 249 7924</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="167.719484" data-latitude="-45.4237293">
+            <h3>Great Walks Booking Office</h3>
+            <p></p>
+            <p>Lakefront Drive, Te Anau</p>
+            <p><a href="mailto:greatwalksbookings@doc.govt.nz" class="btn email">greatwalksbookings@doc.govt.nz</a></p>
+            <p><a href="tel:006432498514" class="btn phone">0064 3 249 8514</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="169.0467171" data-latitude="-43.8640581">
+            <h3>Haast Visitor Centre</h3>
+            <p></p>
+            <p>Haast Junction, Cnr SH6 &amp; Jackson Bay Road</p>
+            <p><a href="mailto:haastvc@doc.govt.nz" class="btn email">haastvc@doc.govt.nz</a></p>
+            <p><a href="tel:006437500809" class="btn phone">0064 3 750 0809</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="176.9191352" data-latitude="-39.4884232">
+            <h3>Hawke&#39;s Bay Regional Visitor Centre</h3>
+            <p></p>
+            <p>Conservation House, 59 Marine Parade,</p>
+            <p><a href="mailto:hawkesbayvc@doc.govt.nz" class="btn email">hawkesbayvc@doc.govt.nz</a></p>
+            <p><a href="tel:006468343111" class="btn phone">0064 6 834 3111</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="169.2320357" data-latitude="-44.2309431">
+            <h3>Makarora Visitor Centre</h3>
+            <p></p>
+            <p>5956 Haast Pass - Makarora Road, SH 6, Makarora</p>
+            <p><a href="mailto:makaroravc@doc.govt.nz" class="btn email">makaroravc@doc.govt.nz</a></p>
+            <p><a href="tel:006434438365" class="btn phone">0064 3 443 8365</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="169.1418638" data-latitude="-44.6947654">
+            <h3>Mt Aspiring National Park Visitor Centre</h3>
+            <p></p>
+            <p>Ardmore Street, Wanaka</p>
+            <p><a href="mailto:mtaspiringvc@doc.govt.nz" class="btn email">mtaspiringvc@doc.govt.nz</a></p>
+            <p><a href="tel:006434437660" class="btn phone">0064 3 443 7660</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="170.0953866" data-latitude="-43.7332955">
+            <h3>Mt Cook Visitor Centre</h3>
+            <p></p>
+            <p>1 Larch Grove, Mount Cook Village, Mount Cook</p>
+            <p><a href="mailto:mtcookvc@doc.govt.nz" class="btn email">mtcookvc@doc.govt.nz</a></p>
+            <p><a href="tel:006434351186" class="btn phone">0064 3 435 1186</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="172.8438073" data-latitude="-41.8046599">
+            <h3>Nelson Lakes Bookings Helpdesk</h3>
+            <p></p>
+            <p>3 View Road, St Arnaud</p>
+            <p><a href="mailto:nelsonlakesvc@doc.govt.nz" class="btn email">nelsonlakesvc@doc.govt.nz</a></p>
+            <p><a href="tel:006535211808" class="btn phone">0065 3 521 1808</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="173.2842986" data-latitude="-41.2703486">
+            <h3>Nelson Marlborough Bookings Helpdesk</h3>
+            <p></p>
+            <p>Millers Acre, 79 Trafalgar St., Nelson</p>
+            <p><a href="mailto:nmbookings@doc.govt.nz" class="btn email">nmbookings@doc.govt.nz</a></p>
+            <p><a href="tel:006435468210" class="btn phone">0064 3 546 8210</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="173.2842986" data-latitude="-41.2703486">
+            <h3>Nelson Regional Visitor Centre</h3>
+            <p></p>
+            <p>Millers Acre, 79 Trafalgar St., Nelson</p>
+            <p><a href="mailto:nelsonvc@doc.govt.nz" class="btn email">nelsonvc@doc.govt.nz</a></p>
+            <p><a href="tel:006435469339" class="btn phone">0064 3 546 9339</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="175.3985232" data-latitude="-39.4181959">
+            <h3>Ohakune Visitor Centre</h3>
+            <p></p>
+            <p>54 Clyde Street, Ohakune</p>
+            <p><a href="mailto:ohakunevc@doc.govt.nz" class="btn email">ohakunevc@doc.govt.nz</a></p>
+            <p><a href="tel:006463858427" class="btn phone">0064 6 385 8427</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="171.3300049" data-latitude="-42.1153319">
+            <h3>Paparoa National Park Visitor Centre</h3>
+            <p></p>
+            <p>Main Road, Punakaiki</p>
+            <p><a href="mailto:paparoavc@doc.govt.nz" class="btn email">paparoavc@doc.govt.nz</a></p>
+            <p><a href="tel:006437311895" class="btn phone">0064 3 731 1895</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="168.6596591" data-latitude="-45.0316126">
+            <h3>Queenstown Regional Visitor Centre</h3>
+            <p></p>
+            <p>38 Shotover Street, Queenstown</p>
+            <p><a href="mailto:queenstownvc@doc.govt.nz" class="btn email">queenstownvc@doc.govt.nz</a></p>
+            <p><a href="tel:006434427935" class="btn phone">0064 3 442 7935</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="168.1262057" data-latitude="-46.8981584">
+            <h3>Rakiura National Park Visitor Centre</h3>
+            <p></p>
+            <p>Information Centre, 15 Main Road, Halfmoon Bay, Stewart Island</p>
+            <p><a href="mailto:rakiuravc@doc.govt.nz" class="btn email">rakiuravc@doc.govt.nz</a></p>
+            <p><a href="tel:006432190009" class="btn phone">0064 3 219 0009</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="176.7183932" data-latitude="-38.4709658">
+            <h3>Rangitaiki Visitor Centre</h3>
+            <p></p>
+            <p>1188 Main Road, Murupara</p>
+            <p><a href="mailto:muruparavc@doc.govt.nz" class="btn email">muruparavc@doc.govt.nz</a></p>
+            <p><a href="tel:006473661080" class="btn phone">0064 7 366 1080</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="177.1635909" data-latitude="-38.7449451">
+            <h3>Te Urewera National Park Great Walk Bookings VC</h3>
+            <p></p>
+            <p>State Highway 38 RD 5</p>
+            <p><a href="mailto:teureweravc@doc.govt.nz" class="btn email">teureweravc@doc.govt.nz</a></p>
+            <p><a href="tel:006468373803" class="btn phone">0064 6 837 3803</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="175.5401966" data-latitude="-39.2013195">
+            <h3>Tongariro National Park Visitor Centre</h3>
+            <p></p>
+            <p>Whakapapa Village, SH 48, Mount Ruapehu</p>
+            <p><a href="mailto:tongarirovc@doc.govt.nz" class="btn email">tongarirovc@doc.govt.nz</a></p>
+            <p><a href="tel:006478923729" class="btn phone">0064 7 892 3729</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="174.7750549" data-latitude="-41.2898727">
+            <h3>Wellington National Visitor Centre</h3>
+            <p></p>
+            <p>18 - 32 Manners Street, Wellington</p>
+            <p><a href="mailto:wellingtonvc@doc.govt.nz" class="btn email">wellingtonvc@doc.govt.nz</a></p>
+            <p><a href="tel:006443847770" class="btn phone">0064 4 384 7770</a></p>
+          </div>
+        <div class="visitor-centre-location" data-longitude="170.1815261" data-latitude="-43.3895159">
+            <h3>Westland National Park Visitor Centre</h3>
+            <p></p>
+            <p>13 State Highway 6, Franz Josef Glacier</p>
+            <p><a href="mailto:westlandnpvc@doc.govt.nz" class="btn email">westlandnpvc@doc.govt.nz</a></p>
+            <p><a href="tel:006437520796" class="btn phone">0064 3 752 0796</a></p>
+          </div>
+  </div>
+
+ </div>
+        </div>
+        <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
+        <script src="js/vendor/jquery.min.js"></script>
+        <script src="js/vendor/bootstrap.js"></script>
+        <script src="js/vendor/hammer.js"></script>
+        <script src="js/vendor/jquery.hammer.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
