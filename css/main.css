@@ -233,6 +233,13 @@ AND also be sure to test the 'Elevation Profile' modal on the Samsung Galaxy Not
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-transform: translate3d(0, 0, 0);
+  /* Put stuff into memory http://stackoverflow.com/a/9953599 */
+
+}
+.modal.horizscroll * {
+  -webkit-transform: translate3d(0, 0, 0);
+  /* Put stuff into memory http://stackoverflow.com/a/9953599 */
+
 }
 .navbar {
   transition: 0.2s ease-in;
