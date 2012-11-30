@@ -933,7 +933,7 @@
         $tip
           .detach()
           .css({ top: 0, left: 0, display: 'block' })
-          .insertAfter(this.$element)
+          .insertAfter($("body"))
 
         pos = this.getPosition(inside)
 
@@ -1048,7 +1048,8 @@
     }
 
   , toggle: function (e) {
-      var self = $(e.currentTarget)[this.type](this._options).data(this.type)
+     var self = (e) ? $(e.currentTarget)[this.type](this._options).data(this.type) : this
+      //var self = $(e.currentTarget)[this.type](this._options).data(this.type)
       self[self.tip().hasClass('in') ? 'hide' : 'show']()
     }
 
