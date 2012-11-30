@@ -489,6 +489,8 @@ AND also be sure to test the 'Elevation Profile' modal on the Samsung Galaxy Not
   text-transform: uppercase;
   font-family: Copse, serif;
   font-size: 18px;
+  border: none;
+  text-shadow: none;
 }
 .btn:hover {
   text-decoration: none;
