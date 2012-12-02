@@ -913,15 +913,20 @@
                 touch_position = {width:undefined, height: undefined},
                 $locations = $(".location"),
                 redraw = function(){
-                    var map_css,
-                        icon_scale;
+                    var map_transform,
+                        icon_scale,
+                        css;
                     if(scale < 0.1) {
                         scale = 0.1;
                     } else if(scale > 3) {
                         scale = 3;
                     }
-                    map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
-                    $image.css('-webkit-transform', map_css);
+                    map_transform = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
+                    css = {'-webkit-transform': map_transform};
+                    if(css['-webkit-transform-origin']) {
+                        css['-webkit-transform-origin'] = touch_position.cssOrigin;
+                    }
+                    $image.css(css);
                     // Want to scale icons independently of the map? Enable this.
                     // icon_scale = (1 / scale) * 30;
                     // if(icon_scale > 50) {
@@ -1021,7 +1026,7 @@
 
                 touch_position.width = event.position.width / scale;
                 touch_position.height = event.position.height / scale;
-                console.log(JSON.stringify(event.touches));
+                touch_position.cssOrigin = event.touches[0].width +"px "+ event.touches[0].height +"px";
 
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
