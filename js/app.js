@@ -1086,7 +1086,6 @@ if(!(window.console && console.log)) {
             }
             $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
             $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
-            console.log(fixed_dimension);
             target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
             if(target_dimensions.chosen_text_size > 800) {
                 target_dimensions.chosen_text_size = 800;
