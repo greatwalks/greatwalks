@@ -1027,7 +1027,7 @@
 
                 touch_position.width = event.position.width / scale;
                 touch_position.height = event.position.height / scale;
-                touch_position.cssOrigin = event.touches[0].width + "px " + event.touches[0].height +"px";
+                touch_position.cssOrigin = event.position.x + "px " + event.position.y +"px";
 
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
