@@ -1013,12 +1013,15 @@
             });
 
             hammer.bind('transform', function(event) {
-                var newHeight, newWidth;
+                var newHeight,
+                    newWidth;
+                    //offset = $image.offset();
                 scale = prevScale * event.scale;
+                
 
                 touch_position.width = event.position.width / scale;
                 touch_position.height = event.position.height / scale;
-                console.log(JSON.stringify(touch_position));
+                console.log(JSON.stringify(event.touches));
 
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
