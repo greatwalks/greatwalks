@@ -1014,7 +1014,7 @@
             hammer.bind('transform', function(event) {
                 var newHeight, newWidth;
                 scale = prevScale * event.scale;
-                console.log(event.position);
+                console.log(JSON.stringify(event.position));
                 
 
                 newWidth = $image.width() * scale;
