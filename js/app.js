@@ -910,6 +910,7 @@
                 translate,
                 width,
                 screenOrigin,
+                touch_position = {width:undefined, height: undefined},
                 $locations = $(".location"),
                 redraw = function(){
                     var map_css,
@@ -1014,8 +1015,10 @@
             hammer.bind('transform', function(event) {
                 var newHeight, newWidth;
                 scale = prevScale * event.scale;
-                console.log(JSON.stringify(event.position));
-                
+
+                touch_position.width = event.position.width / scale;
+                touch_position.height = event.position.height / scale;
+                console.log(JSON.stringify(touch_position));
 
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
