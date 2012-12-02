@@ -1539,3 +1539,173 @@ if(!(window.console && console.log)) {
     window.pageload(popover_init);
 }(jQuery));/* END OF popover.js */
 
+<<<<<<< HEAD
+/* BEGINNING OF visitor-centre.js */
+/*globals window localStorage JSON geolocation navigator */
+(function($){
+    "use strict";
+    var one_second_in_milliseconds = 1000,
+        geolocation_watchId,
+        geolocation_key = "geolocation-last-known-position",
+        last_known_position_json = localStorage[geolocation_key],
+        geolocationSettings = {
+            maximumAge:600000,
+            enableHighAccuracy: true,
+            timeout: one_second_in_milliseconds * 15
+        },
+        $locations,
+        $visitor_centres_list,
+        geolocationSuccess = function(position){
+            var locations;
+            /*
+            Latitude:          position.coords.latitude
+            Longitude:         position.coords.longitude
+            Altitude:          position.coords.altitude
+            Accuracy:          position.coords.accuracy
+            Altitude Accuracy: position.coords.altitudeAccuracy
+            Heading:           position.coords.heading
+            Speed:             position.coords.speed
+            */
+            $locations.each(function(){
+                var $this = $(this),
+                    location_coords = {
+                        "longitude": $this.data("longitude"),
+                        "latitude": $this.data("latitude")
+                    },
+                    distance_away = window.difference_between_positions_in_kilometers(position.coords.latitude, position.coords.longitude, location_coords.latitude, location_coords.longitude);
+                $this.find(".distance_away").text(distance_away);
+                $this.data("distance-away", distance_away);
+            });
+
+            locations = $locations.get();
+            locations.sort(function(a,b){
+                var $a = $(a),
+                    $b = $(b),
+                    a_distance_away = $a.data("distance-away"),
+                    b_distance_away = $b.data("distance-away");
+                if(a_distance_away > b_distance_away) return 1;
+                if(a_distance_away < b_distance_away) return -1;
+                return 0;
+            });
+            $.each(locations, function(index, item){ 
+                $visitor_centres_list.append(item);
+            });
+
+            
+            window.localStorage[geolocation_key] = JSON.stringify(position);
+        },
+        geolocationError = function(msg) {
+            try{
+                geolocation.clearWatch(geolocation_watchId);
+            } catch(exception){
+            }
+            if(geolocationSettings.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
+                geolocationSettings.enableHighAccuracy = false;
+                geolocation_watchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
+            } else {
+                // No GPS available, silently ignore
+            }
+        },
+        visitor_centre_init = function(){
+            $locations = $(".visitor-centre-location");
+            $visitor_centres_list = $("#visitor-centres-list");
+            if(last_known_position_json) {
+                 geolocationSuccess(JSON.parse(last_known_position_json));
+            }
+            geolocation_watchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
+        };
+        
+    
+
+    window.pageload(visitor_centre_init, "visitor-centre.html");
+}(jQuery));/* END OF visitor-centre.js */
+
+/* BEGINNING OF walk.js */
+/*global navigator document alert console */
+(function($){
+    "use strict";
+
+    var walk_init = function(){
+        var $dont_miss = $(".dont-miss"),
+            $shadow = $dont_miss.find(".shadow"),
+            is_shadowed = false,
+            $current_dont_miss,
+            disable_all_dont_miss = function(event){
+                is_shadowed = false;
+                if($current_dont_miss !== undefined) {
+                    $current_dont_miss.css("z-index", "auto");
+                    window.hide_all_popovers.apply($current_dont_miss);
+                    $current_dont_miss = undefined;
+                }
+                $shadow.removeClass("shadow-visible");
+            },
+            $html = $("html").bind("popover-click", disable_all_dont_miss);
+        
+        $(".modal").click(function(){
+            $(this).modal("hide");
+        });
+
+        $('#carousel').carousel();
+
+        $("body").on("click", ".audio", function(event){
+            var $this = $(this),
+                audio_path,
+                media_player;
+            if(window.Media) { //use Phonegap-style audio
+               var  onSuccess = function(){},
+                    onError = function onError(error) {
+                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
+                    };
+                audio_path = $this.data('audio');
+                if ( navigator.userAgent.match(/android/i) ) {
+                    audio_path = "/android_asset/www/" + $this.data("audio");
+                }
+                media_player = new window.Media(audio_path, onSuccess, onError);
+                media_player.play();
+            } else {// Use HTML5 Audio approach
+                var $audio = $("audio"),
+                    audio_element;
+                audio_path = $this.data("audio");
+                if($audio.length === 0) {
+                    $audio = $("<audio/>").attr("src", audio_path);
+                    $("body").append($audio);
+                } else {
+                    $audio.attr("src", audio_path);
+                }
+                audio_element = $audio.get(0);
+                audio_element.load();
+                audio_element.play();
+            }
+        });
+        $(".walk-detail-header a").fastPress(function(){
+            $(this).parent().toggleClass("open").next(".walk-detail").slideToggle();
+            return false;
+        });
+        $(".dont-miss a").fastPress();
+        
+        
+        $("a.icon").click(window.toggle_popover);
+
+        $dont_miss.find("a").click(function(){
+            var $this = $(this);
+            if(is_shadowed) {
+                disable_all_dont_miss();
+            } else {
+                $current_dont_miss = $this;
+                $current_dont_miss.css("z-index", "3");
+                $shadow.addClass("shadow-visible");
+                is_shadowed = true;
+                window.show_popover.apply($current_dont_miss);
+            }
+            return false;
+        });
+
+        $shadow.click(disable_all_dont_miss);
+    };
+
+    window.pageload(walk_init, "/walk-");
+}(jQuery));
+/* END OF walk.js */
+
+=======
+>>>>>>> 3119ce66175dd53b9e4664a38e5bedb8d17ff555

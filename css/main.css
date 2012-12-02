@@ -241,6 +241,9 @@ AND also be sure to test the 'Elevation Profile' modal on the Samsung Galaxy Not
   /* Put stuff into memory http://stackoverflow.com/a/9953599 */
 
 }
+body.find-an-adventure .modal.fade {
+  left: 50%;
+}
 .navbar {
   transition: 0.2s ease-in;
   -webkit-transition: 0.2s ease-in;
