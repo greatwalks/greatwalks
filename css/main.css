@@ -210,8 +210,10 @@ label {
 }
 /*
 Making changes to Bootstrap Modals?
-Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
-AND also be sure to test the 'Elevation Profile' modal on the Samsung Galaxy Note tablet (GT-N8000) where this bug also occurs with position:absolute;
+Keep this in mind these two issues
+  http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
+  http://stackoverflow.com/a/9953599
+AND also be sure to test the 'Elevation Profile' modal on the Samsung Galaxy Note tablet (GT-N8000)
 */
 .modal {
   font-family: Copse, serif;
