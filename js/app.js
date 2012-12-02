@@ -1488,7 +1488,10 @@ if(!(window.console && console.log)) {
                     onError = function onError(error) {
                         console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
                     };
-                audio_path = "/android_asset/www/" + $this.data("audio");
+                audio_path = $this.data('audio');
+                if ( navigator.userAgent.match(/android/i) ) {
+                    audio_path = "/android_asset/www/" + $this.data("audio");
+                }
                 media_player = new window.Media(audio_path, onSuccess, onError);
                 media_player.play();
             } else {// Use HTML5 Audio approach
@@ -1533,5 +1536,6 @@ if(!(window.console && console.log)) {
     };
 
     window.pageload(walk_init, "/walk-");
-}(jQuery));/* END OF walk.js */
+}(jQuery));
+/* END OF walk.js */
 
