@@ -923,7 +923,7 @@
                     }
                     map_transform = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
                     css = {'-webkit-transform': map_transform};
-                    if(css['-webkit-transform-origin']) {
+                    if(touch_position.cssOrigin) {
                         css['-webkit-transform-origin'] = touch_position.cssOrigin;
                         console.log(touch_position.cssOrigin)
                     }
