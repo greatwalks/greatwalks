@@ -925,6 +925,7 @@
                     css = {'-webkit-transform': map_transform};
                     if(css['-webkit-transform-origin']) {
                         css['-webkit-transform-origin'] = touch_position.cssOrigin;
+                        console.log(touch_position.cssOrigin)
                     }
                     $image.css(css);
                     // Want to scale icons independently of the map? Enable this.
@@ -1026,7 +1027,7 @@
 
                 touch_position.width = event.position.width / scale;
                 touch_position.height = event.position.height / scale;
-                touch_position.cssOrigin = event.touches[0].width +"px "+ event.touches[0].height +"px";
+                touch_position.cssOrigin = event.touches[0].width + "px " + event.touches[0].height +"px";
 
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
