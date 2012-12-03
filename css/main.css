@@ -516,13 +516,17 @@ body.find-an-adventure .modal.fade {
   background-image: url("../img/content-buttons.png");
   background-size: 16px 166px;
   background-repeat: no-repeat;
-  padding-left: 30px;
+  padding: 0px 0px 0px 30px;
+  width: 0px;
+  height: 30px;
+  overflow: hidden;
+  text-indent: 100%;
 }
 .btn.phone {
-  background-position: 10px -140px;
+  background-position: 10px -143px;
 }
 .btn.email {
-  background-position: 10px 13px;
+  background-position: 8px 10px;
   padding-left: 33px;
 }
 .btn.vistorcenter {
@@ -531,6 +535,10 @@ body.find-an-adventure .modal.fade {
 .btn.bookonline {
   background-position: 10px -90px;
   padding-left: 33px;
+}
+.btn + .btn,
+.btn + br + .btn {
+  margin-top: 10px;
 }
 @media (max-height: 400px) {
   .text-column1 {
