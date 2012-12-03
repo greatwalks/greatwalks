@@ -923,11 +923,13 @@
                     }
                     map_transform = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
                     css = {'-webkit-transform': map_transform};
-                    if(touch_position.cssOrigin) {
-                        css['-webkit-transform-origin'] = touch_position.cssOrigin;
-                        console.log(touch_position.cssOrigin)
-                    }
+
+                    //if(touch_position.cssOrigin) {
+                    //    css['-webkit-transform-origin'] = touch_position.cssOrigin;
+                    //    console.log(touch_position.cssOrigin)
+                    //}
                     $image.css(css);
+
                     // Want to scale icons independently of the map? Enable this.
                     // icon_scale = (1 / scale) * 30;
                     // if(icon_scale > 50) {
@@ -1025,9 +1027,9 @@
                 scale = prevScale * event.scale;
                 
 
-                touch_position.width = event.position.width / scale;
-                touch_position.height = event.position.height / scale;
-                touch_position.cssOrigin = event.position.x + "px " + event.position.y +"px";
+                //touch_position.width = event.position.width / scale;
+                //touch_position.height = event.position.height / scale;
+                //touch_position.cssOrigin = event.position.x + "px " + event.position.y +"px";
 
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
@@ -1139,6 +1141,10 @@ if(!(window.console && console.log)) {
         AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
         */
         $(".modal").appendTo("body");
+        $("body").on("click", ".modal", function(){
+            $(this).modal("hide");
+            $("html").trigger("close-modal");
+        });
 
     };
     window.pageload(modal_init);
@@ -1243,21 +1249,25 @@ if(!(window.console && console.log)) {
     "use strict";
 
     var existing_popovers = [],
-        hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
+        $window = $(window),
+        $body,
+        too_small_for_popovers = function(){
+            if ($window.width() > 600) return false;
+            if($("body.walk").length === 1) return true;
+            if($(this).is("#weta")) return true;
+            return false; //debug
         },
         popover_init = function(event){
             var $html = $("html");
+                
+            
             $("body.map, #wrapper,#map").click(function(event){
                 if($(event.target).is(this)) { //if we reached this event directly without bubbling...
                     window.hide_all_popovers_no_bubbling(event);
                 }
             });
-
-            $("body").on("click", ".popover", function(event){
-                
+            $body = $("body"); //note: defining $body from parent function
+            $body.on("click", ".popover", function(event){
                 window.hide_all_popovers_no_bubbling(event);
                 $html.trigger("popover-click");
             });
@@ -1281,12 +1291,10 @@ if(!(window.console && console.log)) {
             //console.log("Determining placement");
             var placement = $sender.data("placement"),
                 offset,
-                $window,
                 window_dimensions,
                 scroll_top;
             if(placement !== undefined) return placement;
             //console.log("No default placement...determining it dynamically");
-            $window = $(window);
             window_dimensions = {"width": $window.width(), "height": $window.height()};
             scroll_top = $window.scrollTop();
             offset = $sender.offset();
@@ -1334,6 +1342,27 @@ if(!(window.console && console.log)) {
         $(this).popover('hide');
     };
 
+    window.toggle_popover_modal = function(event, options) {
+        var $this = $(this),
+            this_id = $this.attr("id") || 'generated-id-xxxxxxxxxxxxxx'.replace(/[x]/g, function(){
+                                                return (Math.random()*16|0).toString(16);
+                                           }),
+            modal_id = "modal_" + this_id,
+            $modal = $("#" + modal_id);
+        if($modal.length === 0) {
+            $modal = $("<div/>").addClass("modal hide fade").attr("id", modal_id);
+            $body.append($modal);
+        }
+        $this.attr("id", this_id).attr({"data-toggle": "modal", "role": "button"});
+        if(options.content){
+            $modal.html(options.content);
+        } else {
+            $modal.html($this.data("content"));
+        }
+        $modal.modal("toggle");
+        return false;
+    };
+
     window.toggle_popover = function(event){
         var $this = $(this),
             content_template = $this.data("content-template"),
@@ -1356,6 +1385,7 @@ if(!(window.console && console.log)) {
                 $this.data('popover', old_options);
             }
         }
+        if(too_small_for_popovers()) return window.toggle_popover_modal.apply(this, [event, options]);
         $this.popover(options).popover('toggle');
         existing_popovers.push($this);
         if(event.originalEvent) {
@@ -1367,6 +1397,7 @@ if(!(window.console && console.log)) {
     window.show_popover = function(event, override_content){
         var $this = $(this),
             options = {html: true, trigger: "manual", "placement": get_popover_placement($this)};
+        if(too_small_for_popovers()) return window.toggle_popover_modal.apply(this, [event, options]);
         window.hide_all_popovers(event, $this);
         if(override_content !== undefined) {
             options.content = override_content;
@@ -1483,11 +1514,9 @@ if(!(window.console && console.log)) {
                 }
                 $shadow.removeClass("shadow-visible");
             },
-            $html = $("html").bind("popover-click", disable_all_dont_miss);
+            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
         
-        $(".modal").click(function(){
-            $(this).modal("hide");
-        });
+
 
         $('#carousel').carousel();
 
