@@ -1240,7 +1240,19 @@ body.walk .popover .popover-inner {
   /* W3C */
 
 }
-@media (max-height: 400px), (max-width: 500px) {
+body.walk .popover-modal {
+  padding: 10px;
+  background: #80c1dd;
+  /* Old browsers */
+
+  background: -webkit-linear-gradient(top, #80c1dd 0%, #e3eef4 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: linear-gradient(to bottom, #80c1dd 0%, #e3eef4 100%);
+  /* W3C */
+
+}
+@media (max-width: 500px) {
   body.walk .text-column1 h1 {
     font-size: 20px;
   }
@@ -1256,7 +1268,7 @@ body.walk .popover .popover-inner {
     margin-left: 10px;
   }
 }
-@media (max-height: 400px), (max-width: 400px) {
+@media (max-width: 400px) {
   body.walk .text-column1 h1 {
     font-size: 13px;
   }
@@ -1495,7 +1507,7 @@ body.find-an-adventure #no-results {
 }
 /* For the index page */
 body.index #wrapper {
-  padding-top: 61px;
+  padding-top: 51px;
   color: #fff;
 }
 body.index #wrapper #carousel {
