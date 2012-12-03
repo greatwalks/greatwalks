@@ -74,10 +74,14 @@ label {
   cursor: pointer;
 }
 @font-face {
-  font-family: "Copse";
-  src: url("../fonts/copse.ttf") format('truetype'), url("../fonts/copse.woff") format('woff');
+  font-family: CopseTTF;
+  src: url("../fonts/copse.ttf") format('truetype');
 }
 /* Need to supply both TTF and Woff http://caniuse.com/woff */
+@font-face {
+  font-family: CopseWoff;
+  src: url("../fonts/copse.woff") format('woff');
+}
 /* Looking for the homepage's bottom navbar? Try index.less */
 .navbar-fixed-top {
   position: fixed;
@@ -210,7 +214,7 @@ label {
 .popover .popover-content h3 {
   margin: 0px 0px 4px 0px;
   padding: 0px;
-  font-family: Copse, serif;
+  font-family: CopseWoff, CopseTTF, serif;
   line-height: 90%;
   font-size: 17px;
 }
@@ -222,7 +226,7 @@ Keep this in mind these two issues
 AND also be sure to test the 'Elevation Profile' modal on the Samsung Galaxy Note tablet (GT-N8000)
 */
 .modal {
-  font-family: Copse, serif;
+  font-family: CopseWoff, CopseTTF, serif;
 }
 .modal.fade {
   left: 1%;
@@ -340,7 +344,7 @@ body.find-an-adventure .modal.fade {
   padding: 0px;
   margin: 0px;
   list-style: none;
-  font-family: Copse, serif;
+  font-family: CopseWoff, CopseTTF, serif;
   font-size: 14px;
   font-weight: normal;
 }
@@ -469,17 +473,17 @@ body.find-an-adventure .modal.fade {
   margin: 0px auto 0px auto;
   color: #333333;
   padding-bottom: 100px;
-  font-family: Copse, serif;
+  font-family: CopseWoff, CopseTTF, serif;
 }
 .text-column1 h1 {
   color: #ac9420;
   font-weight: normal;
-  font-family: Copse, serif;
+  font-family: CopseWoff, CopseTTF, serif;
 }
 .text-column1 h2 {
   color: #6c3400;
   font-weight: normal;
-  font-family: Copse, serif;
+  font-family: CopseWoff, CopseTTF, serif;
 }
 .text-column1 a.audio {
   color: black;
@@ -499,7 +503,7 @@ body.find-an-adventure .modal.fade {
   background-image: none;
   color: #ffffff;
   text-transform: uppercase;
-  font-family: Copse, serif;
+  font-family: CopseWoff, CopseTTF, serif;
   font-size: 18px;
   border: none;
   border-color: none;
@@ -1422,7 +1426,7 @@ body.find-an-adventure .modal {
   background: #ebe8d7;
   color: #131009;
   padding: 5px 0px;
-  font-family: Copse, serif;
+  font-family: CopseWoff, CopseTTF, serif;
 }
 body.find-an-adventure .modal ol {
   margin: 0px;
@@ -1993,6 +1997,11 @@ body.map #map {
 body.map #map .have-transition {
   transition: 0.2s ease-in;
   -webkit-transition: 0.2s ease-in;
+}
+body.map #map #transform-origin {
+  border: solid 10px red;
+  width: 1px;
+  height: 1px;
 }
 body.map #no-touch-zoom {
   display: none;
