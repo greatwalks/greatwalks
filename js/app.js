@@ -1350,7 +1350,7 @@ if(!(window.console && console.log)) {
             modal_id = "modal_" + this_id,
             $modal = $("#" + modal_id);
         if($modal.length === 0) {
-            $modal = $("<div/>").addClass("modal hide fade").attr("id", modal_id);
+            $modal = $("<div/>").addClass("modal hide fade popover-modal").attr("id", modal_id);
             $body.append($modal);
         }
         $this.attr("id", this_id).attr({"data-toggle": "modal", "role": "button"});
