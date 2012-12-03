@@ -77,6 +77,7 @@ label {
   font-family: "Copse";
   src: url("../fonts/copse.ttf") format('truetype'), url("../fonts/copse.woff") format('woff');
 }
+/* Need to supply both TTF and Woff http://caniuse.com/woff */
 /* Looking for the homepage's bottom navbar? Try index.less */
 .navbar-fixed-top {
   position: fixed;
