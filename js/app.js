@@ -342,7 +342,25 @@
             scale_treshold: 0,
             drag_min_distance: 0
         },
-        modernizr_touch = Modernizr.touch;
+        modernizr_touch = Modernizr.touch,
+        fastPress_hyperlink = function(event){
+            var $this = $(this),
+                this_href = $this.attr("href");
+            //because #internal links aren't accelerated. check up to http: or https: incase there's a file named "http".
+            if(this_href.substr(0, 1) === "#" || this_href.substr(0, 5) === "http:" || this_href.substr(0, 5) === "https:") {
+                return true;
+            }
+            console.log("FAST");
+            window.location = window.location.toString()
+                .substr(
+                    0,
+                    window.location.toString().lastIndexOf("/") + 1) +
+                this_href;
+        },
+        fast_press_init = function(event){
+            if(!modernizr_touch) return;
+            $("body").on("touchstart", "a", fastPress_hyperlink);
+        };
     $.prototype.fastPress = function(callback){
         if(callback === undefined) {
             if(modernizr_touch) {
@@ -356,6 +374,7 @@
         }
         return this.click(callback);
     };
+    window.pageload(fast_press_init);
 }(jQuery));/* END OF fast-press.js */
 
 /* BEGINNING OF find-an-adventure.js */
