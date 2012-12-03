@@ -1998,7 +1998,8 @@ body.map #map .have-transition {
   transition: 0.2s ease-in;
   -webkit-transition: 0.2s ease-in;
 }
-body.map #map #transform-origin {
+body.map #map #transform-origin-debug {
+  display: none;
   border: solid 10px red;
   width: 1px;
   height: 1px;

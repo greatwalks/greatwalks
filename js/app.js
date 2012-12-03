@@ -942,9 +942,9 @@
                     map_transform = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
                     css = {'-webkit-transform': map_transform};
 
-                    if(touch_position.cssOrigin) {
-                        css['-webkit-transform-origin'] = touch_position.cssOrigin;
-                    }
+                    //if(touch_position.cssOrigin) {
+                    //    css['-webkit-transform-origin'] = touch_position.cssOrigin;
+                    //}
                     $image.css(css);
 
                     // Want to scale icons independently of the map? Enable this.
@@ -1043,14 +1043,13 @@
                     //offset = $image.offset();
                 scale = prevScale * event.scale;
                 
-
-                touch_position.width = event.position.width / scale;
-                touch_position.height = event.position.height / scale;
-                touch_position.x = event.position.x;
-                touch_position.y = event.position.y;
-                touch_position.cssOrigin = touch_position.x + "px " + touch_position.y +"px";
-                $image.find("#transform-origin").css({top: touch_position.x + "px", "left": touch_position.y +"px"});
-                console.log(event.touches);
+                //touch_position.width = event.position.width / scale;
+                //touch_position.height = event.position.height / scale;
+                //touch_position.x = event.position.x;
+                //touch_position.y = event.position.y;
+                //touch_position.cssOrigin = touch_position.x + "px " + touch_position.y +"px";
+                //$image.find("#transform-origin-debug").css({top: touch_position.x + "px", "left": touch_position.y +"px"});
+                //console.log(JSON.stringify(event.touches));
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
 
