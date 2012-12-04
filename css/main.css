@@ -1991,6 +1991,7 @@ body.map #weta.active {
 }
 body.map #map {
   border: solid 8px #201e1e;
+  overflow: hidden;
 }
 body.map #map .have-transition {
   transition: 0.2s ease-in;
