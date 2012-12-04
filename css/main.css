@@ -123,23 +123,21 @@ label {
 .navbar-fixed-bottom {
   margin-top: 0px;
 }
-.popover.social {
+.social-links {
+  display: none;
+  position: fixed;
+  top: 60px;
+  right: 10px;
   width: 60px;
   border: 2px solid white;
   margin-left: -15px;
+  z-index: 1000;
+  background: rgba(50, 50, 50, 0.9);
+  border-radius: 8px;
 }
-.popover.social .arrow {
-  border-bottom-color: white;
-  left: 80%;
-}
-.popover.social .popover-content {
-  border-radius: 5px;
-  background: black;
-  padding: 0px;
-}
-.popover.social .popover-content .email,
-.popover.social .popover-content .facebook,
-.popover.social .popover-content .twitter {
+.social-links .email,
+.social-links .facebook,
+.social-links .twitter {
   background: url("../img/social-buttons.png") no-repeat;
   width: 38px;
   height: 38px;
@@ -147,15 +145,15 @@ label {
   text-indent: -10000px;
   padding: 10px;
 }
-.popover.social .popover-content .email {
+.social-links .email {
   background-position: 10px 10px;
   margin-bottom: 10px;
 }
-.popover.social .popover-content .facebook {
+.social-links .facebook {
   background-position: 10px -61px;
   margin-bottom: 10px;
 }
-.popover.social .popover-content .twitter {
+.social-links .twitter {
   background-position: 10px -129px;
 }
 #logo {

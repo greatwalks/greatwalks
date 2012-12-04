@@ -605,6 +605,7 @@
         $carousel_items,
         $navbar_bottom,
         $navbar_top,
+        run_init_once_already = false,
         hammer_defaults = {
             prevent_default: true,
             scale_treshold: 0,
@@ -654,6 +655,12 @@
             }
             $carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
             $carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
+
+            if(!run_init_once_already) {
+                $("html").bind("doc:page-change", function(){
+                    $("#wrapper").css({"width": "auto", "height": "auto"});
+                });
+            }
         };
     window.pageload(index_init, "/index.html");
 }(jQuery));
@@ -888,15 +895,6 @@
 
 /* BEGINNING OF map.js */
 /*globals map_details maps_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
-/* ===========================================================
- * map.js v1
- * Developed at Department of Conservation by Matthew Holloway
- * <matth@catalyst.net.nz>
- * -----------------------------------------------------------
- *
- * Provides maps with pinchzoom, drag scrolling etc with popups.
- *
- * ========================================================== */
 (function($){
     "use strict";
     
@@ -1247,24 +1245,15 @@ if(!(window.console && console.log)) {
 	"use strict";
 	var navbar_init = function(){
 		var $navbar_social = $("#share-social a"),
-			navbar_timer,
+			$page1 = $("#page1"),
 			hide_social_popout = function(event){
-				window.hide_popover.bind($navbar_social)(event);
-			};
-		$navbar_social.click(function(event){
-			if(navbar_timer !== undefined) {
-				clearTimeout(navbar_timer);
-				navbar_timer = undefined;
-			}
-			window.toggle_popover.bind($navbar_social)(event);
+				$page1.find(".social-links").hide();
+			},
+			$html = $("html").bind("doc:page-change", hide_social_popout);
+
+		$navbar_social.fastPress(function(){
+			$page1.find(".social-links").toggle(); // don't cache jQuery selector because it's loaded in/out all the time
 			return false;
-		});
-		$(window).scroll(function(){
-			if(navbar_timer !== undefined) {
-				window.clearTimeout(navbar_timer);
-				navbar_timer = undefined;
-			}
-			navbar_timer = window.setTimeout(hide_social_popout, 100);
 		});
 		$("#show_slideout_navigation").change(function(event){
 			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
@@ -1277,11 +1266,8 @@ if(!(window.console && console.log)) {
 			} else {
 				$logo.show();
 			}
-			
-			
 		});
 	};
-
     window.pageload(navbar_init);
 }(jQuery));/* END OF navbar.js */
 
