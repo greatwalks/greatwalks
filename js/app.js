@@ -18,7 +18,7 @@
 
             for(pathname_contains in callback_pathname){
                 if(pathname.indexOf(pathname_contains) !== -1 ) {
-                    console.log("calling " + pathname_contains);
+                    //console.log("calling " + pathname_contains);
                     for(i = 0; i < callback_pathname[pathname_contains].length; i++){
                         callback_pathname[pathname_contains][i](event);
                     }
@@ -1353,13 +1353,13 @@ if(!(window.console && console.log)) {
         },
         popover_init = function(event){
             var $html = $("html");
-                
             
             $("body.map, #wrapper,#map").click(function(event){
                 if($(event.target).is(this)) { //if we reached this event directly without bubbling...
                     window.hide_all_popovers_no_bubbling(event);
                 }
             });
+            
             if(!loaded_init_once){
                 $("body").on("click", ".popover", function(event){
                     window.hide_all_popovers_no_bubbling(event);
