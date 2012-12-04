@@ -2004,6 +2004,9 @@ body.map #map #transform-origin-debug {
   width: 1px;
   height: 1px;
 }
+body.map #map_id {
+  display: none;
+}
 body.map #no-touch-zoom {
   display: none;
   position: fixed;
