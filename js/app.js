@@ -15,6 +15,170 @@
     };
 }(jQuery));/* END OF pageload.js */
 
+/* BEGINNING OF navbar.js */
+/*
+ * Handles the navbars (including the bottom one, if it's there)
+ */
+(function($){
+	"use strict";
+	var navbar_init = function(){
+		var $navbar_social = $("#share-social a"),
+			navbar_timer,
+			hide_social_popout = function(event){
+				window.hide_popover.bind($navbar_social)(event);
+			};
+		$navbar_social.click(function(event){
+			if(navbar_timer !== undefined) {
+				clearTimeout(navbar_timer);
+				navbar_timer = undefined;
+			}
+			window.toggle_popover.bind($navbar_social)(event);
+			return false;
+		});
+		$(window).scroll(function(){
+			if(navbar_timer !== undefined) {
+				window.clearTimeout(navbar_timer);
+				navbar_timer = undefined;
+			}
+			navbar_timer = window.setTimeout(hide_social_popout, 100);
+		});
+		$("#show_slideout_navigation").change(function(event){
+			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
+			var $this = $(this),
+				$logo;
+			if($(window).height() > 400 && $(window).width() > 400) return;
+			$logo = $("#logo");
+			if($this.is(":checked")) {
+				$logo.hide();
+			} else {
+				$logo.show();
+			}
+			
+			
+		});
+	};
+
+    window.pageload(navbar_init);
+}(jQuery));/* END OF navbar.js */
+
+/* BEGINNING OF maps.js */
+/*global alert nz_map_dimensions console*/
+(function($){
+    "use strict";
+    var $wrapper,
+        $new_zealand_map_wrapper,
+        $new_zealand_map_img,
+        text_sizes = ["size800", "size700", "size600", "size500", "size400", "size300", "size200", "size100"],
+        $window,
+
+        adjust_maps_height = function(event){
+            var available_width = $window.width(),
+                available_height = $window.height(),
+                offset = $new_zealand_map_img.offset(),
+                remaining_height = available_height - offset.top,
+                fixed_dimension = (available_width / remaining_height < nz_map_dimensions.ratio) ? "width" : "height",
+                target_dimensions = {width:undefined, height:undefined};
+
+            if(fixed_dimension === "width") {
+                target_dimensions.width = available_width;
+                target_dimensions.height = target_dimensions.width / nz_map_dimensions.ratio;
+            } else {
+                target_dimensions.height = remaining_height - 10;
+                target_dimensions.width = target_dimensions.height * nz_map_dimensions.ratio;
+            }
+            if(target_dimensions.width > nz_map_dimensions.width) {
+                target_dimensions.width = nz_map_dimensions.width;
+                nz_map_dimensions.height = nz_map_dimensions.height;
+            }
+            $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
+            $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
+            target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
+            if(target_dimensions.chosen_text_size > 800) {
+                target_dimensions.chosen_text_size = 800;
+            } else if(target_dimensions.chosen_text_size < 100) {
+                target_dimensions.chosen_text_size = 100;
+            }
+            $new_zealand_map_wrapper
+                .addClass("size" + target_dimensions.chosen_text_size)
+                .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
+            $wrapper.width(available_width).height(remaining_height);
+            //$("#debug").text("size" + target_dimensions.chosen_text_size);
+            $new_zealand_map_wrapper.show();
+        },
+        maps_init = function(event){
+            $window = $(window);
+            $wrapper = $("#wrapper");
+            $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
+            $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
+            
+            $window.bind("resize orientationchange", adjust_maps_height);
+            adjust_maps_height();
+            setTimeout(adjust_maps_height, 200);
+        };
+
+
+    window.pageload(maps_init, "/maps.html");
+}(jQuery));
+
+/* END OF maps.js */
+
+/* BEGINNING OF fast-press.js */
+/* globals window Modernizr Hammer */
+/* Simple click wrapper */
+(function($){
+    var hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        },
+        modernizr_touch = Modernizr.touch,
+        fastPress_hyperlink = function(event){
+            var $this = $(this),
+                this_href = $this.attr("href");
+            //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
+            if(this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
+                return true;
+            }
+            window.location = window.location.toString()
+                .substr(
+                    0,
+                    window.location.toString().lastIndexOf("/") + 1) +
+                this_href;
+        },
+        fast_press_init = function(event){
+            if(!modernizr_touch) return;
+            $("body").on("touchstart", "a", fastPress_hyperlink);
+        };
+    $.prototype.fastPress = function(callback){
+        if(callback === undefined) {
+            if(modernizr_touch) {
+                return this.trigger('touchstart');
+            }
+            return this.trigger('click');
+        }
+        if(modernizr_touch) {
+            this.hammer(hammer_defaults).bind('touchstart', callback);
+            return this;
+        }
+        return this.click(callback);
+    };
+    window.pageload(fast_press_init);
+}(jQuery));/* END OF fast-press.js */
+
+/* BEGINNING OF console.js */
+// Avoid `console` errors in browsers that lack a console.
+if(!(window.console && console.log)) {
+    (function() {
+        var noop = function() {};
+        var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
+        var length = methods.length;
+        var console = window.console = {};
+        while (length--) {
+            console[methods[length]] = noop;
+        }
+    }());
+};/* END OF console.js */
+
 /* BEGINNING OF map.js */
 /*globals map_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
 /* ===========================================================
@@ -333,48 +497,90 @@
     window.pageload(map_init, "/map-");
 }(jQuery));/* END OF map.js */
 
-/* BEGINNING OF fast-press.js */
-/* globals window Modernizr Hammer */
-/* Simple click wrapper */
+/* BEGINNING OF walk.js */
+/*global navigator document alert console */
 (function($){
-    var hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
-        },
-        modernizr_touch = Modernizr.touch,
-        fastPress_hyperlink = function(event){
+    "use strict";
+
+    var walk_init = function(){
+        var $dont_miss = $(".dont-miss"),
+            $shadow = $dont_miss.find(".shadow"),
+            is_shadowed = false,
+            $current_dont_miss,
+            disable_all_dont_miss = function(event){
+                is_shadowed = false;
+                if($current_dont_miss !== undefined) {
+                    $current_dont_miss.css("z-index", "auto");
+                    window.hide_all_popovers.apply($current_dont_miss);
+                    $current_dont_miss = undefined;
+                }
+                $shadow.removeClass("shadow-visible");
+            },
+            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
+        
+
+
+        $('#carousel').carousel();
+
+        $("body").on("click", ".audio", function(event){
             var $this = $(this),
-                this_href = $this.attr("href");
-            //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
-            if(this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
-                return true;
+                audio_path,
+                media_player;
+            if(window.Media) { //use Phonegap-style audio
+               var  onSuccess = function(){},
+                    onError = function onError(error) {
+                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
+                    };
+                audio_path = $this.data('audio');
+                if ( navigator.userAgent.match(/android/i) ) {
+                    audio_path = "/android_asset/www/" + $this.data("audio");
+                }
+                media_player = new window.Media(audio_path, onSuccess, onError);
+                media_player.play();
+            } else {// Use HTML5 Audio approach
+                var $audio = $("audio"),
+                    audio_element;
+                audio_path = $this.data("audio");
+                if($audio.length === 0) {
+                    $audio = $("<audio/>").attr("src", audio_path);
+                    $("body").append($audio);
+                } else {
+                    $audio.attr("src", audio_path);
+                }
+                audio_element = $audio.get(0);
+                audio_element.load();
+                audio_element.play();
             }
-            window.location = window.location.toString()
-                .substr(
-                    0,
-                    window.location.toString().lastIndexOf("/") + 1) +
-                this_href;
-        },
-        fast_press_init = function(event){
-            if(!modernizr_touch) return;
-            $("body").on("touchstart", "a", fastPress_hyperlink);
-        };
-    $.prototype.fastPress = function(callback){
-        if(callback === undefined) {
-            if(modernizr_touch) {
-                return this.trigger('touchstart');
+        });
+        $(".walk-detail-header a").fastPress(function(){
+            $(this).parent().toggleClass("open").next(".walk-detail").slideToggle();
+            return false;
+        });
+        $(".dont-miss a").fastPress();
+        
+        
+        $("a.icon").click(window.toggle_popover);
+
+        $dont_miss.find("a").click(function(){
+            var $this = $(this);
+            if(is_shadowed) {
+                disable_all_dont_miss();
+            } else {
+                $current_dont_miss = $this;
+                $current_dont_miss.css("z-index", "3");
+                $shadow.addClass("shadow-visible");
+                is_shadowed = true;
+                window.show_popover.apply($current_dont_miss);
             }
-            return this.trigger('click');
-        }
-        if(modernizr_touch) {
-            this.hammer(hammer_defaults).bind('touchstart', callback);
-            return this;
-        }
-        return this.click(callback);
+            return false;
+        });
+
+        $shadow.click(disable_all_dont_miss);
     };
-    window.pageload(fast_press_init);
-}(jQuery));/* END OF fast-press.js */
+
+    window.pageload(walk_init, "/walk-");
+}(jQuery));
+/* END OF walk.js */
 
 /* BEGINNING OF find-an-adventure.js */
 /*globals alert Modernizr window navigator document setTimeout clearTimeout*/
@@ -449,6 +655,45 @@
     window.pageload(find_init, "/find-an-adventure.html");
 }(jQuery));
 /* END OF find-an-adventure.js */
+
+/* BEGINNING OF online-offline.js */
+/*globals Connection */
+/*
+ * Responsible for making changes to pages based on whether the device is online or offline
+ */
+(function($){
+    "use strict";
+    var going_online_offline_init = function(){
+            document.addEventListener("online", going_online, false);
+            document.addEventListener("offline", going_offline, false);
+            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
+                going_offline();
+            } else { //either we're online or the browser can't tell us if it's online, so assume online
+                going_online();
+            }
+        },
+       going_online = function(){
+            $("#share-social").show();
+            /*
+            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
+            $(".youtube").each(function(){
+                var $this = $(this),
+                    youtube_id = $this.data("youtube-id");
+                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
+                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
+            });
+            */
+        },
+       going_offline = function(){
+            $("#share-social").hide();
+            $(".youtube").each(function(){
+                var $this = $(this);
+                $this.empty();
+            });
+        };
+    
+    window.pageload(going_online_offline_init);
+}(jQuery));/* END OF online-offline.js */
 
 /* BEGINNING OF helper.js */
 /**
@@ -785,72 +1030,42 @@
     };
 })(document);/* END OF helper.js */
 
-/* BEGINNING OF index.js */
-/*globals alert Modernizr*/
+/* BEGINNING OF modal.js */
+/*global navigator document*/
 (function($){
     "use strict";
-    if(window.location.pathname.substr(-1, 1) === "/") {
-        window.location = window.location.pathname + "index.html";
-    }
-    
-    var $carousel,
-        $carousel_items,
-        $navbar_bottom,
-        $navbar_top,
-        hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
-        },
-        drag_distanceX_threshold = 10,
-        drag_distanceX,
-        drag_carousel = function(event){
-            drag_distanceX = event.distanceX;
-        },
-        slideout_navigation_animation_delay_milliseconds = 200,
-        slideout_navigation_animation_timer,
-        dragend_carousel = function(event){
-            if(drag_distanceX === undefined) return;
-            if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
-            if(drag_distanceX > 0) {
-                $carousel.carousel('prev');
-            } else {
-                $carousel.carousel('next');
-            }
-            drag_distanceX = undefined;
-        },
-        adjust_carousel_height = function(event){
-            var $window = $(window),
-                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 0,
-                width = $window.width() + 1;
-            if(height > 0) {
-                $carousel.height(height);
-                $carousel_items.height(height);
-            }
-        },
-        index_init = function(event){
-            $carousel = $('#carousel').carousel();
-            $carousel_items = $carousel.find(".item");
-            $navbar_bottom = $(".navbar-fixed-bottom");
-            $navbar_top = $(".navbar-fixed-top");
-            $(window).bind("resize orientationchange", adjust_carousel_height);
-            $("#show_slideout_navigation").change(function(){
-                if(slideout_navigation_animation_timer){
-                    clearTimeout(slideout_navigation_animation_timer);
-                }
-                slideout_navigation_animation_timer = setTimeout(adjust_carousel_height, slideout_navigation_animation_delay_milliseconds);
-            });
-            adjust_carousel_height();
-            if(!Modernizr.touch) {
-                $carousel.find(".carousel-control").show();
-            }
-            $carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
-            $carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
-        };
-    window.pageload(index_init, "/index.html");
-}(jQuery));
+    var modal_init = function(event){
+        /*
+        Making changes to Bootstrap Modals?
+        Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
+        AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
+        */
+        $(".modal").appendTo("body");
+        $("body").on("click", ".modal", function(){
+            $(this).modal("hide");
+            $("html").trigger("close-modal");
+        });
 
-/* END OF index.js */
+    };
+    window.pageload(modal_init);
+}(jQuery));/* END OF modal.js */
+
+/* BEGINNING OF .offers.js.swp */
+b0VIM 7.3      -d�Pc� �B  stuart                                  zu                                      ~stuart/work/greatwalks-builder/javascript/offers.js                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         utf-8 3210    #"! U                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 tp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ad  �  �            �  �  �  ~  C  9  3  2    �  �                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }}}}}}}(jQuery));     window.pageload(make_blank, '/walk-');     window.pageload(make_blank, '/offers');      }         }             $('ul.banners li a').attr('target', "_blank");         if ( navigator.userAgent.match(/iphone|ipad|ipod/i) ) {     var make_blank = function() {     "use strict"; (function($){ /* END OF .offers.js.swp */
+
+/* BEGINNING OF offers.js */
+(function($){
+    "use strict";
+    var make_blank = function() {
+        if ( navigator.userAgent.match(/iphone|ipad|ipod/i) ) {
+            $('ul.banners li a, div.offers li a').attr('target', "_blank");
+        }
+    }
+
+    window.pageload(make_blank, '/offers');
+    window.pageload(make_blank, '/walk-');
+}(jQuery));
+/* END OF offers.js */
 
 /* BEGINNING OF info.js */
 /*globals window localStorage JSON geolocation navigator */
@@ -1074,185 +1289,152 @@
     window.pageload(map__zoom_init, "/map-");
 }(jQuery));/* END OF map--zoom.js */
 
-/* BEGINNING OF console.js */
-// Avoid `console` errors in browsers that lack a console.
-if(!(window.console && console.log)) {
-    (function() {
-        var noop = function() {};
-        var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
-        var length = methods.length;
-        var console = window.console = {};
-        while (length--) {
-            console[methods[length]] = noop;
-        }
-    }());
-};/* END OF console.js */
-
-/* BEGINNING OF maps.js */
-/*global alert nz_map_dimensions console*/
+/* BEGINNING OF visitor-centre.js */
+/*globals window localStorage JSON geolocation navigator */
 (function($){
     "use strict";
-    var $wrapper,
-        $new_zealand_map_wrapper,
-        $new_zealand_map_img,
-        text_sizes = ["size800", "size700", "size600", "size500", "size400", "size300", "size200", "size100"],
-        $window,
-
-        adjust_maps_height = function(event){
-            var available_width = $window.width(),
-                available_height = $window.height(),
-                offset = $new_zealand_map_img.offset(),
-                remaining_height = available_height - offset.top,
-                fixed_dimension = (available_width / remaining_height < nz_map_dimensions.ratio) ? "width" : "height",
-                target_dimensions = {width:undefined, height:undefined};
-
-            if(fixed_dimension === "width") {
-                target_dimensions.width = available_width;
-                target_dimensions.height = target_dimensions.width / nz_map_dimensions.ratio;
-            } else {
-                target_dimensions.height = remaining_height - 10;
-                target_dimensions.width = target_dimensions.height * nz_map_dimensions.ratio;
-            }
-            if(target_dimensions.width > nz_map_dimensions.width) {
-                target_dimensions.width = nz_map_dimensions.width;
-                nz_map_dimensions.height = nz_map_dimensions.height;
-            }
-            $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
-            $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
-            target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
-            if(target_dimensions.chosen_text_size > 800) {
-                target_dimensions.chosen_text_size = 800;
-            } else if(target_dimensions.chosen_text_size < 100) {
-                target_dimensions.chosen_text_size = 100;
-            }
-            $new_zealand_map_wrapper
-                .addClass("size" + target_dimensions.chosen_text_size)
-                .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
-            $wrapper.width(available_width).height(remaining_height);
-            //$("#debug").text("size" + target_dimensions.chosen_text_size);
-            $new_zealand_map_wrapper.show();
+    var one_second_in_milliseconds = 1000,
+        geolocation_watchId,
+        geolocation_key = "geolocation-last-known-position",
+        last_known_position_json = localStorage[geolocation_key],
+        geolocationSettings = {
+            maximumAge:600000,
+            enableHighAccuracy: true,
+            timeout: one_second_in_milliseconds * 15
         },
-        maps_init = function(event){
-            $window = $(window);
-            $wrapper = $("#wrapper");
-            $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
-            $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
+        $locations,
+        $visitor_centres_list,
+        geolocationSuccess = function(position){
+            var locations;
+            /*
+            Latitude:          position.coords.latitude
+            Longitude:         position.coords.longitude
+            Altitude:          position.coords.altitude
+            Accuracy:          position.coords.accuracy
+            Altitude Accuracy: position.coords.altitudeAccuracy
+            Heading:           position.coords.heading
+            Speed:             position.coords.speed
+            */
+            $locations.each(function(){
+                var $this = $(this),
+                    location_coords = {
+                        "longitude": $this.data("longitude"),
+                        "latitude": $this.data("latitude")
+                    },
+                    distance_away = window.difference_between_positions_in_kilometers(position.coords.latitude, position.coords.longitude, location_coords.latitude, location_coords.longitude);
+                $this.find(".distance_away").text(distance_away);
+                $this.data("distance-away", distance_away);
+            });
+
+            locations = $locations.get();
+            locations.sort(function(a,b){
+                var $a = $(a),
+                    $b = $(b),
+                    a_distance_away = $a.data("distance-away"),
+                    b_distance_away = $b.data("distance-away");
+                if(a_distance_away > b_distance_away) return 1;
+                if(a_distance_away < b_distance_away) return -1;
+                return 0;
+            });
+            $.each(locations, function(index, item){ 
+                $visitor_centres_list.append(item);
+            });
+
             
-            $window.bind("resize orientationchange", adjust_maps_height);
-            adjust_maps_height();
-            setTimeout(adjust_maps_height, 200);
+            window.localStorage[geolocation_key] = JSON.stringify(position);
+        },
+        geolocationError = function(msg) {
+            try{
+                geolocation.clearWatch(geolocation_watchId);
+            } catch(exception){
+            }
+            if(geolocationSettings.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
+                geolocationSettings.enableHighAccuracy = false;
+                geolocation_watchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
+            } else {
+                // No GPS available, silently ignore
+            }
+        },
+        visitor_centre_init = function(){
+            $locations = $(".visitor-centre-location");
+            $visitor_centres_list = $("#visitor-centres-list");
+            if(last_known_position_json) {
+                 geolocationSuccess(JSON.parse(last_known_position_json));
+            }
+            geolocation_watchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
         };
+        
+    
 
+    window.pageload(visitor_centre_init, "visitor-centre.html");
+}(jQuery));/* END OF visitor-centre.js */
 
-    window.pageload(maps_init, "/maps.html");
+/* BEGINNING OF index.js */
+/*globals alert Modernizr*/
+(function($){
+    "use strict";
+    if(window.location.pathname.substr(-1, 1) === "/") {
+        window.location = window.location.pathname + "index.html";
+    }
+    
+    var $carousel,
+        $carousel_items,
+        $navbar_bottom,
+        $navbar_top,
+        hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        },
+        drag_distanceX_threshold = 10,
+        drag_distanceX,
+        drag_carousel = function(event){
+            drag_distanceX = event.distanceX;
+        },
+        slideout_navigation_animation_delay_milliseconds = 200,
+        slideout_navigation_animation_timer,
+        dragend_carousel = function(event){
+            if(drag_distanceX === undefined) return;
+            if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
+            if(drag_distanceX > 0) {
+                $carousel.carousel('prev');
+            } else {
+                $carousel.carousel('next');
+            }
+            drag_distanceX = undefined;
+        },
+        adjust_carousel_height = function(event){
+            var $window = $(window),
+                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 0,
+                width = $window.width() + 1;
+            if(height > 0) {
+                $carousel.height(height);
+                $carousel_items.height(height);
+            }
+        },
+        index_init = function(event){
+            $carousel = $('#carousel').carousel();
+            $carousel_items = $carousel.find(".item");
+            $navbar_bottom = $(".navbar-fixed-bottom");
+            $navbar_top = $(".navbar-fixed-top");
+            $(window).bind("resize orientationchange", adjust_carousel_height);
+            $("#show_slideout_navigation").change(function(){
+                if(slideout_navigation_animation_timer){
+                    clearTimeout(slideout_navigation_animation_timer);
+                }
+                slideout_navigation_animation_timer = setTimeout(adjust_carousel_height, slideout_navigation_animation_delay_milliseconds);
+            });
+            adjust_carousel_height();
+            if(!Modernizr.touch) {
+                $carousel.find(".carousel-control").show();
+            }
+            $carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
+            $carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
+        };
+    window.pageload(index_init, "/index.html");
 }(jQuery));
 
-/* END OF maps.js */
-
-/* BEGINNING OF modal.js */
-/*global navigator document*/
-(function($){
-    "use strict";
-    var modal_init = function(event){
-        /*
-        Making changes to Bootstrap Modals?
-        Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
-        AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
-        */
-        $(".modal").appendTo("body");
-        $("body").on("click", ".modal", function(){
-            $(this).modal("hide");
-            $("html").trigger("close-modal");
-        });
-
-    };
-    window.pageload(modal_init);
-}(jQuery));/* END OF modal.js */
-
-/* BEGINNING OF navbar.js */
-/*
- * Handles the navbars (including the bottom one, if it's there)
- */
-(function($){
-	"use strict";
-	var navbar_init = function(){
-		var $navbar_social = $("#share-social a"),
-			navbar_timer,
-			hide_social_popout = function(event){
-				window.hide_popover.bind($navbar_social)(event);
-			};
-		$navbar_social.click(function(event){
-			if(navbar_timer !== undefined) {
-				clearTimeout(navbar_timer);
-				navbar_timer = undefined;
-			}
-			window.toggle_popover.bind($navbar_social)(event);
-			return false;
-		});
-		$(window).scroll(function(){
-			if(navbar_timer !== undefined) {
-				window.clearTimeout(navbar_timer);
-				navbar_timer = undefined;
-			}
-			navbar_timer = window.setTimeout(hide_social_popout, 100);
-		});
-		$("#show_slideout_navigation").change(function(event){
-			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
-			var $this = $(this),
-				$logo;
-			if($(window).height() > 400 && $(window).width() > 400) return;
-			$logo = $("#logo");
-			if($this.is(":checked")) {
-				$logo.hide();
-			} else {
-				$logo.show();
-			}
-			
-			
-		});
-	};
-
-    window.pageload(navbar_init);
-}(jQuery));/* END OF navbar.js */
-
-/* BEGINNING OF online-offline.js */
-/*globals Connection */
-/*
- * Responsible for making changes to pages based on whether the device is online or offline
- */
-(function($){
-    "use strict";
-    var going_online_offline_init = function(){
-            document.addEventListener("online", going_online, false);
-            document.addEventListener("offline", going_offline, false);
-            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
-                going_offline();
-            } else { //either we're online or the browser can't tell us if it's online, so assume online
-                going_online();
-            }
-        },
-       going_online = function(){
-            $("#share-social").show();
-            /*
-            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
-            $(".youtube").each(function(){
-                var $this = $(this),
-                    youtube_id = $this.data("youtube-id");
-                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
-                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
-            });
-            */
-        },
-       going_offline = function(){
-            $("#share-social").hide();
-            $(".youtube").each(function(){
-                var $this = $(this);
-                $this.empty();
-            });
-        };
-    
-    window.pageload(going_online_offline_init);
-}(jQuery));/* END OF online-offline.js */
+/* END OF index.js */
 
 /* BEGINNING OF popover.js */
 /*
@@ -1433,169 +1615,4 @@ if(!(window.console && console.log)) {
 
     window.pageload(popover_init);
 }(jQuery));/* END OF popover.js */
-
-/* BEGINNING OF visitor-centre.js */
-/*globals window localStorage JSON geolocation navigator */
-(function($){
-    "use strict";
-    var one_second_in_milliseconds = 1000,
-        geolocation_watchId,
-        geolocation_key = "geolocation-last-known-position",
-        last_known_position_json = localStorage[geolocation_key],
-        geolocationSettings = {
-            maximumAge:600000,
-            enableHighAccuracy: true,
-            timeout: one_second_in_milliseconds * 15
-        },
-        $locations,
-        $visitor_centres_list,
-        geolocationSuccess = function(position){
-            var locations;
-            /*
-            Latitude:          position.coords.latitude
-            Longitude:         position.coords.longitude
-            Altitude:          position.coords.altitude
-            Accuracy:          position.coords.accuracy
-            Altitude Accuracy: position.coords.altitudeAccuracy
-            Heading:           position.coords.heading
-            Speed:             position.coords.speed
-            */
-            $locations.each(function(){
-                var $this = $(this),
-                    location_coords = {
-                        "longitude": $this.data("longitude"),
-                        "latitude": $this.data("latitude")
-                    },
-                    distance_away = window.difference_between_positions_in_kilometers(position.coords.latitude, position.coords.longitude, location_coords.latitude, location_coords.longitude);
-                $this.find(".distance_away").text(distance_away);
-                $this.data("distance-away", distance_away);
-            });
-
-            locations = $locations.get();
-            locations.sort(function(a,b){
-                var $a = $(a),
-                    $b = $(b),
-                    a_distance_away = $a.data("distance-away"),
-                    b_distance_away = $b.data("distance-away");
-                if(a_distance_away > b_distance_away) return 1;
-                if(a_distance_away < b_distance_away) return -1;
-                return 0;
-            });
-            $.each(locations, function(index, item){ 
-                $visitor_centres_list.append(item);
-            });
-
-            
-            window.localStorage[geolocation_key] = JSON.stringify(position);
-        },
-        geolocationError = function(msg) {
-            try{
-                geolocation.clearWatch(geolocation_watchId);
-            } catch(exception){
-            }
-            if(geolocationSettings.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
-                geolocationSettings.enableHighAccuracy = false;
-                geolocation_watchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-            } else {
-                // No GPS available, silently ignore
-            }
-        },
-        visitor_centre_init = function(){
-            $locations = $(".visitor-centre-location");
-            $visitor_centres_list = $("#visitor-centres-list");
-            if(last_known_position_json) {
-                 geolocationSuccess(JSON.parse(last_known_position_json));
-            }
-            geolocation_watchId = navigator.geolocation.watchPosition(geolocationSuccess, geolocationError, geolocationSettings);
-        };
-        
-    
-
-    window.pageload(visitor_centre_init, "visitor-centre.html");
-}(jQuery));/* END OF visitor-centre.js */
-
-/* BEGINNING OF walk.js */
-/*global navigator document alert console */
-(function($){
-    "use strict";
-
-    var walk_init = function(){
-        var $dont_miss = $(".dont-miss"),
-            $shadow = $dont_miss.find(".shadow"),
-            is_shadowed = false,
-            $current_dont_miss,
-            disable_all_dont_miss = function(event){
-                is_shadowed = false;
-                if($current_dont_miss !== undefined) {
-                    $current_dont_miss.css("z-index", "auto");
-                    window.hide_all_popovers.apply($current_dont_miss);
-                    $current_dont_miss = undefined;
-                }
-                $shadow.removeClass("shadow-visible");
-            },
-            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
-        
-
-
-        $('#carousel').carousel();
-
-        $("body").on("click", ".audio", function(event){
-            var $this = $(this),
-                audio_path,
-                media_player;
-            if(window.Media) { //use Phonegap-style audio
-               var  onSuccess = function(){},
-                    onError = function onError(error) {
-                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
-                    };
-                audio_path = $this.data('audio');
-                if ( navigator.userAgent.match(/android/i) ) {
-                    audio_path = "/android_asset/www/" + $this.data("audio");
-                }
-                media_player = new window.Media(audio_path, onSuccess, onError);
-                media_player.play();
-            } else {// Use HTML5 Audio approach
-                var $audio = $("audio"),
-                    audio_element;
-                audio_path = $this.data("audio");
-                if($audio.length === 0) {
-                    $audio = $("<audio/>").attr("src", audio_path);
-                    $("body").append($audio);
-                } else {
-                    $audio.attr("src", audio_path);
-                }
-                audio_element = $audio.get(0);
-                audio_element.load();
-                audio_element.play();
-            }
-        });
-        $(".walk-detail-header a").fastPress(function(){
-            $(this).parent().toggleClass("open").next(".walk-detail").slideToggle();
-            return false;
-        });
-        $(".dont-miss a").fastPress();
-        
-        
-        $("a.icon").click(window.toggle_popover);
-
-        $dont_miss.find("a").click(function(){
-            var $this = $(this);
-            if(is_shadowed) {
-                disable_all_dont_miss();
-            } else {
-                $current_dont_miss = $this;
-                $current_dont_miss.css("z-index", "3");
-                $shadow.addClass("shadow-visible");
-                is_shadowed = true;
-                window.show_popover.apply($current_dont_miss);
-            }
-            return false;
-        });
-
-        $shadow.click(disable_all_dont_miss);
-    };
-
-    window.pageload(walk_init, "/walk-");
-}(jQuery));
-/* END OF walk.js */
 
