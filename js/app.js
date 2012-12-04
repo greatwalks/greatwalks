@@ -1246,15 +1246,18 @@ if(!(window.console && console.log)) {
 	var navbar_init = function(){
 		var $navbar_social = $("#share-social a"),
 			$page1 = $("#page1"),
-			hide_social_popout = function(event){
+			$show_slideout_navigation = $("#show_slideout_navigation"),
+			navbar_page_change = function(event){
 				$page1.find(".social-links").hide();
+				$show_slideout_navigation.attr("checked", false);
 			},
-			$html = $("html").bind("doc:page-change", hide_social_popout);
+			$html = $("html").bind("doc:page-change", navbar_page_change);
 
 		$navbar_social.fastPress(function(){
 			$page1.find(".social-links").toggle(); // don't cache jQuery selector because it's loaded in/out all the time
 			return false;
 		});
+
 		$("#show_slideout_navigation").change(function(event){
 			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
 			var $this = $(this),
