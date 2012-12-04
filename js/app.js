@@ -15,45 +15,6 @@
     };
 }(jQuery));/* END OF pageload.js */
 
-/* BEGINNING OF online-offline.js */
-/*globals Connection */
-/*
- * Responsible for making changes to pages based on whether the device is online or offline
- */
-(function($){
-    "use strict";
-    var going_online_offline_init = function(){
-            document.addEventListener("online", going_online, false);
-            document.addEventListener("offline", going_offline, false);
-            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
-                going_offline();
-            } else { //either we're online or the browser can't tell us if it's online, so assume online
-                going_online();
-            }
-        },
-       going_online = function(){
-            $("#share-social").show();
-            /*
-            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
-            $(".youtube").each(function(){
-                var $this = $(this),
-                    youtube_id = $this.data("youtube-id");
-                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
-                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
-            });
-            */
-        },
-       going_offline = function(){
-            $("#share-social").hide();
-            $(".youtube").each(function(){
-                var $this = $(this);
-                $this.empty();
-            });
-        };
-    
-    window.pageload(going_online_offline_init);
-}(jQuery));/* END OF online-offline.js */
-
 /* BEGINNING OF navbar.js */
 /*
  * Handles the navbars (including the bottom one, if it's there)
@@ -170,7 +131,24 @@
             scale_treshold: 0,
             drag_min_distance: 0
         },
-        modernizr_touch = Modernizr.touch;
+        modernizr_touch = Modernizr.touch,
+        fastPress_hyperlink = function(event){
+            var $this = $(this),
+                this_href = $this.attr("href");
+            //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
+            if(this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
+                return true;
+            }
+            window.location = window.location.toString()
+                .substr(
+                    0,
+                    window.location.toString().lastIndexOf("/") + 1) +
+                this_href;
+        },
+        fast_press_init = function(event){
+            if(!modernizr_touch) return;
+            $("body").on("touchstart", "a", fastPress_hyperlink);
+        };
     $.prototype.fastPress = function(callback){
         if(callback === undefined) {
             if(modernizr_touch) {
@@ -184,6 +162,7 @@
         }
         return this.click(callback);
     };
+    window.pageload(fast_press_init);
 }(jQuery));/* END OF fast-press.js */
 
 /* BEGINNING OF console.js */
@@ -537,11 +516,9 @@ if(!(window.console && console.log)) {
                 }
                 $shadow.removeClass("shadow-visible");
             },
-            $html = $("html").bind("popover-click", disable_all_dont_miss);
+            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
         
-        $(".modal").click(function(){
-            $(this).modal("hide");
-        });
+
 
         $('#carousel').carousel();
 
@@ -678,6 +655,45 @@ if(!(window.console && console.log)) {
     window.pageload(find_init, "/find-an-adventure.html");
 }(jQuery));
 /* END OF find-an-adventure.js */
+
+/* BEGINNING OF online-offline.js */
+/*globals Connection */
+/*
+ * Responsible for making changes to pages based on whether the device is online or offline
+ */
+(function($){
+    "use strict";
+    var going_online_offline_init = function(){
+            document.addEventListener("online", going_online, false);
+            document.addEventListener("offline", going_offline, false);
+            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
+                going_offline();
+            } else { //either we're online or the browser can't tell us if it's online, so assume online
+                going_online();
+            }
+        },
+       going_online = function(){
+            $("#share-social").show();
+            /*
+            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
+            $(".youtube").each(function(){
+                var $this = $(this),
+                    youtube_id = $this.data("youtube-id");
+                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
+                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
+            });
+            */
+        },
+       going_offline = function(){
+            $("#share-social").hide();
+            $(".youtube").each(function(){
+                var $this = $(this);
+                $this.empty();
+            });
+        };
+    
+    window.pageload(going_online_offline_init);
+}(jQuery));/* END OF online-offline.js */
 
 /* BEGINNING OF helper.js */
 /**
@@ -1025,21 +1041,29 @@ if(!(window.console && console.log)) {
         AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
         */
         $(".modal").appendTo("body");
+        $("body").on("click", ".modal", function(){
+            $(this).modal("hide");
+            $("html").trigger("close-modal");
+        });
 
     };
     window.pageload(modal_init);
 }(jQuery));/* END OF modal.js */
+
+/* BEGINNING OF .offers.js.swp */
+b0VIM 7.3      -d�Pc� �B  stuart                                  zu                                      ~stuart/work/greatwalks-builder/javascript/offers.js                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         utf-8 3210    #"! U                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 tp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ad  �  �            �  �  �  ~  C  9  3  2    �  �                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       }}}}}}}(jQuery));     window.pageload(make_blank, '/walk-');     window.pageload(make_blank, '/offers');      }         }             $('ul.banners li a').attr('target', "_blank");         if ( navigator.userAgent.match(/iphone|ipad|ipod/i) ) {     var make_blank = function() {     "use strict"; (function($){ /* END OF .offers.js.swp */
 
 /* BEGINNING OF offers.js */
 (function($){
     "use strict";
     var make_blank = function() {
         if ( navigator.userAgent.match(/iphone|ipad|ipod/i) ) {
-            $('ul.banners li a').attr('target', "_blank");
+            $('ul.banners li a, div.offers li a').attr('target', "_blank");
         }
     }
 
     window.pageload(make_blank, '/offers');
+    window.pageload(make_blank, '/walk-');
 }(jQuery));
 /* END OF offers.js */
 
@@ -1119,17 +1143,25 @@ if(!(window.console && console.log)) {
                 translate,
                 width,
                 screenOrigin,
+                touch_position = {width:undefined, height: undefined},
                 $locations = $(".location"),
                 redraw = function(){
-                    var map_css,
-                        icon_scale;
+                    var map_transform,
+                        icon_scale,
+                        css;
                     if(scale < 0.1) {
                         scale = 0.1;
                     } else if(scale > 3) {
                         scale = 3;
                     }
-                    map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
-                    $image.css('-webkit-transform', map_css);
+                    map_transform = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
+                    css = {'-webkit-transform': map_transform};
+
+                    //if(touch_position.cssOrigin) {
+                    //    css['-webkit-transform-origin'] = touch_position.cssOrigin;
+                    //}
+                    $image.css(css);
+
                     // Want to scale icons independently of the map? Enable this.
                     // icon_scale = (1 / scale) * 30;
                     // if(icon_scale > 50) {
@@ -1221,11 +1253,18 @@ if(!(window.console && console.log)) {
             });
 
             hammer.bind('transform', function(event) {
-                var newHeight, newWidth;
+                var newHeight,
+                    newWidth;
+                    //offset = $image.offset();
                 scale = prevScale * event.scale;
-                console.log(event.position);
                 
-
+                //touch_position.width = event.position.width / scale;
+                //touch_position.height = event.position.height / scale;
+                //touch_position.x = event.position.x;
+                //touch_position.y = event.position.y;
+                //touch_position.cssOrigin = touch_position.x + "px " + touch_position.y +"px";
+                //$image.find("#transform-origin-debug").css({top: touch_position.x + "px", "left": touch_position.y +"px"});
+                //console.log(JSON.stringify(event.touches));
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
 
@@ -1411,21 +1450,25 @@ if(!(window.console && console.log)) {
     "use strict";
 
     var existing_popovers = [],
-        hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
+        $window = $(window),
+        $body,
+        too_small_for_popovers = function(){
+            if ($window.width() > 600) return false;
+            if($("body.walk").length === 1) return true;
+            if($(this).is("#weta")) return true;
+            return false; //debug
         },
         popover_init = function(event){
             var $html = $("html");
+                
+            
             $("body.map, #wrapper,#map").click(function(event){
                 if($(event.target).is(this)) { //if we reached this event directly without bubbling...
                     window.hide_all_popovers_no_bubbling(event);
                 }
             });
-
-            $("body").on("click", ".popover", function(event){
-                
+            $body = $("body"); //note: defining $body from parent function
+            $body.on("click", ".popover", function(event){
                 window.hide_all_popovers_no_bubbling(event);
                 $html.trigger("popover-click");
             });
@@ -1449,12 +1492,10 @@ if(!(window.console && console.log)) {
             //console.log("Determining placement");
             var placement = $sender.data("placement"),
                 offset,
-                $window,
                 window_dimensions,
                 scroll_top;
             if(placement !== undefined) return placement;
             //console.log("No default placement...determining it dynamically");
-            $window = $(window);
             window_dimensions = {"width": $window.width(), "height": $window.height()};
             scroll_top = $window.scrollTop();
             offset = $sender.offset();
@@ -1502,6 +1543,27 @@ if(!(window.console && console.log)) {
         $(this).popover('hide');
     };
 
+    window.toggle_popover_modal = function(event, options) {
+        var $this = $(this),
+            this_id = $this.attr("id") || 'generated-id-xxxxxxxxxxxxxx'.replace(/[x]/g, function(){
+                                                return (Math.random()*16|0).toString(16);
+                                           }),
+            modal_id = "modal_" + this_id,
+            $modal = $("#" + modal_id);
+        if($modal.length === 0) {
+            $modal = $("<div/>").addClass("modal hide fade popover-modal").attr("id", modal_id);
+            $body.append($modal);
+        }
+        $this.attr("id", this_id).attr({"data-toggle": "modal", "role": "button"});
+        if(options.content){
+            $modal.html(options.content);
+        } else {
+            $modal.html($this.data("content"));
+        }
+        $modal.modal("toggle");
+        return false;
+    };
+
     window.toggle_popover = function(event){
         var $this = $(this),
             content_template = $this.data("content-template"),
@@ -1524,6 +1586,7 @@ if(!(window.console && console.log)) {
                 $this.data('popover', old_options);
             }
         }
+        if(too_small_for_popovers()) return window.toggle_popover_modal.apply(this, [event, options]);
         $this.popover(options).popover('toggle');
         existing_popovers.push($this);
         if(event.originalEvent) {
@@ -1535,6 +1598,7 @@ if(!(window.console && console.log)) {
     window.show_popover = function(event, override_content){
         var $this = $(this),
             options = {html: true, trigger: "manual", "placement": get_popover_placement($this)};
+        if(too_small_for_popovers()) return window.toggle_popover_modal.apply(this, [event, options]);
         window.hide_all_popovers(event, $this);
         if(override_content !== undefined) {
             options.content = override_content;
