@@ -15,6 +15,191 @@
     };
 }(jQuery));/* END OF pageload.js */
 
+/* BEGINNING OF online-offline.js */
+/*globals Connection */
+/*
+ * Responsible for making changes to pages based on whether the device is online or offline
+ */
+(function($){
+    "use strict";
+    var going_online_offline_init = function(){
+            document.addEventListener("online", going_online, false);
+            document.addEventListener("offline", going_offline, false);
+            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
+                going_offline();
+            } else { //either we're online or the browser can't tell us if it's online, so assume online
+                going_online();
+            }
+        },
+       going_online = function(){
+            $("#share-social").show();
+            /*
+            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
+            $(".youtube").each(function(){
+                var $this = $(this),
+                    youtube_id = $this.data("youtube-id");
+                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
+                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
+            });
+            */
+        },
+       going_offline = function(){
+            $("#share-social").hide();
+            $(".youtube").each(function(){
+                var $this = $(this);
+                $this.empty();
+            });
+        };
+    
+    window.pageload(going_online_offline_init);
+}(jQuery));/* END OF online-offline.js */
+
+/* BEGINNING OF navbar.js */
+/*
+ * Handles the navbars (including the bottom one, if it's there)
+ */
+(function($){
+	"use strict";
+	var navbar_init = function(){
+		var $navbar_social = $("#share-social a"),
+			navbar_timer,
+			hide_social_popout = function(event){
+				window.hide_popover.bind($navbar_social)(event);
+			};
+		$navbar_social.click(function(event){
+			if(navbar_timer !== undefined) {
+				clearTimeout(navbar_timer);
+				navbar_timer = undefined;
+			}
+			window.toggle_popover.bind($navbar_social)(event);
+			return false;
+		});
+		$(window).scroll(function(){
+			if(navbar_timer !== undefined) {
+				window.clearTimeout(navbar_timer);
+				navbar_timer = undefined;
+			}
+			navbar_timer = window.setTimeout(hide_social_popout, 100);
+		});
+		$("#show_slideout_navigation").change(function(event){
+			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
+			var $this = $(this),
+				$logo;
+			if($(window).height() > 400 && $(window).width() > 400) return;
+			$logo = $("#logo");
+			if($this.is(":checked")) {
+				$logo.hide();
+			} else {
+				$logo.show();
+			}
+			
+			
+		});
+	};
+
+    window.pageload(navbar_init);
+}(jQuery));/* END OF navbar.js */
+
+/* BEGINNING OF maps.js */
+/*global alert nz_map_dimensions console*/
+(function($){
+    "use strict";
+    var $wrapper,
+        $new_zealand_map_wrapper,
+        $new_zealand_map_img,
+        text_sizes = ["size800", "size700", "size600", "size500", "size400", "size300", "size200", "size100"],
+        $window,
+
+        adjust_maps_height = function(event){
+            var available_width = $window.width(),
+                available_height = $window.height(),
+                offset = $new_zealand_map_img.offset(),
+                remaining_height = available_height - offset.top,
+                fixed_dimension = (available_width / remaining_height < nz_map_dimensions.ratio) ? "width" : "height",
+                target_dimensions = {width:undefined, height:undefined};
+
+            if(fixed_dimension === "width") {
+                target_dimensions.width = available_width;
+                target_dimensions.height = target_dimensions.width / nz_map_dimensions.ratio;
+            } else {
+                target_dimensions.height = remaining_height - 10;
+                target_dimensions.width = target_dimensions.height * nz_map_dimensions.ratio;
+            }
+            if(target_dimensions.width > nz_map_dimensions.width) {
+                target_dimensions.width = nz_map_dimensions.width;
+                nz_map_dimensions.height = nz_map_dimensions.height;
+            }
+            $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
+            $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
+            target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
+            if(target_dimensions.chosen_text_size > 800) {
+                target_dimensions.chosen_text_size = 800;
+            } else if(target_dimensions.chosen_text_size < 100) {
+                target_dimensions.chosen_text_size = 100;
+            }
+            $new_zealand_map_wrapper
+                .addClass("size" + target_dimensions.chosen_text_size)
+                .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
+            $wrapper.width(available_width).height(remaining_height);
+            //$("#debug").text("size" + target_dimensions.chosen_text_size);
+            $new_zealand_map_wrapper.show();
+        },
+        maps_init = function(event){
+            $window = $(window);
+            $wrapper = $("#wrapper");
+            $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
+            $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
+            
+            $window.bind("resize orientationchange", adjust_maps_height);
+            adjust_maps_height();
+            setTimeout(adjust_maps_height, 200);
+        };
+
+
+    window.pageload(maps_init, "/maps.html");
+}(jQuery));
+
+/* END OF maps.js */
+
+/* BEGINNING OF fast-press.js */
+/* globals window Modernizr Hammer */
+/* Simple click wrapper */
+(function($){
+    var hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        },
+        modernizr_touch = Modernizr.touch;
+    $.prototype.fastPress = function(callback){
+        if(callback === undefined) {
+            if(modernizr_touch) {
+                return this.trigger('touchstart');
+            }
+            return this.trigger('click');
+        }
+        if(modernizr_touch) {
+            this.hammer(hammer_defaults).bind('touchstart', callback);
+            return this;
+        }
+        return this.click(callback);
+    };
+}(jQuery));/* END OF fast-press.js */
+
+/* BEGINNING OF console.js */
+// Avoid `console` errors in browsers that lack a console.
+if(!(window.console && console.log)) {
+    (function() {
+        var noop = function() {};
+        var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
+        var length = methods.length;
+        var console = window.console = {};
+        while (length--) {
+            console[methods[length]] = noop;
+        }
+    }());
+};/* END OF console.js */
+
 /* BEGINNING OF map.js */
 /*globals map_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
 /* ===========================================================
@@ -333,48 +518,92 @@
     window.pageload(map_init, "/map-");
 }(jQuery));/* END OF map.js */
 
-/* BEGINNING OF fast-press.js */
-/* globals window Modernizr Hammer */
-/* Simple click wrapper */
+/* BEGINNING OF walk.js */
+/*global navigator document alert console */
 (function($){
-    var hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
-        },
-        modernizr_touch = Modernizr.touch,
-        fastPress_hyperlink = function(event){
+    "use strict";
+
+    var walk_init = function(){
+        var $dont_miss = $(".dont-miss"),
+            $shadow = $dont_miss.find(".shadow"),
+            is_shadowed = false,
+            $current_dont_miss,
+            disable_all_dont_miss = function(event){
+                is_shadowed = false;
+                if($current_dont_miss !== undefined) {
+                    $current_dont_miss.css("z-index", "auto");
+                    window.hide_all_popovers.apply($current_dont_miss);
+                    $current_dont_miss = undefined;
+                }
+                $shadow.removeClass("shadow-visible");
+            },
+            $html = $("html").bind("popover-click", disable_all_dont_miss);
+        
+        $(".modal").click(function(){
+            $(this).modal("hide");
+        });
+
+        $('#carousel').carousel();
+
+        $("body").on("click", ".audio", function(event){
             var $this = $(this),
-                this_href = $this.attr("href");
-            //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
-            if(this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
-                return true;
+                audio_path,
+                media_player;
+            if(window.Media) { //use Phonegap-style audio
+               var  onSuccess = function(){},
+                    onError = function onError(error) {
+                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
+                    };
+                audio_path = $this.data('audio');
+                if ( navigator.userAgent.match(/android/i) ) {
+                    audio_path = "/android_asset/www/" + $this.data("audio");
+                }
+                media_player = new window.Media(audio_path, onSuccess, onError);
+                media_player.play();
+            } else {// Use HTML5 Audio approach
+                var $audio = $("audio"),
+                    audio_element;
+                audio_path = $this.data("audio");
+                if($audio.length === 0) {
+                    $audio = $("<audio/>").attr("src", audio_path);
+                    $("body").append($audio);
+                } else {
+                    $audio.attr("src", audio_path);
+                }
+                audio_element = $audio.get(0);
+                audio_element.load();
+                audio_element.play();
             }
-            window.location = window.location.toString()
-                .substr(
-                    0,
-                    window.location.toString().lastIndexOf("/") + 1) +
-                this_href;
-        },
-        fast_press_init = function(event){
-            if(!modernizr_touch) return;
-            $("body").on("touchstart", "a", fastPress_hyperlink);
-        };
-    $.prototype.fastPress = function(callback){
-        if(callback === undefined) {
-            if(modernizr_touch) {
-                return this.trigger('touchstart');
+        });
+        $(".walk-detail-header a").fastPress(function(){
+            $(this).parent().toggleClass("open").next(".walk-detail").slideToggle();
+            return false;
+        });
+        $(".dont-miss a").fastPress();
+        
+        
+        $("a.icon").click(window.toggle_popover);
+
+        $dont_miss.find("a").click(function(){
+            var $this = $(this);
+            if(is_shadowed) {
+                disable_all_dont_miss();
+            } else {
+                $current_dont_miss = $this;
+                $current_dont_miss.css("z-index", "3");
+                $shadow.addClass("shadow-visible");
+                is_shadowed = true;
+                window.show_popover.apply($current_dont_miss);
             }
-            return this.trigger('click');
-        }
-        if(modernizr_touch) {
-            this.hammer(hammer_defaults).bind('touchstart', callback);
-            return this;
-        }
-        return this.click(callback);
+            return false;
+        });
+
+        $shadow.click(disable_all_dont_miss);
     };
-    window.pageload(fast_press_init);
-}(jQuery));/* END OF fast-press.js */
+
+    window.pageload(walk_init, "/walk-");
+}(jQuery));
+/* END OF walk.js */
 
 /* BEGINNING OF find-an-adventure.js */
 /*globals alert Modernizr window navigator document setTimeout clearTimeout*/
@@ -785,72 +1014,34 @@
     };
 })(document);/* END OF helper.js */
 
-/* BEGINNING OF index.js */
-/*globals alert Modernizr*/
+/* BEGINNING OF modal.js */
+/*global navigator document*/
 (function($){
     "use strict";
-    if(window.location.pathname.substr(-1, 1) === "/") {
-        window.location = window.location.pathname + "index.html";
-    }
-    
-    var $carousel,
-        $carousel_items,
-        $navbar_bottom,
-        $navbar_top,
-        hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
-        },
-        drag_distanceX_threshold = 10,
-        drag_distanceX,
-        drag_carousel = function(event){
-            drag_distanceX = event.distanceX;
-        },
-        slideout_navigation_animation_delay_milliseconds = 200,
-        slideout_navigation_animation_timer,
-        dragend_carousel = function(event){
-            if(drag_distanceX === undefined) return;
-            if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
-            if(drag_distanceX > 0) {
-                $carousel.carousel('prev');
-            } else {
-                $carousel.carousel('next');
-            }
-            drag_distanceX = undefined;
-        },
-        adjust_carousel_height = function(event){
-            var $window = $(window),
-                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 0,
-                width = $window.width() + 1;
-            if(height > 0) {
-                $carousel.height(height);
-                $carousel_items.height(height);
-            }
-        },
-        index_init = function(event){
-            $carousel = $('#carousel').carousel();
-            $carousel_items = $carousel.find(".item");
-            $navbar_bottom = $(".navbar-fixed-bottom");
-            $navbar_top = $(".navbar-fixed-top");
-            $(window).bind("resize orientationchange", adjust_carousel_height);
-            $("#show_slideout_navigation").change(function(){
-                if(slideout_navigation_animation_timer){
-                    clearTimeout(slideout_navigation_animation_timer);
-                }
-                slideout_navigation_animation_timer = setTimeout(adjust_carousel_height, slideout_navigation_animation_delay_milliseconds);
-            });
-            adjust_carousel_height();
-            if(!Modernizr.touch) {
-                $carousel.find(".carousel-control").show();
-            }
-            $carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
-            $carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
-        };
-    window.pageload(index_init, "/index.html");
-}(jQuery));
+    var modal_init = function(event){
+        /*
+        Making changes to Bootstrap Modals?
+        Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
+        AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
+        */
+        $(".modal").appendTo("body");
 
-/* END OF index.js */
+    };
+    window.pageload(modal_init);
+}(jQuery));/* END OF modal.js */
+
+/* BEGINNING OF offers.js */
+(function($){
+    "use strict";
+    var make_blank = function() {
+        if ( navigator.userAgent.match(/iphone|ipad|ipod/i) ) {
+            $('ul.banners li a').attr('target', "_blank");
+        }
+    }
+
+    window.pageload(make_blank, '/offers');
+}(jQuery));
+/* END OF offers.js */
 
 /* BEGINNING OF info.js */
 /*globals window localStorage JSON geolocation navigator */
@@ -928,25 +1119,17 @@
                 translate,
                 width,
                 screenOrigin,
-                touch_position = {width:undefined, height: undefined},
                 $locations = $(".location"),
                 redraw = function(){
-                    var map_transform,
-                        icon_scale,
-                        css;
+                    var map_css,
+                        icon_scale;
                     if(scale < 0.1) {
                         scale = 0.1;
                     } else if(scale > 3) {
                         scale = 3;
                     }
-                    map_transform = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
-                    css = {'-webkit-transform': map_transform};
-
-                    //if(touch_position.cssOrigin) {
-                    //    css['-webkit-transform-origin'] = touch_position.cssOrigin;
-                    //}
-                    $image.css(css);
-
+                    map_css = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
+                    $image.css('-webkit-transform', map_css);
                     // Want to scale icons independently of the map? Enable this.
                     // icon_scale = (1 / scale) * 30;
                     // if(icon_scale > 50) {
@@ -1038,18 +1221,11 @@
             });
 
             hammer.bind('transform', function(event) {
-                var newHeight,
-                    newWidth;
-                    //offset = $image.offset();
+                var newHeight, newWidth;
                 scale = prevScale * event.scale;
+                console.log(event.position);
                 
-                //touch_position.width = event.position.width / scale;
-                //touch_position.height = event.position.height / scale;
-                //touch_position.x = event.position.x;
-                //touch_position.y = event.position.y;
-                //touch_position.cssOrigin = touch_position.x + "px " + touch_position.y +"px";
-                //$image.find("#transform-origin-debug").css({top: touch_position.x + "px", "left": touch_position.y +"px"});
-                //console.log(JSON.stringify(event.touches));
+
                 newWidth = $image.width() * scale;
                 newHeight = $image.height() * scale;
 
@@ -1073,366 +1249,6 @@
 
     window.pageload(map__zoom_init, "/map-");
 }(jQuery));/* END OF map--zoom.js */
-
-/* BEGINNING OF console.js */
-// Avoid `console` errors in browsers that lack a console.
-if(!(window.console && console.log)) {
-    (function() {
-        var noop = function() {};
-        var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
-        var length = methods.length;
-        var console = window.console = {};
-        while (length--) {
-            console[methods[length]] = noop;
-        }
-    }());
-};/* END OF console.js */
-
-/* BEGINNING OF maps.js */
-/*global alert nz_map_dimensions console*/
-(function($){
-    "use strict";
-    var $wrapper,
-        $new_zealand_map_wrapper,
-        $new_zealand_map_img,
-        text_sizes = ["size800", "size700", "size600", "size500", "size400", "size300", "size200", "size100"],
-        $window,
-
-        adjust_maps_height = function(event){
-            var available_width = $window.width(),
-                available_height = $window.height(),
-                offset = $new_zealand_map_img.offset(),
-                remaining_height = available_height - offset.top,
-                fixed_dimension = (available_width / remaining_height < nz_map_dimensions.ratio) ? "width" : "height",
-                target_dimensions = {width:undefined, height:undefined};
-
-            if(fixed_dimension === "width") {
-                target_dimensions.width = available_width;
-                target_dimensions.height = target_dimensions.width / nz_map_dimensions.ratio;
-            } else {
-                target_dimensions.height = remaining_height - 10;
-                target_dimensions.width = target_dimensions.height * nz_map_dimensions.ratio;
-            }
-            if(target_dimensions.width > nz_map_dimensions.width) {
-                target_dimensions.width = nz_map_dimensions.width;
-                nz_map_dimensions.height = nz_map_dimensions.height;
-            }
-            $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
-            $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
-            target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
-            if(target_dimensions.chosen_text_size > 800) {
-                target_dimensions.chosen_text_size = 800;
-            } else if(target_dimensions.chosen_text_size < 100) {
-                target_dimensions.chosen_text_size = 100;
-            }
-            $new_zealand_map_wrapper
-                .addClass("size" + target_dimensions.chosen_text_size)
-                .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
-            $wrapper.width(available_width).height(remaining_height);
-            //$("#debug").text("size" + target_dimensions.chosen_text_size);
-            $new_zealand_map_wrapper.show();
-        },
-        maps_init = function(event){
-            $window = $(window);
-            $wrapper = $("#wrapper");
-            $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
-            $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
-            
-            $window.bind("resize orientationchange", adjust_maps_height);
-            adjust_maps_height();
-            setTimeout(adjust_maps_height, 200);
-        };
-
-
-    window.pageload(maps_init, "/maps.html");
-}(jQuery));
-
-/* END OF maps.js */
-
-/* BEGINNING OF modal.js */
-/*global navigator document*/
-(function($){
-    "use strict";
-    var modal_init = function(event){
-        /*
-        Making changes to Bootstrap Modals?
-        Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
-        AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
-        */
-        $(".modal").appendTo("body");
-        $("body").on("click", ".modal", function(){
-            $(this).modal("hide");
-            $("html").trigger("close-modal");
-        });
-
-    };
-    window.pageload(modal_init);
-}(jQuery));/* END OF modal.js */
-
-/* BEGINNING OF navbar.js */
-/*
- * Handles the navbars (including the bottom one, if it's there)
- */
-(function($){
-	"use strict";
-	var navbar_init = function(){
-		var $navbar_social = $("#share-social a"),
-			navbar_timer,
-			hide_social_popout = function(event){
-				window.hide_popover.bind($navbar_social)(event);
-			};
-		$navbar_social.click(function(event){
-			if(navbar_timer !== undefined) {
-				clearTimeout(navbar_timer);
-				navbar_timer = undefined;
-			}
-			window.toggle_popover.bind($navbar_social)(event);
-			return false;
-		});
-		$(window).scroll(function(){
-			if(navbar_timer !== undefined) {
-				window.clearTimeout(navbar_timer);
-				navbar_timer = undefined;
-			}
-			navbar_timer = window.setTimeout(hide_social_popout, 100);
-		});
-		$("#show_slideout_navigation").change(function(event){
-			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
-			var $this = $(this),
-				$logo;
-			if($(window).height() > 400 && $(window).width() > 400) return;
-			$logo = $("#logo");
-			if($this.is(":checked")) {
-				$logo.hide();
-			} else {
-				$logo.show();
-			}
-			
-			
-		});
-	};
-
-    window.pageload(navbar_init);
-}(jQuery));/* END OF navbar.js */
-
-/* BEGINNING OF online-offline.js */
-/*globals Connection */
-/*
- * Responsible for making changes to pages based on whether the device is online or offline
- */
-(function($){
-    "use strict";
-    var going_online_offline_init = function(){
-            document.addEventListener("online", going_online, false);
-            document.addEventListener("offline", going_offline, false);
-            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
-                going_offline();
-            } else { //either we're online or the browser can't tell us if it's online, so assume online
-                going_online();
-            }
-        },
-       going_online = function(){
-            $("#share-social").show();
-            /*
-            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
-            $(".youtube").each(function(){
-                var $this = $(this),
-                    youtube_id = $this.data("youtube-id");
-                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
-                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
-            });
-            */
-        },
-       going_offline = function(){
-            $("#share-social").hide();
-            $(".youtube").each(function(){
-                var $this = $(this);
-                $this.empty();
-            });
-        };
-    
-    window.pageload(going_online_offline_init);
-}(jQuery));/* END OF online-offline.js */
-
-/* BEGINNING OF popover.js */
-/*
- * Wrapper for Bootstrap's PopOver
- * http://twitter.github.com/bootstrap/javascript.html#popovers
- * This wrapper ensures that all other popovers are closed when
- * a new one opens, and that they can be closed by clicking on
- * the body tag and so on.
- * NOTE: there's a popular plugin called BootstrapX that claims
- * to do the same but it was very buggy on touch devices.
- */
-(function($){
-    "use strict";
-
-    var existing_popovers = [],
-        $window = $(window),
-        $body,
-        too_small_for_popovers = function(){
-            if ($window.width() > 600) return false;
-            if($("body.walk").length === 1) return true;
-            if($(this).is("#weta")) return true;
-            return false; //debug
-        },
-        popover_init = function(event){
-            var $html = $("html");
-                
-            
-            $("body.map, #wrapper,#map").click(function(event){
-                if($(event.target).is(this)) { //if we reached this event directly without bubbling...
-                    window.hide_all_popovers_no_bubbling(event);
-                }
-            });
-            $body = $("body"); //note: defining $body from parent function
-            $body.on("click", ".popover", function(event){
-                window.hide_all_popovers_no_bubbling(event);
-                $html.trigger("popover-click");
-            });
-        },
-        get_distance = function(latitude, longitude, include_description){
-            var last_known_position = localStorage["geolocation-last-known-position"],
-                current_time_in_epoch_milliseconds = (new Date()).getTime(),
-                distance_away_in_kilometers,
-                description_class = include_description ? "with-description" : "";
-
-            if(last_known_position !== undefined) {
-                last_known_position = JSON.parse(last_known_position);
-                if(last_known_position.timestamp > current_time_in_epoch_milliseconds - window.position_expires_after_milliseconds) {
-                    distance_away_in_kilometers = window.difference_between_positions_in_kilometers(last_known_position.coords.latitude, last_known_position.coords.longitude, latitude, longitude);
-                    return '<b class="distance_away ' + description_class + '">Distance: ' + window.format_distance(distance_away_in_kilometers) + '</b>';
-                }
-            }
-            return "";
-        },
-        get_popover_placement = function($sender){
-            //console.log("Determining placement");
-            var placement = $sender.data("placement"),
-                offset,
-                window_dimensions,
-                scroll_top;
-            if(placement !== undefined) return placement;
-            //console.log("No default placement...determining it dynamically");
-            window_dimensions = {"width": $window.width(), "height": $window.height()};
-            scroll_top = $window.scrollTop();
-            offset = $sender.offset();
-            offset.top -= scroll_top;
-            offset.top += $sender.height() / 2;
-            offset.left += $sender.width() / 2;
-            if(window_dimensions.width > 650) { //use left/right
-                //console.log("widescreen " + window_dimensions.width + " " + offset.left);
-                if(offset.left > window_dimensions.width / 2) {
-                    return "left";
-                } else {
-                    return "right";
-                }
-            }
-            //console.log("smallscreen" + window_dimensions.width);
-            if(offset.top > window_dimensions.height / 2) {
-                return "top";
-            } else {
-                return "bottom";
-            }
-        };
-
-    window.hide_all_popovers = function(event, except_this_one){
-        var $popover;
-        while(existing_popovers.length){
-            $popover = existing_popovers.pop();
-            if(!except_this_one || !$popover.is(except_this_one)) {
-                $popover.popover('hide');
-            }
-        }
-    };
-
-    window.hide_all_popovers_no_bubbling = function(event, except_this_one){
-        window.hide_all_popovers(event, except_this_one);
-        if(!event) return;
-        event.preventDefault();
-        event.stopPropagation();
-        if(event.originalEvent) {
-            event.originalEvent.stopPropagation();
-        }
-    };
-   
-
-    window.hide_popover = function(event){
-        $(this).popover('hide');
-    };
-
-    window.toggle_popover_modal = function(event, options) {
-        var $this = $(this),
-            this_id = $this.attr("id") || 'generated-id-xxxxxxxxxxxxxx'.replace(/[x]/g, function(){
-                                                return (Math.random()*16|0).toString(16);
-                                           }),
-            modal_id = "modal_" + this_id,
-            $modal = $("#" + modal_id);
-        if($modal.length === 0) {
-            $modal = $("<div/>").addClass("modal hide fade popover-modal").attr("id", modal_id);
-            $body.append($modal);
-        }
-        $this.attr("id", this_id).attr({"data-toggle": "modal", "role": "button"});
-        if(options.content){
-            $modal.html(options.content);
-        } else {
-            $modal.html($this.data("content"));
-        }
-        $modal.modal("toggle");
-        return false;
-    };
-
-    window.toggle_popover = function(event){
-        var $this = $(this),
-            content_template = $this.data("content-template"),
-            popover_class = $this.data("popover-class"),
-            options = {html: true, trigger: "manual", "placement": get_popover_placement($this)},
-            distance_placeholder = "[DISTANCE]",
-            old_options,
-            includes_description = false;
-        window.hide_all_popovers(event, $this);
-        if(popover_class) {
-            options.template = '<div class="popover ' + popover_class + '"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>';
-        }
-        if(content_template !== undefined) { //if there is a template then there is dynamic content. bootstrap popovers cache content so we need to destroy the content and then rebuild it
-            includes_description = (content_template.indexOf(distance_placeholder) + distance_placeholder.length + 5) < content_template.length;
-            options.content = content_template.replace(distance_placeholder,
-                get_distance($this.data("latitude"), $this.data("longitude"), includes_description));
-            old_options = $this.data('popover');
-            if(old_options) {
-                old_options.options.content = options.content;
-                $this.data('popover', old_options);
-            }
-        }
-        if(too_small_for_popovers()) return window.toggle_popover_modal.apply(this, [event, options]);
-        $this.popover(options).popover('toggle');
-        existing_popovers.push($this);
-        if(event.originalEvent) {
-            event.originalEvent.stopPropagation();
-        }
-        return false;
-    };
-
-    window.show_popover = function(event, override_content){
-        var $this = $(this),
-            options = {html: true, trigger: "manual", "placement": get_popover_placement($this)};
-        if(too_small_for_popovers()) return window.toggle_popover_modal.apply(this, [event, options]);
-        window.hide_all_popovers(event, $this);
-        if(override_content !== undefined) {
-            options.content = override_content;
-        }
-        $this.popover(options).popover('show');
-        existing_popovers.push($this);
-        if(!event) return;
-        event.stopPropagation();
-        if(event.originalEvent) {
-            event.originalEvent.stopPropagation();
-        }
-    };
-
-
-    window.pageload(popover_init);
-}(jQuery));/* END OF popover.js */
 
 /* BEGINNING OF visitor-centre.js */
 /*globals window localStorage JSON geolocation navigator */
@@ -1514,88 +1330,225 @@ if(!(window.console && console.log)) {
     window.pageload(visitor_centre_init, "visitor-centre.html");
 }(jQuery));/* END OF visitor-centre.js */
 
-/* BEGINNING OF walk.js */
-/*global navigator document alert console */
+/* BEGINNING OF index.js */
+/*globals alert Modernizr*/
+(function($){
+    "use strict";
+    if(window.location.pathname.substr(-1, 1) === "/") {
+        window.location = window.location.pathname + "index.html";
+    }
+    
+    var $carousel,
+        $carousel_items,
+        $navbar_bottom,
+        $navbar_top,
+        hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        },
+        drag_distanceX_threshold = 10,
+        drag_distanceX,
+        drag_carousel = function(event){
+            drag_distanceX = event.distanceX;
+        },
+        slideout_navigation_animation_delay_milliseconds = 200,
+        slideout_navigation_animation_timer,
+        dragend_carousel = function(event){
+            if(drag_distanceX === undefined) return;
+            if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
+            if(drag_distanceX > 0) {
+                $carousel.carousel('prev');
+            } else {
+                $carousel.carousel('next');
+            }
+            drag_distanceX = undefined;
+        },
+        adjust_carousel_height = function(event){
+            var $window = $(window),
+                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 0,
+                width = $window.width() + 1;
+            if(height > 0) {
+                $carousel.height(height);
+                $carousel_items.height(height);
+            }
+        },
+        index_init = function(event){
+            $carousel = $('#carousel').carousel();
+            $carousel_items = $carousel.find(".item");
+            $navbar_bottom = $(".navbar-fixed-bottom");
+            $navbar_top = $(".navbar-fixed-top");
+            $(window).bind("resize orientationchange", adjust_carousel_height);
+            $("#show_slideout_navigation").change(function(){
+                if(slideout_navigation_animation_timer){
+                    clearTimeout(slideout_navigation_animation_timer);
+                }
+                slideout_navigation_animation_timer = setTimeout(adjust_carousel_height, slideout_navigation_animation_delay_milliseconds);
+            });
+            adjust_carousel_height();
+            if(!Modernizr.touch) {
+                $carousel.find(".carousel-control").show();
+            }
+            $carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
+            $carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
+        };
+    window.pageload(index_init, "/index.html");
+}(jQuery));
+
+/* END OF index.js */
+
+/* BEGINNING OF popover.js */
+/*
+ * Wrapper for Bootstrap's PopOver
+ * http://twitter.github.com/bootstrap/javascript.html#popovers
+ * This wrapper ensures that all other popovers are closed when
+ * a new one opens, and that they can be closed by clicking on
+ * the body tag and so on.
+ * NOTE: there's a popular plugin called BootstrapX that claims
+ * to do the same but it was very buggy on touch devices.
+ */
 (function($){
     "use strict";
 
-    var walk_init = function(){
-        var $dont_miss = $(".dont-miss"),
-            $shadow = $dont_miss.find(".shadow"),
-            is_shadowed = false,
-            $current_dont_miss,
-            disable_all_dont_miss = function(event){
-                is_shadowed = false;
-                if($current_dont_miss !== undefined) {
-                    $current_dont_miss.css("z-index", "auto");
-                    window.hide_all_popovers.apply($current_dont_miss);
-                    $current_dont_miss = undefined;
+    var existing_popovers = [],
+        hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        },
+        popover_init = function(event){
+            var $html = $("html");
+            $("body.map, #wrapper,#map").click(function(event){
+                if($(event.target).is(this)) { //if we reached this event directly without bubbling...
+                    window.hide_all_popovers_no_bubbling(event);
                 }
-                $shadow.removeClass("shadow-visible");
-            },
-            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
-        
+            });
 
+            $("body").on("click", ".popover", function(event){
+                
+                window.hide_all_popovers_no_bubbling(event);
+                $html.trigger("popover-click");
+            });
+        },
+        get_distance = function(latitude, longitude, include_description){
+            var last_known_position = localStorage["geolocation-last-known-position"],
+                current_time_in_epoch_milliseconds = (new Date()).getTime(),
+                distance_away_in_kilometers,
+                description_class = include_description ? "with-description" : "";
 
-        $('#carousel').carousel();
-
-        $("body").on("click", ".audio", function(event){
-            var $this = $(this),
-                audio_path,
-                media_player;
-            if(window.Media) { //use Phonegap-style audio
-               var  onSuccess = function(){},
-                    onError = function onError(error) {
-                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
-                    };
-                audio_path = $this.data('audio');
-                if ( navigator.userAgent.match(/android/i) ) {
-                    audio_path = "/android_asset/www/" + $this.data("audio");
+            if(last_known_position !== undefined) {
+                last_known_position = JSON.parse(last_known_position);
+                if(last_known_position.timestamp > current_time_in_epoch_milliseconds - window.position_expires_after_milliseconds) {
+                    distance_away_in_kilometers = window.difference_between_positions_in_kilometers(last_known_position.coords.latitude, last_known_position.coords.longitude, latitude, longitude);
+                    return '<b class="distance_away ' + description_class + '">Distance: ' + window.format_distance(distance_away_in_kilometers) + '</b>';
                 }
-                media_player = new window.Media(audio_path, onSuccess, onError);
-                media_player.play();
-            } else {// Use HTML5 Audio approach
-                var $audio = $("audio"),
-                    audio_element;
-                audio_path = $this.data("audio");
-                if($audio.length === 0) {
-                    $audio = $("<audio/>").attr("src", audio_path);
-                    $("body").append($audio);
+            }
+            return "";
+        },
+        get_popover_placement = function($sender){
+            //console.log("Determining placement");
+            var placement = $sender.data("placement"),
+                offset,
+                $window,
+                window_dimensions,
+                scroll_top;
+            if(placement !== undefined) return placement;
+            //console.log("No default placement...determining it dynamically");
+            $window = $(window);
+            window_dimensions = {"width": $window.width(), "height": $window.height()};
+            scroll_top = $window.scrollTop();
+            offset = $sender.offset();
+            offset.top -= scroll_top;
+            offset.top += $sender.height() / 2;
+            offset.left += $sender.width() / 2;
+            if(window_dimensions.width > 650) { //use left/right
+                //console.log("widescreen " + window_dimensions.width + " " + offset.left);
+                if(offset.left > window_dimensions.width / 2) {
+                    return "left";
                 } else {
-                    $audio.attr("src", audio_path);
+                    return "right";
                 }
-                audio_element = $audio.get(0);
-                audio_element.load();
-                audio_element.play();
             }
-        });
-        $(".walk-detail-header a").fastPress(function(){
-            $(this).parent().toggleClass("open").next(".walk-detail").slideToggle();
-            return false;
-        });
-        $(".dont-miss a").fastPress();
-        
-        
-        $("a.icon").click(window.toggle_popover);
-
-        $dont_miss.find("a").click(function(){
-            var $this = $(this);
-            if(is_shadowed) {
-                disable_all_dont_miss();
+            //console.log("smallscreen" + window_dimensions.width);
+            if(offset.top > window_dimensions.height / 2) {
+                return "top";
             } else {
-                $current_dont_miss = $this;
-                $current_dont_miss.css("z-index", "3");
-                $shadow.addClass("shadow-visible");
-                is_shadowed = true;
-                window.show_popover.apply($current_dont_miss);
+                return "bottom";
             }
-            return false;
-        });
+        };
 
-        $shadow.click(disable_all_dont_miss);
+    window.hide_all_popovers = function(event, except_this_one){
+        var $popover;
+        while(existing_popovers.length){
+            $popover = existing_popovers.pop();
+            if(!except_this_one || !$popover.is(except_this_one)) {
+                $popover.popover('hide');
+            }
+        }
     };
 
-    window.pageload(walk_init, "/walk-");
-}(jQuery));
-/* END OF walk.js */
+    window.hide_all_popovers_no_bubbling = function(event, except_this_one){
+        window.hide_all_popovers(event, except_this_one);
+        if(!event) return;
+        event.preventDefault();
+        event.stopPropagation();
+        if(event.originalEvent) {
+            event.originalEvent.stopPropagation();
+        }
+    };
+   
+
+    window.hide_popover = function(event){
+        $(this).popover('hide');
+    };
+
+    window.toggle_popover = function(event){
+        var $this = $(this),
+            content_template = $this.data("content-template"),
+            popover_class = $this.data("popover-class"),
+            options = {html: true, trigger: "manual", "placement": get_popover_placement($this)},
+            distance_placeholder = "[DISTANCE]",
+            old_options,
+            includes_description = false;
+        window.hide_all_popovers(event, $this);
+        if(popover_class) {
+            options.template = '<div class="popover ' + popover_class + '"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>';
+        }
+        if(content_template !== undefined) { //if there is a template then there is dynamic content. bootstrap popovers cache content so we need to destroy the content and then rebuild it
+            includes_description = (content_template.indexOf(distance_placeholder) + distance_placeholder.length + 5) < content_template.length;
+            options.content = content_template.replace(distance_placeholder,
+                get_distance($this.data("latitude"), $this.data("longitude"), includes_description));
+            old_options = $this.data('popover');
+            if(old_options) {
+                old_options.options.content = options.content;
+                $this.data('popover', old_options);
+            }
+        }
+        $this.popover(options).popover('toggle');
+        existing_popovers.push($this);
+        if(event.originalEvent) {
+            event.originalEvent.stopPropagation();
+        }
+        return false;
+    };
+
+    window.show_popover = function(event, override_content){
+        var $this = $(this),
+            options = {html: true, trigger: "manual", "placement": get_popover_placement($this)};
+        window.hide_all_popovers(event, $this);
+        if(override_content !== undefined) {
+            options.content = override_content;
+        }
+        $this.popover(options).popover('show');
+        existing_popovers.push($this);
+        if(!event) return;
+        event.stopPropagation();
+        if(event.originalEvent) {
+            event.originalEvent.stopPropagation();
+        }
+    };
+
+
+    window.pageload(popover_init);
+}(jQuery));/* END OF popover.js */
 
