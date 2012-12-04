@@ -5,18 +5,51 @@
 /* globals window Modernizr Hammer */
 /* Simple click wrapper */
 (function($){
+    var callback_pathname = {},
+        $html,
+        pageload_init = function(){
+            $html = $("html").bind("doc:page-change", pageload_pagechange);
+        },
+        pageload_pagechange = function(event){
+            var pathname_contains,
+                pathname = window.location.pathname,
+                callback,
+                i;
+
+            for(pathname_contains in callback_pathname){
+                if(pathname.indexOf(pathname_contains) !== -1 ) {
+                    console.log("calling " + pathname_contains);
+                    for(i = 0; i < callback_pathname[pathname_contains].length; i++){
+                        callback_pathname[pathname_contains][i](event);
+                    }
+                }
+            }
+        };
+
     window.pageload = function(callback, pathname_contains){
+        if(pathname_contains) {
+            if(!callback) {
+                throw "window.pageload() called with callback=" + callback;
+            }
+            if(callback_pathname[pathname_contains] === undefined) {
+                callback_pathname[pathname_contains] = [];
+            }
+            callback_pathname[pathname_contains].push(callback);
+        }
         if(pathname_contains && window.location.pathname.indexOf(pathname_contains) === -1 ) return;
         if (window.Media && navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
             document.addEventListener("deviceready", callback, false);
         } else {
             $(document).ready(callback);
         }
+
     };
+
+    window.pageload(pageload_init);
 }(jQuery));/* END OF pageload.js */
 
 /* BEGINNING OF map.js */
-/*globals map_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
+/*globals map_details maps_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
 /* ===========================================================
  * map.js v1
  * Developed at Department of Conservation by Matthew Holloway
@@ -69,10 +102,9 @@
     }());
 
     var map_init = function(){
-        if(window.map_details === undefined) { //are we on a map page? If not, there's nothing to do so just return
-            return;
-        }
-        var open_tooltip,
+        var map_id = $("#map_id").text(),
+            map_details = maps_details[map_id],
+            open_tooltip,
             hammer_defaults = {
                 prevent_default: true,
                 scale_treshold: 0,
@@ -175,7 +207,6 @@
                     $("#no_gps").attr("title", msg.message).show();
                 }
             },
-
             current_time_in_epoch_milliseconds,
             user_actions = {
                 $user_actions_panel: $("#user_actions"),
@@ -304,6 +335,7 @@
                 $map_key.toggle();
                 return false;
             };
+        window.map_details = map_details;
 
         if(last_known_position !== undefined) {
             last_known_position = JSON.parse(last_known_position);
@@ -316,8 +348,6 @@
         } else {
             geolocationError();
         }
-        
-        
         
         $("#weta").fastPress(window.toggle_popover);
         $("#map .location").fastPress(window.toggle_popover);
@@ -342,23 +372,57 @@
             scale_treshold: 0,
             drag_min_distance: 0
         },
+        $wrapper,
+        $html,
+        $html_title,
+        $body,
+        $page_contents_wrapper_page1,
+        $page_contents_wrapper_page2,
         modernizr_touch = Modernizr.touch,
         fastPress_hyperlink = function(event){
             var $this = $(this),
                 this_href = $this.attr("href");
+            
             //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
-            if(this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
+            if(!this_href || this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
                 return true;
             }
-            window.location = window.location.toString()
-                .substr(
-                    0,
-                    window.location.toString().lastIndexOf("/") + 1) +
-                this_href;
+            $.get(this_href, function(new_page, textStatus, jqXHR){
+                var title = new_page.replace(/^[\s\S]*<title(.*?)>|<\/title>[\s\S]*$/g, ''),
+                    $new_page,
+                    $new_page_contents;
+
+                new_page = new_page
+                        .replace(/^[\s\S]*<body(.*?)>/g, '<div$1>')
+                        .replace(/<\/body>[\s\S]*$/g, '</div>'); // jQuery can't parse entire pages http://stackoverflow.com/a/12848798
+                $new_page = $(new_page);
+                $new_page_contents = $("#page1", $new_page).contents();
+                
+                if($new_page_contents.length > 0) {
+                    $html_title.text("*" + title);
+                    $body.attr("class", $new_page.attr("class"));
+                    $page_contents_wrapper_page1.html($new_page_contents);
+                    if(window.history.pushState) window.history.pushState("", title, this_href);
+                    $html.trigger("doc:page-change", this_href);
+                } else { //there's an error, try to handle it gracefully by just going to the page
+                    window.location = window.location.toString()
+                        .substr(
+                            0,
+                            window.location.toString().lastIndexOf("/") + 1) +
+                        this_href;
+                }
+            });
+            return false;
         },
         fast_press_init = function(event){
-            if(!modernizr_touch) return;
-            $("body").on("touchstart", "a", fastPress_hyperlink);
+            var listen_on = modernizr_touch ? "touchstart" : "click";
+            $wrapper = $("#wrapper");
+            $body = $("body");
+            $html = $("html");
+            $html_title = $("title");
+            $page_contents_wrapper_page1 = $("#page1");
+            $page_contents_wrapper_page2 = $("#page2");
+            $body.on(listen_on, "a", fastPress_hyperlink);
         };
     $.prototype.fastPress = function(callback){
         if(callback === undefined) {
@@ -914,6 +978,8 @@
         map__zoom_init = function(event){
             //based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
             var $window = $(window),
+                map_id = $("#map_id").text(),
+                map_details = window.maps_details[map_id],
                 window_width = $window.width(),
                 window_height = $window.height(),
                 $image = $("#map"),
@@ -970,6 +1036,8 @@
                     });
                     $("#no-touch-zoom").show();
                 };
+            
+            window.map_details = map_details;
 
             if(window.Modernizr && !window.Modernizr.touch) {
                 no_touch_zoom_init();
@@ -1137,12 +1205,10 @@ if(!(window.console && console.log)) {
             $wrapper = $("#wrapper");
             $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
             $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
-            
             $window.bind("resize orientationchange", adjust_maps_height);
             adjust_maps_height();
             setTimeout(adjust_maps_height, 200);
         };
-
 
     window.pageload(maps_init, "/maps.html");
 }(jQuery));

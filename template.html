@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
-<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+<html class="no-js">
     <head>
-        
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
         <title>Great Walks - template.html</title>
         <meta name="description" content="">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0"">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0">
         <meta http-equiv="cleartype" content="on">
         <meta name="format-detection" content="telephone=no">
         <meta http-equiv="x-rim-auto-match" content="none">
@@ -24,6 +22,10 @@
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.1.min.js"></script>
         <script src="cordova.js"></script>
+        <script>
+            var nz_map_dimensions = {"width":752,"height":1056,"ratio":0.7121212121212122};
+            var maps_details = {"abel-tasman-coast-track":{"map_id":"abel-tasman-coast-track","latitude":-40.77160911578638,"longitude":172.68815992588924,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000285453325972,"extent_latitude":-41.06962238810115,"extent_longitude":173.18541961973247,"map_initial_scale":0.1},"heaphy-track":{"map_id":"heaphy-track","latitude":-40.82923160495061,"longitude":172.02760098235598,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000285569459308,"extent_latitude":-41.12736612046816,"extent_longitude":172.52506298047052,"map_initial_scale":0.1},"kepler-track":{"map_id":"kepler-track","latitude":-45.34650584038335,"longitude":167.46068593304253,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000174704669218,"extent_latitude":-45.52889751504694,"extent_longitude":167.7650214668203,"map_initial_scale":0.1},"lake-waikaremoana":{"map_id":"lake-waikaremoana","latitude":-38.69996653229696,"longitude":176.95114126114987,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000137073340468,"extent_latitude":-38.84307109974555,"extent_longitude":177.18992302024512,"map_initial_scale":0.1},"milford-track":{"map_id":"milford-track","latitude":-44.65180781421633,"longitude":167.65907612771002,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000285569459308,"extent_latitude":-44.94994232973389,"extent_longitude":168.15653812582457,"map_initial_scale":0.1},"rakiura-track---stewart-island":{"map_id":"rakiura-track---stewart-island","latitude":-46.82703931382569,"longitude":167.99939428698806,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000110980608744,"extent_latitude":-46.94290306935443,"extent_longitude":168.19272250742011,"map_initial_scale":0.1},"routeburn-track":{"map_id":"routeburn-track","latitude":-44.68512592255184,"longitude":168.06155744219296,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.00015647401239,"extent_latitude":-44.848484791487,"extent_longitude":168.33413517177635,"map_initial_scale":0.1},"tongariro-northern-circuit":{"map_id":"tongariro-northern-circuit","latitude":-39.043598354843745,"longitude":175.44773655679015,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000234666432478,"extent_latitude":-39.288590110350775,"extent_longitude":175.85652548216683,"map_initial_scale":0.1},"wellington":{"map_id":"wellington","latitude":-41.21341136987253,"longitude":174.72217539068876,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000142358133316,"extent_latitude":-41.362033261054435,"extent_longitude":174.97016325892523,"map_initial_scale":0.1},"whanganui-journey":{"map_id":"whanganui-journey","latitude":-38.864053084012156,"longitude":174.5366521487492,"map_pixel_width":1562,"map_pixel_height":1016,"degrees_per_pixel":0.000632707374232,"extent_latitude":-39.50688377623187,"extent_longitude":175.52494106729958,"map_initial_scale":0.1}};
+        </script>
     </head>
     <body class="template">
         <input type="checkbox" id="show_slideout_navigation">
@@ -42,7 +44,7 @@
                                 <a href="info.html"><span class="header-sprite header-info">Info</span></a>
                             </li>
                             <li id="share-social">
-                                <a href="#" data-popover-class="social" data-content="<a href='mailto:enquiries@doc.govt.nz?subject=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand&amp;body=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%20http%3A%2F%2Fgreatwalks.co.nz%2F' class='email'>Email</a> <a href='http://www.facebook.com/sharer.php?s=100&amp;p[url]=http%3A%2F%2Fgreatwalks.co.nz%2F&amp;p[title]=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand&amp;p[images][0]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fsites%2Fall%2Fthemes%2Fsparks_responsive%2Flogo.png&amp;p[summary]=.' class='facebook'>Facebook</a> <a href='http://twitter.com/share?url=http%3A%2F%2Fbit.ly%2FSLFPlX&amp;text=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%20@NZGreatWalks' class='twitter'>Twitter</a>" data-placement="bottom"><span class="header-sprite header-share">Share</span></a>
+                                <a href="#" data-popover-class="social" data-content="&lt;a href='mailto:enquiries@doc.govt.nz?subject=&amp;body=%20' class='email'&gt;Email&lt;/a&gt; &lt;a href='http://www.facebook.com/sharer.php?s=100&amp;p[url]=&amp;p[title]=&amp;p[images][0]=&amp;p[summary]=.' class='facebook'&gt;Facebook&lt;/a&gt; &lt;a href='http://twitter.com/share?url=&amp;text=%20@NZGreatWalks' class='twitter'&gt;Twitter&lt;/a&gt;" data-placement="bottom"><span class="header-sprite header-share">Share</span></a>
                             </li>
                         </ul>
                         
@@ -63,18 +65,17 @@
                     <li><a href="maps.html">Maps</a></li>
                 </ul>
             </div>
-    	    <!DOCTYPE html>
-<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
-<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+            <div id="page1">
+    	       <!DOCTYPE html>
+<html class="no-js">
     <head>
-        
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-        <title>Great Walks - {{title}}</title>
+        <title>Great Walks - template.html</title>
         <meta name="description" content="">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0"">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0">
         <meta http-equiv="cleartype" content="on">
         <meta name="format-detection" content="telephone=no">
         <meta http-equiv="x-rim-auto-match" content="none">
@@ -89,8 +90,12 @@
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.1.min.js"></script>
         <script src="cordova.js"></script>
+        <script>
+            var nz_map_dimensions = {"width":752,"height":1056,"ratio":0.7121212121212122};
+            var maps_details = {"abel-tasman-coast-track":{"map_id":"abel-tasman-coast-track","latitude":-40.77160911578638,"longitude":172.68815992588924,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000285453325972,"extent_latitude":-41.06962238810115,"extent_longitude":173.18541961973247,"map_initial_scale":0.1},"heaphy-track":{"map_id":"heaphy-track","latitude":-40.82923160495061,"longitude":172.02760098235598,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000285569459308,"extent_latitude":-41.12736612046816,"extent_longitude":172.52506298047052,"map_initial_scale":0.1},"kepler-track":{"map_id":"kepler-track","latitude":-45.34650584038335,"longitude":167.46068593304253,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000174704669218,"extent_latitude":-45.52889751504694,"extent_longitude":167.7650214668203,"map_initial_scale":0.1},"lake-waikaremoana":{"map_id":"lake-waikaremoana","latitude":-38.69996653229696,"longitude":176.95114126114987,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000137073340468,"extent_latitude":-38.84307109974555,"extent_longitude":177.18992302024512,"map_initial_scale":0.1},"milford-track":{"map_id":"milford-track","latitude":-44.65180781421633,"longitude":167.65907612771002,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000285569459308,"extent_latitude":-44.94994232973389,"extent_longitude":168.15653812582457,"map_initial_scale":0.1},"rakiura-track---stewart-island":{"map_id":"rakiura-track---stewart-island","latitude":-46.82703931382569,"longitude":167.99939428698806,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000110980608744,"extent_latitude":-46.94290306935443,"extent_longitude":168.19272250742011,"map_initial_scale":0.1},"routeburn-track":{"map_id":"routeburn-track","latitude":-44.68512592255184,"longitude":168.06155744219296,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.00015647401239,"extent_latitude":-44.848484791487,"extent_longitude":168.33413517177635,"map_initial_scale":0.1},"tongariro-northern-circuit":{"map_id":"tongariro-northern-circuit","latitude":-39.043598354843745,"longitude":175.44773655679015,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000234666432478,"extent_latitude":-39.288590110350775,"extent_longitude":175.85652548216683,"map_initial_scale":0.1},"wellington":{"map_id":"wellington","latitude":-41.21341136987253,"longitude":174.72217539068876,"map_pixel_width":1742,"map_pixel_height":1044,"degrees_per_pixel":0.000142358133316,"extent_latitude":-41.362033261054435,"extent_longitude":174.97016325892523,"map_initial_scale":0.1},"whanganui-journey":{"map_id":"whanganui-journey","latitude":-38.864053084012156,"longitude":174.5366521487492,"map_pixel_width":1562,"map_pixel_height":1016,"degrees_per_pixel":0.000632707374232,"extent_latitude":-39.50688377623187,"extent_longitude":175.52494106729958,"map_initial_scale":0.1}};
+        </script>
     </head>
-    <body class="{{pageid}}">
+    <body class="template">
         <input type="checkbox" id="show_slideout_navigation">
         <div id="wrapper">
             <div class="navbar navbar-fixed-top navbar-inverse">
@@ -107,7 +112,7 @@
                                 <a href="info.html"><span class="header-sprite header-info">Info</span></a>
                             </li>
                             <li id="share-social">
-                                <a href="#" data-popover-class="social" data-content="<a href='mailto:enquiries@doc.govt.nz?subject=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand&amp;body=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%20http%3A%2F%2Fgreatwalks.co.nz%2F' class='email'>Email</a> <a href='http://www.facebook.com/sharer.php?s=100&amp;p[url]=http%3A%2F%2Fgreatwalks.co.nz%2F&amp;p[title]=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand&amp;p[images][0]=http%3A%2F%2Fwww.greatwalks.co.nz%2Fsites%2Fall%2Fthemes%2Fsparks_responsive%2Flogo.png&amp;p[summary]=.' class='facebook'>Facebook</a> <a href='http://twitter.com/share?url=http%3A%2F%2Fbit.ly%2FSLFPlX&amp;text=I%27m%20going%20on%20a%20Great%20Walk%20in%20New%20Zealand%20@NZGreatWalks' class='twitter'>Twitter</a>" data-placement="bottom"><span class="header-sprite header-share">Share</span></a>
+                                <a href="#" data-popover-class="social" data-content="&lt;a href='mailto:enquiries@doc.govt.nz?subject=&amp;body=%20' class='email'&gt;Email&lt;/a&gt; &lt;a href='http://www.facebook.com/sharer.php?s=100&amp;p[url]=&amp;p[title]=&amp;p[images][0]=&amp;p[summary]=.' class='facebook'&gt;Facebook&lt;/a&gt; &lt;a href='http://twitter.com/share?url=&amp;text=%20@NZGreatWalks' class='twitter'&gt;Twitter&lt;/a&gt;" data-placement="bottom"><span class="header-sprite header-share">Share</span></a>
                             </li>
                         </ul>
                         
@@ -122,13 +127,17 @@
                     <li><a href="offers.html" class="offers">Special offers</a></li>
                 </ul>
                 <ul class="walks">
-                    {{slide-walks}}
+                    
                 </ul>
                 <ul class="maps">
                     <li><a href="maps.html">Maps</a></li>
                 </ul>
             </div>
-    	    {{body}}
+            <div id="page1">
+    	       
+            </div>
+            <div id="page2">
+            </div>
         </div>
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery.min.js"></script>
@@ -138,6 +147,9 @@
         <script src="js/app.js"></script>
     </body>
 </html>
+            </div>
+            <div id="page2">
+            </div>
         </div>
         <!-- Why jQuery and not Zepto? Well there's not much difference http://www.codefessions.com/2012/08/performance-of-jquery-compatible-mobile.html -->
         <script src="js/vendor/jquery.min.js"></script>
