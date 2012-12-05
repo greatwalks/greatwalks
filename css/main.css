@@ -170,7 +170,7 @@ label {
 #wrapper {
   padding-top: 138px;
 }
-@media (max-width: 400px), (max-height: 500px) {
+@media (max-width: 500px), (max-height: 500px) {
   #logo {
     margin-left: -75px;
     background-image: url("../img/logo-x300.png");
@@ -186,6 +186,18 @@ label {
   #logo {
     margin-left: -105px;
   }
+}
+.popover-modal {
+  padding: 10px;
+  background: #80c1dd;
+  /* Old browsers */
+
+  background: -webkit-linear-gradient(top, #80c1dd 0%, #e3eef4 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: linear-gradient(to bottom, #80c1dd 0%, #e3eef4 100%);
+  /* W3C */
+
 }
 .popover {
   /* Looking for popovers on the walk info pages? See walk.less */
@@ -1233,18 +1245,6 @@ body.walk .popover {
 }
 body.walk .popover .popover-inner {
   border-radius: 6px;
-  background: #80c1dd;
-  /* Old browsers */
-
-  background: -webkit-linear-gradient(top, #80c1dd 0%, #e3eef4 100%);
-  /* Chrome10+,Safari5.1+ */
-
-  background: linear-gradient(to bottom, #80c1dd 0%, #e3eef4 100%);
-  /* W3C */
-
-}
-body.walk .popover-modal {
-  padding: 10px;
   background: #80c1dd;
   /* Old browsers */
 

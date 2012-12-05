@@ -1379,26 +1379,24 @@ if(!(window.console && console.log)) {
         $body,
         loaded_init_once = false,
         hide_popovers_timeout,
-        too_small_for_popovers = function(){
+        too_small_for_popovers = function($this){
             if ($window.width() > 600) return false;
             if($("body.walk").length === 1) return true;
-            if($(this).is("#weta")) return true;
-            return false; //debug
+            if($this.is("#weta")) return true;
+            return false;
         },
         popover_init = function(event){
-            var $html = $("html");
-            
+            $body = $("body");
             $("body.map, #wrapper,#map").click(function(event){
                 if($(event.target).is(this)) { //if we reached this event directly without bubbling...
                     window.hide_all_popovers_no_bubbling(event);
                 }
             });
-            
             if(!loaded_init_once){
                 $("body").on("click", ".popover", function(event){
+                    var $html = $("html");
                     window.hide_all_popovers_no_bubbling(event);
                     $html.trigger("popover-click");
-
                     //there can be detached popovers (e.g. after a page change)
                     //where the source link is now missing.
                     //these need to be removed.
@@ -1525,7 +1523,7 @@ if(!(window.console && console.log)) {
                 $this.data('popover', old_options);
             }
         }
-        if(too_small_for_popovers()) return window.toggle_popover_modal.apply(this, [event, options]);
+        if(too_small_for_popovers($this)) return window.toggle_popover_modal.apply(this, [event, options]);
         $this.popover(options).popover('toggle');
         existing_popovers.push($this);
         if(event.originalEvent) {
@@ -1537,7 +1535,7 @@ if(!(window.console && console.log)) {
     window.show_popover = function(event, override_content){
         var $this = $(this),
             options = {html: true, trigger: "manual", "placement": get_popover_placement($this)};
-        if(too_small_for_popovers()) return window.toggle_popover_modal.apply(this, [event, options]);
+        if(too_small_for_popovers($this)) return window.toggle_popover_modal.apply(this, [event, options]);
         window.hide_all_popovers(event, $this);
         if(override_content !== undefined) {
             options.content = override_content;
