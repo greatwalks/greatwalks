@@ -489,6 +489,12 @@
             timer: undefined,
             last_known_position: undefined,
             localStorage_position_cache_key: "geolocation-last-known-position",
+            trigger_frequency_milliseconds: 2000,
+            trigger_update: function(){
+                if(geo.last_known_position === undefined) return;
+                $html.trigger("doc:geolocation:success", geo.last_known_position);
+                geo.timer = setTimeout(geo.trigger_update, geo.trigger_frequency_milliseconds);
+            },
             init: function(){
                 $html = $("html");
                 var last_known_position_json = localStorage[geo.localStorage_position_cache_key];
@@ -508,10 +514,7 @@
                 if(geo.timer){
                     clearTimeout(geo.timer);
                 }
-                geo.timer = setTimeout(function(){
-                    if(geo.last_known_position === undefined) return;
-                    $html.trigger("doc:geolocation:success", geo.last_known_position);   
-                }, 2000);
+                geo.timer = setTimeout(geo.trigger_update, geo.trigger_frequency_milliseconds);
             },
             success: function(position){
                 $html.trigger("doc:geolocation:success", position);
@@ -961,7 +964,7 @@
             $report_error = $(".report_error");
             $("html").bind("doc:geolocation:success", geolocation_success);
         };
-    window.pageload(info_init, "info.html");
+    window.pageload(info_init, "/info.html");
 }(jQuery));/* END OF info.js */
 
 /* BEGINNING OF map--zoom.js */
