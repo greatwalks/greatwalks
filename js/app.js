@@ -163,11 +163,10 @@
                 youarehere_css.top = youarehere_pixels.top + "px";
                 youarehere_offmap_css.left += "px";
                 youarehere_offmap_css.top += "px";
+                $youarehere.css("webkit-box-shadow", "0px 0px 5px " + (position.coords.accuracy / 5000) + "px rgba(0, 0, 255, 0.3)");
                 if(!offmap){
-                    $youarehere.css("webkit-box-shadow", "0px 0px 5px " + (position.coords.accuracy / 5000) + "px rgba(0, 0, 255, 0.3)");
                     $youarehere_offmap.hide();
                 } else {
-                    $youarehere.css("webkit-box-shadow", "none");
                     $youarehere_offmap.css(youarehere_offmap_css).show();
                 }
                 $youarehere.css(youarehere_css).show();
