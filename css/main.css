@@ -829,10 +829,17 @@ body.walk .text-column1 .walk-detail-header.on-the-track {
 
 }
 body.walk .text-column1 .walk-detail {
-  display: none;
   background: white;
-  padding: 0.5em 1em;
   margin-top: -10px;
+  height: 0px;
+  overflow: hidden;
+  padding: 0em 1em;
+  transition: 0.2s ease-in;
+  -webkit-transition: 0.2s ease-in;
+}
+body.walk .text-column1 .walk-detail.expanded {
+  padding: 0.5em 1em;
+  height: auto;
 }
 body.walk .text-column1 .walk-detail.dont-miss {
   background: transparent;
@@ -2193,7 +2200,7 @@ body.map #map-key table td:first-child {
 body.map #map-key table td img {
   width: 30px;
   height: 30px;
-  margin-right: 7px;
+  margin-right: 5px;
   vertical-align: middle;
 }
 body.map .location-icon {
