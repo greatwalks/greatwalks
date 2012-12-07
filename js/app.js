@@ -1293,7 +1293,7 @@ if(!(window.console && console.log)) {
         if ( navigator.userAgent.match(/iphone|ipad|ipod/i) ) {
             $('ul.banners li a, div.offers li a').attr('target', "_blank");
         }
-    }
+    };
 
     window.pageload(make_blank, '/offers');
     window.pageload(make_blank, '/walk-');
@@ -1647,7 +1647,7 @@ if(!(window.console && console.log)) {
             }
         });
         $(".walk-detail-header a").fastPress(function(){
-            $(this).parent().toggleClass("open").next(".walk-detail").slideToggle();
+            $(this).parent().toggleClass("open").next(".walk-detail").toggleClass('expanded');
             return false;
         });
         $(".dont-miss a").fastPress();
