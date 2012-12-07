@@ -831,7 +831,7 @@ body.walk .text-column1 .walk-detail-header.on-the-track {
 body.walk .text-column1 .walk-detail {
   background: white;
   margin-top: -10px;
-  height: 0px;
+  max-height: 0px;
   overflow: hidden;
   padding: 0em 1em;
   transition: 0.2s ease-in;
@@ -839,7 +839,7 @@ body.walk .text-column1 .walk-detail {
 }
 body.walk .text-column1 .walk-detail.expanded {
   padding: 0.5em 1em;
-  height: auto;
+  max-height: 2000px;
 }
 body.walk .text-column1 .walk-detail.dont-miss {
   background: transparent;
