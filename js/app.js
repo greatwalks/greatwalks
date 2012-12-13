@@ -538,8 +538,13 @@ if(!(window.console && console.log)) {
                 $shadow.removeClass("shadow-visible");
             },
             $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
-        
+
         $('#carousel').carousel();
+
+        // Disable back button in Android - window.onBackKey defined in popover.js
+        $('#carousel').on('click', 'a', function() {
+            document.addEventListener("backbutton", window.back_key_override, false);
+        });
 
         $("body").on("click", ".audio", function(event){
             var $this = $(this),
@@ -1616,6 +1621,10 @@ if(!(window.console && console.log)) {
                                            }),
             modal_id = "modal_" + this_id,
             $modal = $("#" + modal_id);
+
+        // Disable back button in Android
+        document.addEventListener("backbutton", window.back_key_override, false);
+
         if($modal.length === 0) {
             $modal = $("<div/>").addClass("modal hide fade popover-modal").attr("id", modal_id);
             $body.append($modal);
@@ -1678,7 +1687,12 @@ if(!(window.console && console.log)) {
         }
     };
 
+    window.back_key_override = function() {
+        $(".modal-backdrop").trigger('click');
+        document.removeEventListener("backbutton", window.back_key_override, false);
+    }
 
     window.pageload(popover_init);
-}(jQuery));/* END OF popover.js */
+}(jQuery));
+/* END OF popover.js */
 
