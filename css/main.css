@@ -539,6 +539,7 @@ body.find-an-adventure .modal.fade {
 }
 .btn.phone {
   background-position: 10px -143px;
+  margin-right: 10px;
 }
 .btn.email {
   background-position: 8px 10px;
