@@ -1693,6 +1693,31 @@ if(!(window.console && console.log)) {
     }
 
     window.pageload(popover_init);
+
+    // override back button behaviour for app
+    window.bypass_back_button = function() {
+        // if modal present, close modal only
+        if( $(".modal-backdrop").length ) {
+            alert('close modal');
+            $(".modal-backdrop").trigger('click');
+            return;
+        }
+
+        // if we're on index page and back button pressed, close app
+        if ( document.location.pathname === '/android_asset/www/index.html' ) {
+            navigator.app.exitApp();
+        }
+
+        // otherwise, go back one page
+        navigator.app.backHistory();
+    };
+
+    // enable back button override behaviour if device is android
+    if(navigator.userAgent.match(/Android/i)) {
+        document.addEventListener("deviceready", function() {
+            document.addEventListener("backbutton", window.bypass_back_button,false);
+        }, false);
+    }
 }(jQuery));
 /* END OF popover.js */
 
