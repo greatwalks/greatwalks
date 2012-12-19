@@ -48,6 +48,672 @@
     window.pageload(pageload_init);
 }(jQuery));/* END OF pageload.js */
 
+/* BEGINNING OF navbar.js */
+/*
+ * Handles the navbars (including the bottom one, if it's there)
+ */
+(function($){
+	"use strict";
+	var navbar_init = function(){
+		var $navbar_social = $("#share-social a"),
+			$page1 = $("#page1"),
+			$show_slideout_navigation = $("#show_slideout_navigation"),
+			$wrapper = $("#wrapper"),
+			reset_width_height = {"width": "auto", "height": "auto"},
+			page_change = function(event){
+				$page1.find(".social-links").hide();
+				$show_slideout_navigation.attr("checked", false);
+				$wrapper.css(reset_width_height);
+			},
+			$html = $("html").bind("doc:page-change", page_change);
+
+		$navbar_social.fastPress(function(){
+			$page1.find(".social-links").toggle(); // don't cache jQuery selector because it's loaded in/out all the time
+			return false;
+		});
+
+		$("#show_slideout_navigation").change(function(event){
+			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
+			var $this = $(this),
+				$logo;
+			if($(window).height() > 400 && $(window).width() > 400) return;
+			$logo = $("#logo");
+			if($this.is(":checked")) {
+				$logo.hide();
+			} else {
+				$logo.show();
+			}
+		});
+	};
+    window.pageload(navbar_init);
+}(jQuery));/* END OF navbar.js */
+
+/* BEGINNING OF maps.js */
+/*global alert nz_map_dimensions console*/
+(function($){
+    "use strict";
+    var $wrapper,
+        $new_zealand_map_wrapper,
+        $new_zealand_map_img,
+        text_sizes = ["size800", "size700", "size600", "size500", "size400", "size300", "size200", "size100"],
+        $window,
+
+        adjust_maps_height = function(event){
+            var available_width = $window.width(),
+                available_height = $window.height(),
+                offset = $new_zealand_map_img.offset(),
+                remaining_height = available_height - offset.top,
+                fixed_dimension = (available_width / remaining_height < nz_map_dimensions.ratio) ? "width" : "height",
+                target_dimensions = {width:undefined, height:undefined};
+
+            if(fixed_dimension === "width") {
+                target_dimensions.width = available_width;
+                target_dimensions.height = target_dimensions.width / nz_map_dimensions.ratio;
+            } else {
+                target_dimensions.height = remaining_height - 10;
+                target_dimensions.width = target_dimensions.height * nz_map_dimensions.ratio;
+            }
+            if(target_dimensions.width > nz_map_dimensions.width) {
+                target_dimensions.width = nz_map_dimensions.width;
+                nz_map_dimensions.height = nz_map_dimensions.height;
+            }
+            $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
+            $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
+            target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
+            if(target_dimensions.chosen_text_size > 800) {
+                target_dimensions.chosen_text_size = 800;
+            } else if(target_dimensions.chosen_text_size < 100) {
+                target_dimensions.chosen_text_size = 100;
+            }
+            $new_zealand_map_wrapper
+                .addClass("size" + target_dimensions.chosen_text_size)
+                .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
+            $wrapper.width(available_width).height(remaining_height);
+            //$("#debug").text("size" + target_dimensions.chosen_text_size);
+            $new_zealand_map_wrapper.show();
+        },
+        maps_init = function(event){
+            $window = $(window);
+            $wrapper = $("#wrapper");
+            $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
+            $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
+            $window.bind("resize orientationchange", adjust_maps_height);
+            adjust_maps_height();
+            setTimeout(adjust_maps_height, 200);
+        };
+
+    window.pageload(maps_init, "/maps.html");
+}(jQuery));
+
+/* END OF maps.js */
+
+/* BEGINNING OF fast-press.js */
+/* globals window Modernizr Hammer */
+/* Simple click wrapper */
+(function($){
+    var hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        },
+        $wrapper,
+        $html,
+        $html_title,
+        $body,
+        $page_contents_wrapper_page1,
+        $page_contents_wrapper_page2,
+        modernizr_touch = Modernizr.touch,
+        fastPress_hyperlink = function(event){
+            var $this = $(this),
+                this_href = $this.attr("href");
+            
+            //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
+            if(!this_href || this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
+                return true;
+            }
+
+            if(navigator.userAgent.match(/Android/i)) {
+               return true;
+            }
+
+            window.hide_all_popovers();
+            
+            $.get(this_href, function(new_page, textStatus, jqXHR){
+                var title = new_page.replace(/^[\s\S]*<title(.*?)>|<\/title>[\s\S]*$/g, ''),
+                    $new_page,
+                    $new_page_contents;
+
+                new_page = new_page
+                        .replace(/^[\s\S]*<body(.*?)>/g, '<div$1>')
+                        .replace(/<\/body>[\s\S]*$/g, '</div>'); // jQuery can't parse entire pages http://stackoverflow.com/a/12848798
+                $new_page = $(new_page);
+                $new_page_contents = $("#page1", $new_page).contents();
+                
+                if($new_page_contents.length > 0) {
+                    $html_title.text("*" + title);
+                    $body.attr("class", $new_page.attr("class"));
+                    $page_contents_wrapper_page1.html($new_page_contents);
+                    if(window.history.pushState) window.history.pushState("", title, this_href);
+                    $html.trigger("doc:page-change", this_href);
+                } else { //there's an error, try to handle it gracefully by just going to the page
+                    window.location = window.location.toString()
+                        .substr(
+                            0,
+                            window.location.toString().lastIndexOf("/") + 1) +
+                        this_href;
+                }
+            });
+            return false;
+        },
+        fast_press_init = function(event){
+            var listen_on = modernizr_touch ? "touchstart" : "click";
+            $wrapper = $("#wrapper");
+            $body = $("body");
+            $html = $("html");
+            $html_title = $("title");
+            $page_contents_wrapper_page1 = $("#page1");
+            $page_contents_wrapper_page2 = $("#page2");
+            $body.on(listen_on, "a", fastPress_hyperlink);
+        };
+    $.prototype.fastPress = function(callback){
+        if(callback === undefined) {
+            if(modernizr_touch) {
+                return this.trigger('touchstart');
+            }
+            return this.trigger('click');
+        }
+        if(modernizr_touch) {
+            this.hammer(hammer_defaults).bind('touchstart', callback);
+            return this;
+        }
+        return this.click(callback);
+    };
+    window.pageload(fast_press_init);
+}(jQuery));
+/* END OF fast-press.js */
+
+/* BEGINNING OF console.js */
+// Avoid `console` errors in browsers that lack a console.
+if(!(window.console && console.log)) {
+    (function() {
+        var noop = function() {};
+        var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
+        var length = methods.length;
+        var console = window.console = {};
+        while (length--) {
+            console[methods[length]] = noop;
+        }
+    }());
+};/* END OF console.js */
+
+/* BEGINNING OF map.js */
+/*globals map_details maps_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
+(function($){
+    "use strict";
+    
+    (function(){
+        var PIx = 3.141592653589793,
+            degrees_to_radians = function(degrees) {
+                return degrees * PIx / 180;
+            },
+            kilometres_to_miles = 0.621371,
+            one_hour_in_milliseconds = 60 * 60 * 1000;
+
+        window.format_distance = function(kilometres){
+             return (Math.round(kilometres * 100) / 100) + "km / " + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
+        };
+
+        window.difference_between_positions_in_kilometers = function(lat1, lon1, lat2, lon2, lat3, lon3){
+            if(lat3 !== undefined && lon3 !== undefined) {
+                //normally lat3/lon3 aren't given and this function just figures out the distance
+                // between two points.
+                // however if lat3/lon3 are given then this function finds out the distance between
+                // a point and the closest side of a square (e.g. a map graphic).
+                if(lat1 < lat3) {
+                    lat2 = lat3;
+                }
+                if(lon1 > lon3) {
+                    lon2 = lon3;
+                }
+            }
+            // courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
+            var R = 6371; // adverage radius of the earth in km
+            var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
+            var dLon = degrees_to_radians(lon2-lon1);
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(degrees_to_radians(lat1)) * Math.cos(degrees_to_radians(lat2)) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c; // Distance in km
+        };
+
+        window.position_expires_after_milliseconds = one_hour_in_milliseconds;
+    }());
+
+    var map_init = function(){
+        var map_id = $("#map_id").text(),
+            map_details = maps_details[map_id],
+            open_tooltip,
+            hammer_defaults = {
+                prevent_default: true,
+                scale_treshold: 0,
+                drag_min_distance: 0
+            },
+            pixels_to_longitude_latitude = function(map_x, map_y){
+                return {
+                    longitude: map_details.longitude + (map_x / map_details.degrees_per_pixel),
+                    latitude: map_details.latitude + (map_y / map_details.degrees_per_pixel)
+                };
+            },
+            longitude_latitude_to_pixels = function(longitude, latitude){
+                return {
+                    left: Math.abs((longitude - map_details.longitude) / map_details.degrees_per_pixel) + "px",
+                    top: Math.abs((latitude - map_details.latitude) / map_details.degrees_per_pixel) + "px"
+                };
+            },
+            geolocation_success = function(event, position){
+                /*
+                Latitude:          position.coords.latitude
+                Longitude:         position.coords.longitude
+                Altitude:          position.coords.altitude
+                Accuracy:          position.coords.accuracy
+                Altitude Accuracy: position.coords.altitudeAccuracy
+                Heading:           position.coords.heading
+                Speed:             position.coords.speed
+                */
+                var youarehere_pixels = {
+                        "top": -parseInt((position.coords.latitude - window.map_details.latitude) / window.map_details.degrees_per_pixel, 10),
+                        "left": parseInt((position.coords.longitude - window.map_details.longitude) / window.map_details.degrees_per_pixel, 10)
+                    },
+                    edge_buffer_pixels = 10,
+                    $youarehere = $("#youarehere").data("latitude", position.coords.latitude).data("longitude", position.coords.longitude),
+                    $youarehere_offmap = $youarehere.find(".offmap"),
+                    youarehere_css = {position: "absolute"},
+                    youarehere_offmap_css = {position: "absolute", left: $youarehere.width() - 15, top: $youarehere.height()},
+                    offmap = false,
+                    difference_distance_in_kilometres = Math.round(
+                            difference_between_positions_in_kilometers(
+                                position.coords.latitude, position.coords.longitude,
+                                window.map_details.latitude, window.map_details.longitude,
+                                window.map_details.extent_latitude, window.map_details.extent_longitude
+                            ) * 100) / 100;
+                
+                $youarehere_offmap.html("you are off the map by about " + format_distance(difference_distance_in_kilometres));
+                if(youarehere_pixels.left < 0) {
+                    youarehere_pixels.left = edge_buffer_pixels;
+                    youarehere_offmap_css.left = edge_buffer_pixels;
+                    offmap = true;
+                } else if(youarehere_pixels.left > window.map_details.map_pixel_width){
+                    youarehere_pixels.left = window.map_details.map_pixel_width - edge_buffer_pixels;
+                    youarehere_offmap_css.left -= $youarehere_offmap.width() + edge_buffer_pixels;
+                    offmap = true;
+                }
+                if(youarehere_pixels.top < 0) {
+                    youarehere_pixels.top = edge_buffer_pixels;
+                    youarehere_offmap_css.top = edge_buffer_pixels;
+                    offmap = true;
+                } else if(youarehere_pixels.top > window.map_details.map_pixel_height){
+                    youarehere_pixels.top = window.map_details.map_pixel_height - edge_buffer_pixels;
+                    youarehere_offmap_css.top = -$youarehere_offmap.height() - edge_buffer_pixels;
+                    offmap = true;
+                }
+                youarehere_css.left = youarehere_pixels.left + "px";
+                youarehere_css.top = youarehere_pixels.top + "px";
+                youarehere_offmap_css.left += "px";
+                youarehere_offmap_css.top += "px";
+                $youarehere.css("webkit-box-shadow", "0px 0px 5px " + (position.coords.accuracy / 5000) + "px rgba(0, 0, 255, 0.3)");
+                if(!offmap){
+                    $youarehere_offmap.hide();
+                } else {
+                    $youarehere_offmap.css(youarehere_offmap_css).show();
+                }
+                $youarehere.css(youarehere_css).show();
+            },
+            geolocation_failure = function(event, msg){
+                $("#no_gps").attr("title", msg.message).show();
+            },
+            current_time_in_epoch_milliseconds,
+            user_actions = {
+                $user_actions_panel: $("#user_actions"),
+                $photo_preview: $("#photo-preview"),
+                initialize_user_photos: function(){
+                    var user_photos_string = localStorage["user-photos"],
+                        user_photos,
+                        user_map_photos,
+                        user_map_photo,
+                        i;
+                    if(user_photos_string === undefined) return;
+                    user_photos = JSON.parse(user_photos_string);
+                    if(user_photos[map_details.map_id] === undefined) return;
+                    user_map_photos = user_photos[map_details.map_id];
+                    for(i = 0; i < user_map_photos.length; i++){
+                        user_map_photo = user_map_photos[i];
+                        user_actions.add_photo_to_map(user_map_photo.imageURI, user_map_photo.latitude, user_map_photo.longitude);
+                    }
+                },
+                panel_toggle: function(event){
+                    var user_is_off_map = $("#youarehere").find(".offmap").is(":visible"),
+                        error_html;
+                    if(navigator.camera && !user_is_off_map) {
+                        if(user_actions.$user_actions_panel.hasClass("hidden")){
+                            user_actions.$user_actions_panel.removeClass("hidden");
+                        } else {
+                            user_actions.$user_actions_panel.addClass("hidden");
+                        }
+                    } else {
+                        if(navigator.camera && user_is_off_map) {
+                            error_html = "You're off the map so we can't take location photos<br>Use your regular camera app";
+                        } else if(!navigator.camera && user_is_off_map) {
+                            error_html = "No camera available<br>(and you're off the map anyway so we can't take location photos)";
+                        } else if(!navigator.camera && !user_is_off_map) {
+                            error_html = "No camera available";
+                        }
+                        user_actions.$camera_error.html(error_html).fadeIn(function(){
+                            if(user_actions.camera_error_timer) {
+                                clearTimeout(user_actions.camera_error_timer);
+                            }
+                            user_actions.camera_error_timer = setTimeout(user_actions.camera_error_hide, 2000);
+                        });
+                    }
+                },
+                data_photo_uri_key: "content-image-uri",
+                show_user_photo: function(event){
+                    var $photo = user_actions.$photo_preview,
+                        $this = $(this);
+                    $photo.attr("src", $this.data(user_actions.data_photo_uri_key)).show();
+                },
+                hide_user_photo: function(event){
+                    var $photo = user_actions.$photo_preview;
+                    $photo.hide();
+                },
+                add_photo_to_map: function(imageURI, latitude, longitude, display_immediately, add_to_localStorage){
+                    var user_photo_data = {
+                        "longitude": longitude,
+                        "latitude": latitude
+                        },
+                        user_photo_style,
+                        user_photos,
+                        user_photo;
+                    if(latitude !== undefined && longitude !== undefined) {
+                        user_photo_style = longitude_latitude_to_pixels(longitude, latitude);
+                        user_photo_style.position = "absolute";
+                    }
+                    user_photo_data[user_actions.data_photo_uri_key] = imageURI;
+                    var $photo_icon = $("<a/>").addClass("location location-icon location-user-photo").data(user_photo_data);
+                    if(user_photo_style){
+                        $photo_icon.css(user_photo_style);
+                    }
+                    $("#map").append($photo_icon);
+                    if(Modernizr.touch) {
+                        $photo_icon.hammer(hammer_defaults).bind('tap', user_actions.show_user_photo);
+                    } else {
+                        $photo_icon.click(user_actions.show_user_photo);
+                    }
+                    if(display_immediately === true) {
+                        user_actions.show_user_photo.call($photo_icon); //I could unwrap it with .get(0) but it'll still work in show_user_photo
+                    }
+                    if(add_to_localStorage === true) {
+                        user_photos = localStorage["user-photos"];
+                        if(user_photos === undefined) {
+                            user_photos = {};
+                        }
+                        if(user_photos[map_details.map_id] === undefined){
+                            user_photos[map_details.map_id] = [];
+                        }
+                        user_photo = {
+                            "imageURI": imageURI,
+                            "latitude": latitude,
+                            "longitude": longitude
+                        };
+                        user_photos[map_details.map_id].push(user_photo);
+                        localStorage["user-photos"] = JSON.stringify(user_photos);
+                    }
+                },
+                take_photo: function(){
+                    var camera_success = function(imageURI) {
+                            var $photo_preview = $("#photo-preview").attr("src", imageURI),
+                                last_known_position = window.geolocation_get_last_position();
+                            if(last_known_position !== undefined) {
+                                user_actions.add_photo_to_map(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude, true, true);
+                            } else {
+                                user_actions.add_photo_to_map(imageURI, undefined, undefined, true, true);
+                            }
+                            user_actions.$user_actions_panel.addClass("hidden");
+                        },
+                        camera_fail = function onFail(message) {
+                            alert('Failed because: ' + message);
+                        };
+                    navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI});
+                    return false;
+                },
+                camera_error_timer:undefined,
+                $camera_error: $("#camera_error"),
+                camera_error_hide: function(){
+                    user_actions.$camera_error.fadeOut();
+                }
+            },
+            youarehere_hammer,
+            toggle_map_key = function(event){
+                var $map_key = $("#map-key");
+                $map_key.toggle();
+                return false;
+            },
+            $html = $("html");
+
+        $html.bind("doc:geolocation:failure", geolocation_failure);
+        $html.bind("doc:geolocation:success", geolocation_success);
+        window.map_details = map_details;
+        
+        $("#weta").fastPress(window.toggle_popover);
+        $("#map .location").fastPress(window.toggle_popover);
+        $("#take-photo").fastPress(user_actions.take_photo);
+        $("#photo-preview").fastPress(user_actions.hide_user_photo);
+        $("#toggle-map-key, #map-key").fastPress(toggle_map_key);
+        $("#youarehere, #no_gps").fastPress(user_actions.panel_toggle);
+        user_actions.initialize_user_photos();
+        user_actions.$camera_error.fastPress(user_actions.camera_error_hide);
+
+    };
+
+    window.pageload(map_init, "/map-");
+}(jQuery));/* END OF map.js */
+
+/* BEGINNING OF walk.js */
+/*global navigator document alert console */
+(function($){
+    "use strict";
+
+    var walk_init = function(){
+        var $dont_miss = $(".dont-miss"),
+            $shadow = $dont_miss.find(".shadow"),
+            is_shadowed = false,
+            $current_dont_miss,
+            disable_all_dont_miss = function(event){
+                is_shadowed = false;
+                if($current_dont_miss !== undefined) {
+                    $current_dont_miss.css("z-index", "auto");
+                    window.hide_all_popovers.apply($current_dont_miss);
+                    $current_dont_miss = undefined;
+                }
+                $shadow.removeClass("shadow-visible");
+            },
+            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
+
+        $('#carousel').carousel();
+
+        $("body").on("click", ".audio", function(event){
+            var $this = $(this),
+                audio_path,
+                media_player;
+            if(window.Media) { //use Phonegap-style audio
+               var  onSuccess = function(){},
+                    onError = function onError(error) {
+                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
+                    };
+                audio_path = $this.data('audio');
+                if ( navigator.userAgent.match(/android/i) ) {
+                    audio_path = "/android_asset/www/" + $this.data("audio");
+                }
+                media_player = new window.Media(audio_path, onSuccess, onError);
+                media_player.play();
+            } else {// Use HTML5 Audio approach
+                var $audio = $("audio"),
+                    audio_element;
+                audio_path = $this.data("audio");
+                if($audio.length === 0) {
+                    $audio = $("<audio/>").attr("src", audio_path);
+                    $("body").append($audio);
+                } else {
+                    $audio.attr("src", audio_path);
+                }
+                audio_element = $audio.get(0);
+                audio_element.load();
+                audio_element.play();
+            }
+        });
+        $(".walk-detail-header a").fastPress(function(){
+            $(this).parent().toggleClass("open").next(".walk-detail").toggleClass('expanded');
+            return false;
+        });
+        $(".dont-miss a").fastPress();
+        
+        
+        $("a.icon").click(window.toggle_popover);
+
+        $dont_miss.find("a").click(function(){
+            var $this = $(this);
+            if(is_shadowed) {
+                disable_all_dont_miss();
+            } else {
+                $current_dont_miss = $this;
+                $current_dont_miss.css("z-index", "3");
+                $shadow.addClass("shadow-visible");
+                is_shadowed = true;
+                window.show_popover.apply($current_dont_miss);
+            }
+            return false;
+        });
+
+        $shadow.click(disable_all_dont_miss);
+    };
+
+    window.pageload(walk_init, "/walk-");
+}(jQuery));
+/* END OF walk.js */
+
+/* BEGINNING OF find-an-adventure.js */
+/*globals alert Modernizr window navigator document setTimeout clearTimeout*/
+(function($){
+    "use strict";
+    
+    var find_init = function(){
+        var close_modal_timer,
+            $last_modal,
+            delete_any_modal_backdrops = function(){
+                $(".modal-backdrop").remove();
+            };
+        $(".resetFinder").click(function(event){
+            $(".modal .active").removeClass("active");
+            $("#no-results").hide();
+            $("#results").hide();
+        }),
+        
+        $(".modal").on("click", "a", function(event){
+            var $this = $(this),
+                $list_item = $this.closest("li"),
+                $modal = $this.closest(".modal"),
+                modal_id = $modal.attr("id"),
+                $results = $("#results"),
+                $no_results = $("#no-results"),
+                $results_search = $results.find("li"),
+                $modals = $(".modal"),
+                $warning_one_two_days = $("#warning-1-2-days");
+            $last_modal = $modal;
+            if(modal_id === "where" || modal_id === "time") {
+                $list_item.toggleClass("active").siblings().removeClass("active");
+            } else if($modal.is("#see")) {
+                $list_item.toggleClass("active");
+            }
+            $modal.modal('hide');
+
+            if(close_modal_timer) {
+                clearTimeout(close_modal_timer);
+            }
+            close_modal_timer = setTimeout(delete_any_modal_backdrops, 250);
+            
+            $results_search.show();
+            $warning_one_two_days.hide();
+            $modals.each(function(index){
+                var $modal = $(this),
+                    modal_id = $modal.attr("id"),
+                    $active_selections = $modal.find(".active");
+
+                $active_selections.each(function(){
+                    var $active_selection = $(this),
+                        active_selection_id = $active_selection.attr("id"),
+                        selector = "." + active_selection_id;
+                    $results_search.not(selector).hide();
+                    $results_search = $results_search.filter(selector);
+                    if(active_selection_id === "time-1-2-days") {
+                        $warning_one_two_days.show();
+                    }
+                });
+            });
+            
+            if($results_search.length > 0) {
+                $results.show();
+                $no_results.hide();
+            } else {
+                $results.hide();
+                $no_results.show();
+            }
+            event.preventDefault();
+        });
+    };
+
+    window.pageload(find_init, "/find-an-adventure.html");
+}(jQuery));
+/* END OF find-an-adventure.js */
+
+/* BEGINNING OF online-offline.js */
+/*globals Connection */
+/*
+ * Responsible for making changes to pages based on whether the device is online or offline
+ */
+(function($){
+    "use strict";
+    var going_online_offline_init = function(){
+            document.addEventListener("online", going_online, false);
+            document.addEventListener("offline", going_offline, false);
+            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
+                going_offline();
+            } else { //either we're online or the browser can't tell us if it's online, so assume online
+                going_online();
+            }
+        },
+       going_online = function(){
+            $("#share-social").show();
+            /*
+            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
+            $(".youtube").each(function(){
+                var $this = $(this),
+                    youtube_id = $this.data("youtube-id");
+                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
+                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
+            });
+            */
+        },
+       going_offline = function(){
+            $("#share-social").hide();
+            $(".youtube").each(function(){
+                var $this = $(this);
+                $this.empty();
+            });
+        };
+    
+    window.pageload(going_online_offline_init);
+}(jQuery));/* END OF online-offline.js */
+
 /* BEGINNING OF helper.js */
 /**
  * MBP - Mobile boilerplate helper functions
@@ -382,677 +1048,6 @@
         }
     };
 })(document);/* END OF helper.js */
-
-/* BEGINNING OF navbar.js */
-/*
- * Handles the navbars (including the bottom one, if it's there)
- */
-(function($){
-	"use strict";
-	var navbar_init = function(){
-		var $navbar_social = $("#share-social a"),
-			$page1 = $("#page1"),
-			$show_slideout_navigation = $("#show_slideout_navigation"),
-			$wrapper = $("#wrapper"),
-			reset_width_height = {"width": "auto", "height": "auto"},
-			page_change = function(event){
-				$page1.find(".social-links").hide();
-				$show_slideout_navigation.attr("checked", false);
-				$wrapper.css(reset_width_height);
-			},
-			$html = $("html").bind("doc:page-change", page_change);
-
-		$navbar_social.fastPress(function(){
-			$page1.find(".social-links").toggle(); // don't cache jQuery selector because it's loaded in/out all the time
-			return false;
-		});
-
-		$("#show_slideout_navigation").change(function(event){
-			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
-			var $this = $(this),
-				$logo;
-			if($(window).height() > 400 && $(window).width() > 400) return;
-			$logo = $("#logo");
-			if($this.is(":checked")) {
-				$logo.hide();
-			} else {
-				$logo.show();
-			}
-		});
-	};
-    window.pageload(navbar_init);
-}(jQuery));/* END OF navbar.js */
-
-/* BEGINNING OF maps.js */
-/*global alert nz_map_dimensions console*/
-(function($){
-    "use strict";
-    var $wrapper,
-        $new_zealand_map_wrapper,
-        $new_zealand_map_img,
-        text_sizes = ["size800", "size700", "size600", "size500", "size400", "size300", "size200", "size100"],
-        $window,
-
-        adjust_maps_height = function(event){
-            var available_width = $window.width(),
-                available_height = $window.height(),
-                offset = $new_zealand_map_img.offset(),
-                remaining_height = available_height - offset.top,
-                fixed_dimension = (available_width / remaining_height < nz_map_dimensions.ratio) ? "width" : "height",
-                target_dimensions = {width:undefined, height:undefined};
-
-            if(fixed_dimension === "width") {
-                target_dimensions.width = available_width;
-                target_dimensions.height = target_dimensions.width / nz_map_dimensions.ratio;
-            } else {
-                target_dimensions.height = remaining_height - 10;
-                target_dimensions.width = target_dimensions.height * nz_map_dimensions.ratio;
-            }
-            if(target_dimensions.width > nz_map_dimensions.width) {
-                target_dimensions.width = nz_map_dimensions.width;
-                nz_map_dimensions.height = nz_map_dimensions.height;
-            }
-            $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
-            $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
-            target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
-            if(target_dimensions.chosen_text_size > 800) {
-                target_dimensions.chosen_text_size = 800;
-            } else if(target_dimensions.chosen_text_size < 100) {
-                target_dimensions.chosen_text_size = 100;
-            }
-            $new_zealand_map_wrapper
-                .addClass("size" + target_dimensions.chosen_text_size)
-                .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
-            $wrapper.width(available_width).height(remaining_height);
-            //$("#debug").text("size" + target_dimensions.chosen_text_size);
-            $new_zealand_map_wrapper.show();
-        },
-        maps_init = function(event){
-            $window = $(window);
-            $wrapper = $("#wrapper");
-            $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
-            $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
-            $window.bind("resize orientationchange", adjust_maps_height);
-            adjust_maps_height();
-            setTimeout(adjust_maps_height, 200);
-        };
-
-    window.pageload(maps_init, "/maps.html");
-}(jQuery));
-
-/* END OF maps.js */
-
-/* BEGINNING OF fast-press.js */
-/* globals window Modernizr Hammer */
-/* Simple click wrapper */
-(function($){
-    var hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
-        },
-        $wrapper,
-        $html,
-        $html_title,
-        $body,
-        $page_contents_wrapper_page1,
-        $page_contents_wrapper_page2,
-        modernizr_touch = Modernizr.touch,
-        fastPress_hyperlink = function(event){
-            var $this = $(this),
-                this_href = $this.attr("href");
-            
-            //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
-            if(!this_href || this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
-                return true;
-            }
-
-            if(navigator.userAgent.match(/Android/i)) {
-               return true;
-            }
-
-            window.hide_all_popovers();
-            
-            $.get(this_href, function(new_page, textStatus, jqXHR){
-                var title = new_page.replace(/^[\s\S]*<title(.*?)>|<\/title>[\s\S]*$/g, ''),
-                    $new_page,
-                    $new_page_contents;
-
-                new_page = new_page
-                        .replace(/^[\s\S]*<body(.*?)>/g, '<div$1>')
-                        .replace(/<\/body>[\s\S]*$/g, '</div>'); // jQuery can't parse entire pages http://stackoverflow.com/a/12848798
-                $new_page = $(new_page);
-                $new_page_contents = $("#page1", $new_page).contents();
-                
-                if($new_page_contents.length > 0) {
-                    $html_title.text("*" + title);
-                    $body.attr("class", $new_page.attr("class"));
-                    $page_contents_wrapper_page1.html($new_page_contents);
-                    if(window.history.pushState) window.history.pushState("", title, this_href);
-                    $html.trigger("doc:page-change", this_href);
-                } else { //there's an error, try to handle it gracefully by just going to the page
-                    window.location = window.location.toString()
-                        .substr(
-                            0,
-                            window.location.toString().lastIndexOf("/") + 1) +
-                        this_href;
-                }
-            });
-            return false;
-        },
-        fast_press_init = function(event){
-            var listen_on = modernizr_touch ? "touchstart" : "click";
-            $wrapper = $("#wrapper");
-            $body = $("body");
-            $html = $("html");
-            $html_title = $("title");
-            $page_contents_wrapper_page1 = $("#page1");
-            $page_contents_wrapper_page2 = $("#page2");
-            $body.on(listen_on, "a", fastPress_hyperlink);
-        };
-    $.prototype.fastPress = function(callback){
-        if(callback === undefined) {
-            if(modernizr_touch) {
-                return this.trigger('touchstart');
-            }
-            return this.trigger('click');
-        }
-        if(modernizr_touch) {
-            this.hammer(hammer_defaults).bind('touchstart', callback);
-            return this;
-        }
-        return this.click(callback);
-    };
-    window.pageload(fast_press_init);
-}(jQuery));
-/* END OF fast-press.js */
-
-/* BEGINNING OF console.js */
-// Avoid `console` errors in browsers that lack a console.
-if(!(window.console && console.log)) {
-    (function() {
-        var noop = function() {};
-        var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'markTimeline', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
-        var length = methods.length;
-        var console = window.console = {};
-        while (length--) {
-            console[methods[length]] = noop;
-        }
-    }());
-};/* END OF console.js */
-
-/* BEGINNING OF walk.js */
-/*global navigator document alert console */
-(function($){
-    "use strict";
-
-    var walk_init = function(){
-        var $dont_miss = $(".dont-miss"),
-            $shadow = $dont_miss.find(".shadow"),
-            is_shadowed = false,
-            $current_dont_miss,
-            disable_all_dont_miss = function(event){
-                is_shadowed = false;
-                if($current_dont_miss !== undefined) {
-                    $current_dont_miss.css("z-index", "auto");
-                    window.hide_all_popovers.apply($current_dont_miss);
-                    $current_dont_miss = undefined;
-                }
-                $shadow.removeClass("shadow-visible");
-            },
-            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
-
-        $('#carousel').carousel();
-
-        // Disable back button in Android - window.onBackKey defined in popover.js
-        $('#carousel').on('click', 'a', function() {
-            document.addEventListener("backbutton", window.back_key_override, false);
-        });
-
-        $("body").on("click", ".audio", function(event){
-            var $this = $(this),
-                audio_path,
-                media_player;
-            if(window.Media) { //use Phonegap-style audio
-               var  onSuccess = function(){},
-                    onError = function onError(error) {
-                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
-                    };
-                audio_path = $this.data('audio');
-                if ( navigator.userAgent.match(/android/i) ) {
-                    audio_path = "/android_asset/www/" + $this.data("audio");
-                }
-                media_player = new window.Media(audio_path, onSuccess, onError);
-                media_player.play();
-            } else {// Use HTML5 Audio approach
-                var $audio = $("audio"),
-                    audio_element;
-                audio_path = $this.data("audio");
-                if($audio.length === 0) {
-                    $audio = $("<audio/>").attr("src", audio_path);
-                    $("body").append($audio);
-                } else {
-                    $audio.attr("src", audio_path);
-                }
-                audio_element = $audio.get(0);
-                audio_element.load();
-                audio_element.play();
-            }
-        });
-        $(".walk-detail-header a").fastPress(function(){
-            $(this).parent().toggleClass("open").next(".walk-detail").toggleClass('expanded');
-            return false;
-        });
-        $(".dont-miss a").fastPress();
-        
-        
-        $("a.icon").click(window.toggle_popover);
-
-        $dont_miss.find("a").click(function(){
-            var $this = $(this);
-            if(is_shadowed) {
-                disable_all_dont_miss();
-            } else {
-                $current_dont_miss = $this;
-                $current_dont_miss.css("z-index", "3");
-                $shadow.addClass("shadow-visible");
-                is_shadowed = true;
-                window.show_popover.apply($current_dont_miss);
-            }
-            return false;
-        });
-
-        $shadow.click(disable_all_dont_miss);
-    };
-
-    window.pageload(walk_init, "/walk-");
-}(jQuery));
-/* END OF walk.js */
-
-/* BEGINNING OF find-an-adventure.js */
-/*globals alert Modernizr window navigator document setTimeout clearTimeout*/
-(function($){
-    "use strict";
-    
-    var find_init = function(){
-        var close_modal_timer,
-            $last_modal,
-            delete_any_modal_backdrops = function(){
-                $(".modal-backdrop").remove();
-            };
-        $(".resetFinder").click(function(event){
-            $(".modal .active").removeClass("active");
-            $("#no-results").hide();
-            $("#results").hide();
-        }),
-        
-        $(".modal").on("click", "a", function(event){
-            var $this = $(this),
-                $list_item = $this.closest("li"),
-                $modal = $this.closest(".modal"),
-                modal_id = $modal.attr("id"),
-                $results = $("#results"),
-                $no_results = $("#no-results"),
-                $results_search = $results.find("li"),
-                $modals = $(".modal"),
-                $warning_one_two_days = $("#warning-1-2-days");
-            $last_modal = $modal;
-            if(modal_id === "where" || modal_id === "time") {
-                $list_item.toggleClass("active").siblings().removeClass("active");
-            } else if($modal.is("#see")) {
-                $list_item.toggleClass("active");
-            }
-            $modal.modal('hide');
-
-            if(close_modal_timer) {
-                clearTimeout(close_modal_timer);
-            }
-            close_modal_timer = setTimeout(delete_any_modal_backdrops, 250);
-            
-            $results_search.show();
-            $warning_one_two_days.hide();
-            $modals.each(function(index){
-                var $modal = $(this),
-                    modal_id = $modal.attr("id"),
-                    $active_selections = $modal.find(".active");
-
-                $active_selections.each(function(){
-                    var $active_selection = $(this),
-                        active_selection_id = $active_selection.attr("id"),
-                        selector = "." + active_selection_id;
-                    $results_search.not(selector).hide();
-                    $results_search = $results_search.filter(selector);
-                    if(active_selection_id === "time-1-2-days") {
-                        $warning_one_two_days.show();
-                    }
-                });
-            });
-            
-            if($results_search.length > 0) {
-                $results.show();
-                $no_results.hide();
-            } else {
-                $results.hide();
-                $no_results.show();
-            }
-            event.preventDefault();
-        });
-    };
-
-    window.pageload(find_init, "/find-an-adventure.html");
-}(jQuery));
-/* END OF find-an-adventure.js */
-
-/* BEGINNING OF online-offline.js */
-/*globals Connection */
-/*
- * Responsible for making changes to pages based on whether the device is online or offline
- */
-(function($){
-    "use strict";
-    var going_online_offline_init = function(){
-            document.addEventListener("online", going_online, false);
-            document.addEventListener("offline", going_offline, false);
-            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
-                going_offline();
-            } else { //either we're online or the browser can't tell us if it's online, so assume online
-                going_online();
-            }
-        },
-       going_online = function(){
-            $("#share-social").show();
-            /*
-            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
-            $(".youtube").each(function(){
-                var $this = $(this),
-                    youtube_id = $this.data("youtube-id");
-                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
-                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
-            });
-            */
-        },
-       going_offline = function(){
-            $("#share-social").hide();
-            $(".youtube").each(function(){
-                var $this = $(this);
-                $this.empty();
-            });
-        };
-    
-    window.pageload(going_online_offline_init);
-}(jQuery));/* END OF online-offline.js */
-
-/* BEGINNING OF map.js */
-/*globals map_details maps_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
-(function($){
-    "use strict";
-    
-    (function(){
-        var PIx = 3.141592653589793,
-            degrees_to_radians = function(degrees) {
-                return degrees * PIx / 180;
-            },
-            kilometres_to_miles = 0.621371,
-            one_hour_in_milliseconds = 60 * 60 * 1000;
-
-        window.format_distance = function(kilometres){
-             return (Math.round(kilometres * 100) / 100) + "km / " + (Math.round(kilometres * kilometres_to_miles * 100) / 100) + "mi";
-        };
-
-        window.difference_between_positions_in_kilometers = function(lat1, lon1, lat2, lon2, lat3, lon3){
-            if(lat3 !== undefined && lon3 !== undefined) {
-                //normally lat3/lon3 aren't given and this function just figures out the distance
-                // between two points.
-                // however if lat3/lon3 are given then this function finds out the distance between
-                // a point and the closest side of a square (e.g. a map graphic).
-                if(lat1 < lat3) {
-                    lat2 = lat3;
-                }
-                if(lon1 > lon3) {
-                    lon2 = lon3;
-                }
-            }
-            // courtesy of http://stackoverflow.com/questions/27928/how-do-i-calculate-distance-between-two-latitude-longitude-points/27943#27943
-            var R = 6371; // adverage radius of the earth in km
-            var dLat = degrees_to_radians(lat2-lat1);  // Javascript functions in radians
-            var dLon = degrees_to_radians(lon2-lon1);
-            var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                    Math.cos(degrees_to_radians(lat1)) * Math.cos(degrees_to_radians(lat2)) *
-                    Math.sin(dLon/2) * Math.sin(dLon/2);
-            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c; // Distance in km
-        };
-
-        window.position_expires_after_milliseconds = one_hour_in_milliseconds;
-    }());
-
-    var map_init = function(){
-        var map_id = $("#map_id").text(),
-            map_details = maps_details[map_id],
-            open_tooltip,
-            hammer_defaults = {
-                prevent_default: true,
-                scale_treshold: 0,
-                drag_min_distance: 0
-            },
-            pixels_to_longitude_latitude = function(map_x, map_y){
-                return {
-                    longitude: map_details.longitude + (map_x / map_details.degrees_per_pixel),
-                    latitude: map_details.latitude + (map_y / map_details.degrees_per_pixel)
-                };
-            },
-            longitude_latitude_to_pixels = function(longitude, latitude){
-                return {
-                    left: Math.abs((longitude - map_details.longitude) / map_details.degrees_per_pixel) + "px",
-                    top: Math.abs((latitude - map_details.latitude) / map_details.degrees_per_pixel) + "px"
-                };
-            },
-            geolocation_success = function(event, position){
-                /*
-                Latitude:          position.coords.latitude
-                Longitude:         position.coords.longitude
-                Altitude:          position.coords.altitude
-                Accuracy:          position.coords.accuracy
-                Altitude Accuracy: position.coords.altitudeAccuracy
-                Heading:           position.coords.heading
-                Speed:             position.coords.speed
-                */
-                var youarehere_pixels = {
-                        "top": -parseInt((position.coords.latitude - window.map_details.latitude) / window.map_details.degrees_per_pixel, 10),
-                        "left": parseInt((position.coords.longitude - window.map_details.longitude) / window.map_details.degrees_per_pixel, 10)
-                    },
-                    edge_buffer_pixels = 10,
-                    $youarehere = $("#youarehere").data("latitude", position.coords.latitude).data("longitude", position.coords.longitude),
-                    $youarehere_offmap = $youarehere.find(".offmap"),
-                    youarehere_css = {position: "absolute"},
-                    youarehere_offmap_css = {position: "absolute", left: $youarehere.width() - 15, top: $youarehere.height()},
-                    offmap = false,
-                    difference_distance_in_kilometres = Math.round(
-                            difference_between_positions_in_kilometers(
-                                position.coords.latitude, position.coords.longitude,
-                                window.map_details.latitude, window.map_details.longitude,
-                                window.map_details.extent_latitude, window.map_details.extent_longitude
-                            ) * 100) / 100;
-                
-                $youarehere_offmap.html("you are off the map by about " + format_distance(difference_distance_in_kilometres));
-                if(youarehere_pixels.left < 0) {
-                    youarehere_pixels.left = edge_buffer_pixels;
-                    youarehere_offmap_css.left = edge_buffer_pixels;
-                    offmap = true;
-                } else if(youarehere_pixels.left > window.map_details.map_pixel_width){
-                    youarehere_pixels.left = window.map_details.map_pixel_width - edge_buffer_pixels;
-                    youarehere_offmap_css.left -= $youarehere_offmap.width() + edge_buffer_pixels;
-                    offmap = true;
-                }
-                if(youarehere_pixels.top < 0) {
-                    youarehere_pixels.top = edge_buffer_pixels;
-                    youarehere_offmap_css.top = edge_buffer_pixels;
-                    offmap = true;
-                } else if(youarehere_pixels.top > window.map_details.map_pixel_height){
-                    youarehere_pixels.top = window.map_details.map_pixel_height - edge_buffer_pixels;
-                    youarehere_offmap_css.top = -$youarehere_offmap.height() - edge_buffer_pixels;
-                    offmap = true;
-                }
-                youarehere_css.left = youarehere_pixels.left + "px";
-                youarehere_css.top = youarehere_pixels.top + "px";
-                youarehere_offmap_css.left += "px";
-                youarehere_offmap_css.top += "px";
-                $youarehere.css("webkit-box-shadow", "0px 0px 5px " + (position.coords.accuracy / 5000) + "px rgba(0, 0, 255, 0.3)");
-                if(!offmap){
-                    $youarehere_offmap.hide();
-                } else {
-                    $youarehere_offmap.css(youarehere_offmap_css).show();
-                }
-                $youarehere.css(youarehere_css).show();
-            },
-            geolocation_failure = function(event, msg){
-                $("#no_gps").attr("title", msg.message).show();
-            },
-            current_time_in_epoch_milliseconds,
-            user_actions = {
-                $user_actions_panel: $("#user_actions"),
-                $photo_preview: $("#photo-preview"),
-                initialize_user_photos: function(){
-                    var user_photos_string = localStorage["user-photos"],
-                        user_photos,
-                        user_map_photos,
-                        user_map_photo,
-                        i;
-                    if(user_photos_string === undefined) return;
-                    user_photos = JSON.parse(user_photos_string);
-                    if(user_photos[map_details.map_id] === undefined) return;
-                    user_map_photos = user_photos[map_details.map_id];
-                    for(i = 0; i < user_map_photos.length; i++){
-                        user_map_photo = user_map_photos[i];
-                        user_actions.add_photo_to_map(user_map_photo.imageURI, user_map_photo.latitude, user_map_photo.longitude);
-                    }
-                },
-                panel_toggle: function(event){
-                    var user_is_off_map = $("#youarehere").find(".offmap").is(":visible"),
-                        error_html;
-                    if(navigator.camera && !user_is_off_map) {
-                        if(user_actions.$user_actions_panel.hasClass("hidden")){
-                            user_actions.$user_actions_panel.removeClass("hidden");
-                        } else {
-                            user_actions.$user_actions_panel.addClass("hidden");
-                        }
-                    } else {
-                        if(navigator.camera && user_is_off_map) {
-                            error_html = "You're off the map so we can't take location photos<br>Use your regular camera app";
-                        } else if(!navigator.camera && user_is_off_map) {
-                            error_html = "No camera available<br>(and you're off the map anyway so we can't take location photos)";
-                        } else if(!navigator.camera && !user_is_off_map) {
-                            error_html = "No camera available";
-                        }
-                        user_actions.$camera_error.html(error_html).fadeIn(function(){
-                            if(user_actions.camera_error_timer) {
-                                clearTimeout(user_actions.camera_error_timer);
-                            }
-                            user_actions.camera_error_timer = setTimeout(user_actions.camera_error_hide, 2000);
-                        });
-                    }
-                },
-                data_photo_uri_key: "content-image-uri",
-                show_user_photo: function(event){
-                    var $photo = user_actions.$photo_preview,
-                        $this = $(this);
-                    $photo.attr("src", $this.data(user_actions.data_photo_uri_key)).show();
-                },
-                hide_user_photo: function(event){
-                    var $photo = user_actions.$photo_preview;
-                    $photo.hide();
-                },
-                add_photo_to_map: function(imageURI, latitude, longitude, display_immediately, add_to_localStorage){
-                    var user_photo_data = {
-                        "longitude": longitude,
-                        "latitude": latitude
-                        },
-                        user_photo_style,
-                        user_photos,
-                        user_photo;
-                    if(latitude !== undefined && longitude !== undefined) {
-                        user_photo_style = longitude_latitude_to_pixels(longitude, latitude);
-                        user_photo_style.position = "absolute";
-                    }
-                    user_photo_data[user_actions.data_photo_uri_key] = imageURI;
-                    var $photo_icon = $("<a/>").addClass("location location-icon location-user-photo").data(user_photo_data);
-                    if(user_photo_style){
-                        $photo_icon.css(user_photo_style);
-                    }
-                    $("#map").append($photo_icon);
-                    if(Modernizr.touch) {
-                        $photo_icon.hammer(hammer_defaults).bind('tap', user_actions.show_user_photo);
-                    } else {
-                        $photo_icon.click(user_actions.show_user_photo);
-                    }
-                    if(display_immediately === true) {
-                        user_actions.show_user_photo.call($photo_icon); //I could unwrap it with .get(0) but it'll still work in show_user_photo
-                    }
-                    if(add_to_localStorage === true) {
-                        user_photos = localStorage["user-photos"];
-                        if(user_photos === undefined) {
-                            user_photos = {};
-                        }
-                        if(user_photos[map_details.map_id] === undefined){
-                            user_photos[map_details.map_id] = [];
-                        }
-                        user_photo = {
-                            "imageURI": imageURI,
-                            "latitude": latitude,
-                            "longitude": longitude
-                        };
-                        user_photos[map_details.map_id].push(user_photo);
-                        localStorage["user-photos"] = JSON.stringify(user_photos);
-                    }
-                },
-                take_photo: function(){
-                    var camera_success = function(imageURI) {
-                            var $photo_preview = $("#photo-preview").attr("src", imageURI),
-                                last_known_position = window.geolocation_get_last_position();
-                            if(last_known_position !== undefined) {
-                                user_actions.add_photo_to_map(imageURI, last_known_position.coords.latitude, last_known_position.coords.longitude, true, true);
-                            } else {
-                                user_actions.add_photo_to_map(imageURI, undefined, undefined, true, true);
-                            }
-                            user_actions.$user_actions_panel.addClass("hidden");
-                        },
-                        camera_fail = function onFail(message) {
-                            alert('Failed because: ' + message);
-                        };
-                    navigator.camera.getPicture(camera_success, camera_fail, {quality: 50, destinationType: Camera.DestinationType.FILE_URI});
-                    return false;
-                },
-                camera_error_timer:undefined,
-                $camera_error: $("#camera_error"),
-                camera_error_hide: function(){
-                    user_actions.$camera_error.fadeOut();
-                }
-            },
-            youarehere_hammer,
-            toggle_map_key = function(event){
-                var $map_key = $("#map-key");
-                $map_key.toggle();
-                return false;
-            },
-            $html = $("html");
-
-        $html.bind("doc:geolocation:failure", geolocation_failure);
-        $html.bind("doc:geolocation:success", geolocation_success);
-        window.map_details = map_details;
-        
-        $("#weta").fastPress(window.toggle_popover);
-        $("#map .location").fastPress(window.toggle_popover);
-        $("#take-photo").fastPress(user_actions.take_photo);
-        $("#photo-preview").fastPress(user_actions.hide_user_photo);
-        $("#toggle-map-key, #map-key").fastPress(toggle_map_key);
-        $("#youarehere, #no_gps").fastPress(user_actions.panel_toggle);
-        user_actions.initialize_user_photos();
-        user_actions.$camera_error.fastPress(user_actions.camera_error_hide);
-
-    };
-
-    window.pageload(map_init, "/map-");
-}(jQuery));/* END OF map.js */
 
 /* BEGINNING OF modal.js */
 /*global navigator document*/
@@ -1643,9 +1638,6 @@ if(!(window.console && console.log)) {
             modal_id = "modal_" + this_id,
             $modal = $("#" + modal_id);
 
-        // Disable back button in Android
-        document.addEventListener("backbutton", window.back_key_override, false);
-
         if($modal.length === 0) {
             $modal = $("<div/>").addClass("modal hide fade popover-modal").attr("id", modal_id);
             $body.append($modal);
@@ -1708,11 +1700,6 @@ if(!(window.console && console.log)) {
         }
     };
 
-    window.back_key_override = function() {
-        $(".modal-backdrop").trigger('click');
-        document.removeEventListener("backbutton", window.back_key_override, false);
-    }
-
     window.pageload(popover_init);
 
     // override back button behaviour for app
@@ -1720,6 +1707,11 @@ if(!(window.console && console.log)) {
         // if modal present, close modal only
         if( $(".modal-backdrop").length ) {
             $(".modal-backdrop").trigger('click');
+            return;
+        }
+
+        if ( $('#show_slideout_navigation').length && $('#show_slideout_navigation').attr("checked") === 'checked' ) {
+            $('#show_slideout_navigation').attr("checked", false);
             return;
         }
 
