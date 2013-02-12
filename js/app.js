@@ -48,190 +48,6 @@
     window.pageload(pageload_init);
 }(jQuery));/* END OF pageload.js */
 
-/* BEGINNING OF navbar.js */
-/*
- * Handles the navbars (including the bottom one, if it's there)
- */
-(function($){
-	"use strict";
-	var navbar_init = function(){
-		var $navbar_social = $("#share-social a"),
-			$page1 = $("#page1"),
-			$show_slideout_navigation = $("#show_slideout_navigation"),
-			$wrapper = $("#wrapper"),
-			reset_width_height = {"width": "auto", "height": "auto"},
-			page_change = function(event){
-				$page1.find(".social-links").hide();
-				$show_slideout_navigation.attr("checked", false);
-				$wrapper.css(reset_width_height);
-			},
-			$html = $("html").bind("doc:page-change", page_change);
-
-		$navbar_social.fastPress(function(){
-			$page1.find(".social-links").toggle(); // don't cache jQuery selector because it's loaded in/out all the time
-			return false;
-		});
-
-		$("#show_slideout_navigation").change(function(event){
-			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
-			var $this = $(this),
-				$logo;
-			if($(window).height() > 400 && $(window).width() > 400) return;
-			$logo = $("#logo");
-			if($this.is(":checked")) {
-				$logo.hide();
-			} else {
-				$logo.show();
-			}
-		});
-	};
-    window.pageload(navbar_init);
-}(jQuery));/* END OF navbar.js */
-
-/* BEGINNING OF maps.js */
-/*global alert nz_map_dimensions console*/
-(function($){
-    "use strict";
-    var $wrapper,
-        $new_zealand_map_wrapper,
-        $new_zealand_map_img,
-        text_sizes = ["size800", "size700", "size600", "size500", "size400", "size300", "size200", "size100"],
-        $window,
-
-        adjust_maps_height = function(event){
-            var available_width = $window.width(),
-                available_height = $window.height(),
-                offset = $new_zealand_map_img.offset(),
-                remaining_height = available_height - offset.top,
-                fixed_dimension = (available_width / remaining_height < nz_map_dimensions.ratio) ? "width" : "height",
-                target_dimensions = {width:undefined, height:undefined};
-
-            if(fixed_dimension === "width") {
-                target_dimensions.width = available_width;
-                target_dimensions.height = target_dimensions.width / nz_map_dimensions.ratio;
-            } else {
-                target_dimensions.height = remaining_height - 10;
-                target_dimensions.width = target_dimensions.height * nz_map_dimensions.ratio;
-            }
-            if(target_dimensions.width > nz_map_dimensions.width) {
-                target_dimensions.width = nz_map_dimensions.width;
-                nz_map_dimensions.height = nz_map_dimensions.height;
-            }
-            $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
-            $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
-            target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
-            if(target_dimensions.chosen_text_size > 800) {
-                target_dimensions.chosen_text_size = 800;
-            } else if(target_dimensions.chosen_text_size < 100) {
-                target_dimensions.chosen_text_size = 100;
-            }
-            $new_zealand_map_wrapper
-                .addClass("size" + target_dimensions.chosen_text_size)
-                .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
-            $wrapper.width(available_width).height(remaining_height);
-            //$("#debug").text("size" + target_dimensions.chosen_text_size);
-            $new_zealand_map_wrapper.show();
-        },
-        maps_init = function(event){
-            $window = $(window);
-            $wrapper = $("#wrapper");
-            $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
-            $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
-            $window.bind("resize orientationchange", adjust_maps_height);
-            adjust_maps_height();
-            setTimeout(adjust_maps_height, 200);
-        };
-
-    window.pageload(maps_init, "/maps.html");
-}(jQuery));
-
-/* END OF maps.js */
-
-/* BEGINNING OF fast-press.js */
-/* globals window Modernizr Hammer */
-/* Simple click wrapper */
-(function($){
-    var hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
-        },
-        $wrapper,
-        $html,
-        $html_title,
-        $body,
-        $page_contents_wrapper_page1,
-        $page_contents_wrapper_page2,
-        modernizr_touch = Modernizr.touch,
-        fastPress_hyperlink = function(event){
-            var $this = $(this),
-                this_href = $this.attr("href");
-            
-            //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
-            if(!this_href || this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
-                return true;
-            }
-
-            if(navigator.userAgent.match(/Android/i)) {
-               return true;
-            }
-
-            window.hide_all_popovers();
-            
-            $.get(this_href, function(new_page, textStatus, jqXHR){
-                var title = new_page.replace(/^[\s\S]*<title(.*?)>|<\/title>[\s\S]*$/g, ''),
-                    $new_page,
-                    $new_page_contents;
-
-                new_page = new_page
-                        .replace(/^[\s\S]*<body(.*?)>/g, '<div$1>')
-                        .replace(/<\/body>[\s\S]*$/g, '</div>'); // jQuery can't parse entire pages http://stackoverflow.com/a/12848798
-                $new_page = $(new_page);
-                $new_page_contents = $("#page1", $new_page).contents();
-                
-                if($new_page_contents.length > 0) {
-                    $html_title.text("*" + title);
-                    $body.attr("class", $new_page.attr("class"));
-                    $page_contents_wrapper_page1.html($new_page_contents);
-                    if(window.history.pushState) window.history.pushState("", title, this_href);
-                    $html.trigger("doc:page-change", this_href);
-                } else { //there's an error, try to handle it gracefully by just going to the page
-                    window.location = window.location.toString()
-                        .substr(
-                            0,
-                            window.location.toString().lastIndexOf("/") + 1) +
-                        this_href;
-                }
-            });
-            return false;
-        },
-        fast_press_init = function(event){
-            var listen_on = modernizr_touch ? "touchstart" : "click";
-            $wrapper = $("#wrapper");
-            $body = $("body");
-            $html = $("html");
-            $html_title = $("title");
-            $page_contents_wrapper_page1 = $("#page1");
-            $page_contents_wrapper_page2 = $("#page2");
-            $body.on(listen_on, "a", fastPress_hyperlink);
-        };
-    $.prototype.fastPress = function(callback){
-        if(callback === undefined) {
-            if(modernizr_touch) {
-                return this.trigger('touchstart');
-            }
-            return this.trigger('click');
-        }
-        if(modernizr_touch) {
-            this.hammer(hammer_defaults).bind('touchstart', callback);
-            return this;
-        }
-        return this.click(callback);
-    };
-    window.pageload(fast_press_init);
-}(jQuery));
-/* END OF fast-press.js */
-
 /* BEGINNING OF console.js */
 // Avoid `console` errors in browsers that lack a console.
 if(!(window.console && console.log)) {
@@ -245,6 +61,163 @@ if(!(window.console && console.log)) {
         }
     }());
 };/* END OF console.js */
+
+/* BEGINNING OF find-an-adventure.js */
+/*globals alert Modernizr window navigator document setTimeout clearTimeout*/
+(function($){
+    "use strict";
+    
+    var find_init = function(){
+        var close_modal_timer,
+            $last_modal,
+            delete_any_modal_backdrops = function(){
+                $(".modal-backdrop").remove();
+            };
+        $(".resetFinder").click(function(event){
+            $(".modal .active").removeClass("active");
+            $("#no-results").hide();
+            $("#results").hide();
+        }),
+        
+        $(".modal").on("click", "a", function(event){
+            var $this = $(this),
+                $list_item = $this.closest("li"),
+                $modal = $this.closest(".modal"),
+                modal_id = $modal.attr("id"),
+                $results = $("#results"),
+                $no_results = $("#no-results"),
+                $results_search = $results.find("li"),
+                $modals = $(".modal"),
+                $warning_one_two_days = $("#warning-1-2-days");
+            $last_modal = $modal;
+            if(modal_id === "where" || modal_id === "time") {
+                $list_item.toggleClass("active").siblings().removeClass("active");
+            } else if($modal.is("#see")) {
+                $list_item.toggleClass("active");
+            }
+            $modal.modal('hide');
+
+            if(close_modal_timer) {
+                clearTimeout(close_modal_timer);
+            }
+            close_modal_timer = setTimeout(delete_any_modal_backdrops, 250);
+            
+            $results_search.show();
+            $warning_one_two_days.hide();
+            $modals.each(function(index){
+                var $modal = $(this),
+                    modal_id = $modal.attr("id"),
+                    $active_selections = $modal.find(".active");
+
+                $active_selections.each(function(){
+                    var $active_selection = $(this),
+                        active_selection_id = $active_selection.attr("id"),
+                        selector = "." + active_selection_id;
+                    $results_search.not(selector).hide();
+                    $results_search = $results_search.filter(selector);
+                    if(active_selection_id === "time-1-2-days") {
+                        $warning_one_two_days.show();
+                    }
+                });
+            });
+            
+            if($results_search.length > 0) {
+                $results.show();
+                $no_results.hide();
+            } else {
+                $results.hide();
+                $no_results.show();
+            }
+            event.preventDefault();
+        });
+    };
+
+    window.pageload(find_init, "/find-an-adventure.html");
+}(jQuery));
+/* END OF find-an-adventure.js */
+
+/* BEGINNING OF walk.js */
+/*global navigator document alert console */
+(function($){
+    "use strict";
+
+    var walk_init = function(){
+        var $dont_miss = $(".dont-miss"),
+            $shadow = $dont_miss.find(".shadow"),
+            is_shadowed = false,
+            $current_dont_miss,
+            disable_all_dont_miss = function(event){
+                is_shadowed = false;
+                if($current_dont_miss !== undefined) {
+                    $current_dont_miss.css("z-index", "auto");
+                    window.hide_all_popovers.apply($current_dont_miss);
+                    $current_dont_miss = undefined;
+                }
+                $shadow.removeClass("shadow-visible");
+            },
+            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
+
+        $('#carousel').carousel();
+
+        $("body").on("click", ".audio", function(event){
+            var $this = $(this),
+                audio_path,
+                media_player;
+            if(window.Media) { //use Phonegap-style audio
+               var  onSuccess = function(){},
+                    onError = function onError(error) {
+                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
+                    };
+                audio_path = $this.data('audio');
+                if ( navigator.userAgent.match(/android/i) ) {
+                    audio_path = "/android_asset/www/" + $this.data("audio");
+                }
+                media_player = new window.Media(audio_path, onSuccess, onError);
+                media_player.play();
+            } else {// Use HTML5 Audio approach
+                var $audio = $("audio"),
+                    audio_element;
+                audio_path = $this.data("audio");
+                if($audio.length === 0) {
+                    $audio = $("<audio/>").attr("src", audio_path);
+                    $("body").append($audio);
+                } else {
+                    $audio.attr("src", audio_path);
+                }
+                audio_element = $audio.get(0);
+                audio_element.load();
+                audio_element.play();
+            }
+        });
+        $(".walk-detail-header a").fastPress(function(){
+            $(this).parent().toggleClass("open").next(".walk-detail").toggleClass('expanded');
+            return false;
+        });
+        $(".dont-miss a").fastPress();
+        
+        
+        $("a.icon").click(window.toggle_popover);
+
+        $dont_miss.find("a").click(function(){
+            var $this = $(this);
+            if(is_shadowed) {
+                disable_all_dont_miss();
+            } else {
+                $current_dont_miss = $this;
+                $current_dont_miss.css("z-index", "3");
+                $shadow.addClass("shadow-visible");
+                is_shadowed = true;
+                window.show_popover.apply($current_dont_miss);
+            }
+            return false;
+        });
+
+        $shadow.click(disable_all_dont_miss);
+    };
+
+    window.pageload(walk_init, "/walk-");
+}(jQuery));
+/* END OF walk.js */
 
 /* BEGINNING OF map.js */
 /*globals map_details maps_details difference_between_positions_in_kilometers format_distance geolocation position_expires_after_milliseconds Modernizr Camera alert*/
@@ -518,206 +491,66 @@ if(!(window.console && console.log)) {
     window.pageload(map_init, "/map-");
 }(jQuery));/* END OF map.js */
 
-/* BEGINNING OF walk.js */
-/*global navigator document alert console */
+/* BEGINNING OF visitor-centre.js */
+/*globals window localStorage JSON geolocation navigator */
 (function($){
     "use strict";
-
-    var walk_init = function(){
-        var $dont_miss = $(".dont-miss"),
-            $shadow = $dont_miss.find(".shadow"),
-            is_shadowed = false,
-            $current_dont_miss,
-            disable_all_dont_miss = function(event){
-                is_shadowed = false;
-                if($current_dont_miss !== undefined) {
-                    $current_dont_miss.css("z-index", "auto");
-                    window.hide_all_popovers.apply($current_dont_miss);
-                    $current_dont_miss = undefined;
-                }
-                $shadow.removeClass("shadow-visible");
-            },
-            $html = $("html").bind("popover-click close-modal", disable_all_dont_miss);
-
-        $('#carousel').carousel();
-
-        // Disable back button in Android - window.onBackKey defined in popover.js
-        $('#carousel').on('click', 'a', function() {
-            document.addEventListener("backbutton", window.back_key_override, false);
-        });
-
-        $("body").on("click", ".audio", function(event){
-            var $this = $(this),
-                audio_path,
-                media_player;
-            if(window.Media) { //use Phonegap-style audio
-               var  onSuccess = function(){},
-                    onError = function onError(error) {
-                        console.log('AUDIO ERROR code: '    + error.code    + '\nmessage: ' + error.message + '\n');
-                    };
-                audio_path = $this.data('audio');
-                if ( navigator.userAgent.match(/android/i) ) {
-                    audio_path = "/android_asset/www/" + $this.data("audio");
-                }
-                media_player = new window.Media(audio_path, onSuccess, onError);
-                media_player.play();
-            } else {// Use HTML5 Audio approach
-                var $audio = $("audio"),
-                    audio_element;
-                audio_path = $this.data("audio");
-                if($audio.length === 0) {
-                    $audio = $("<audio/>").attr("src", audio_path);
-                    $("body").append($audio);
-                } else {
-                    $audio.attr("src", audio_path);
-                }
-                audio_element = $audio.get(0);
-                audio_element.load();
-                audio_element.play();
-            }
-        });
-        $(".walk-detail-header a").fastPress(function(){
-            $(this).parent().toggleClass("open").next(".walk-detail").toggleClass('expanded');
-            return false;
-        });
-        $(".dont-miss a").fastPress();
-        
-        
-        $("a.icon").click(window.toggle_popover);
-
-        $dont_miss.find("a").click(function(){
-            var $this = $(this);
-            if(is_shadowed) {
-                disable_all_dont_miss();
-            } else {
-                $current_dont_miss = $this;
-                $current_dont_miss.css("z-index", "3");
-                $shadow.addClass("shadow-visible");
-                is_shadowed = true;
-                window.show_popover.apply($current_dont_miss);
-            }
-            return false;
-        });
-
-        $shadow.click(disable_all_dont_miss);
-    };
-
-    window.pageload(walk_init, "/walk-");
-}(jQuery));
-/* END OF walk.js */
-
-/* BEGINNING OF find-an-adventure.js */
-/*globals alert Modernizr window navigator document setTimeout clearTimeout*/
-(function($){
-    "use strict";
-    
-    var find_init = function(){
-        var close_modal_timer,
-            $last_modal,
-            delete_any_modal_backdrops = function(){
-                $(".modal-backdrop").remove();
-            };
-        $(".resetFinder").click(function(event){
-            $(".modal .active").removeClass("active");
-            $("#no-results").hide();
-            $("#results").hide();
-        }),
-        
-        $(".modal").on("click", "a", function(event){
-            var $this = $(this),
-                $list_item = $this.closest("li"),
-                $modal = $this.closest(".modal"),
-                modal_id = $modal.attr("id"),
-                $results = $("#results"),
-                $no_results = $("#no-results"),
-                $results_search = $results.find("li"),
-                $modals = $(".modal"),
-                $warning_one_two_days = $("#warning-1-2-days");
-            $last_modal = $modal;
-            if(modal_id === "where" || modal_id === "time") {
-                $list_item.toggleClass("active").siblings().removeClass("active");
-            } else if($modal.is("#see")) {
-                $list_item.toggleClass("active");
-            }
-            $modal.modal('hide');
-
-            if(close_modal_timer) {
-                clearTimeout(close_modal_timer);
-            }
-            close_modal_timer = setTimeout(delete_any_modal_backdrops, 250);
-            
-            $results_search.show();
-            $warning_one_two_days.hide();
-            $modals.each(function(index){
-                var $modal = $(this),
-                    modal_id = $modal.attr("id"),
-                    $active_selections = $modal.find(".active");
-
-                $active_selections.each(function(){
-                    var $active_selection = $(this),
-                        active_selection_id = $active_selection.attr("id"),
-                        selector = "." + active_selection_id;
-                    $results_search.not(selector).hide();
-                    $results_search = $results_search.filter(selector);
-                    if(active_selection_id === "time-1-2-days") {
-                        $warning_one_two_days.show();
-                    }
-                });
-            });
-            
-            if($results_search.length > 0) {
-                $results.show();
-                $no_results.hide();
-            } else {
-                $results.hide();
-                $no_results.show();
-            }
-            event.preventDefault();
-        });
-    };
-
-    window.pageload(find_init, "/find-an-adventure.html");
-}(jQuery));
-/* END OF find-an-adventure.js */
-
-/* BEGINNING OF online-offline.js */
-/*globals Connection */
-/*
- * Responsible for making changes to pages based on whether the device is online or offline
- */
-(function($){
-    "use strict";
-    var going_online_offline_init = function(){
-            document.addEventListener("online", going_online, false);
-            document.addEventListener("offline", going_offline, false);
-            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
-                going_offline();
-            } else { //either we're online or the browser can't tell us if it's online, so assume online
-                going_online();
-            }
+    var one_second_in_milliseconds = 1000,
+        geolocation_watchId,
+        geolocation_key = "geolocation-last-known-position",
+        last_known_position_json = localStorage[geolocation_key],
+        geolocationSettings = {
+            maximumAge:600000,
+            enableHighAccuracy: true,
+            timeout: one_second_in_milliseconds * 15
         },
-       going_online = function(){
-            $("#share-social").show();
+        $locations,
+        $visitor_centres_list,
+        geolocation_success = function(event, position){
+            var locations;
             /*
-            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
-            $(".youtube").each(function(){
-                var $this = $(this),
-                    youtube_id = $this.data("youtube-id");
-                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
-                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
-            });
+            Latitude:          position.coords.latitude
+            Longitude:         position.coords.longitude
+            Altitude:          position.coords.altitude
+            Accuracy:          position.coords.accuracy
+            Altitude Accuracy: position.coords.altitudeAccuracy
+            Heading:           position.coords.heading
+            Speed:             position.coords.speed
             */
-        },
-       going_offline = function(){
-            $("#share-social").hide();
-            $(".youtube").each(function(){
-                var $this = $(this);
-                $this.empty();
+            $locations.each(function(){
+                var $this = $(this),
+                    location_coords = {
+                        "longitude": $this.data("longitude"),
+                        "latitude": $this.data("latitude")
+                    },
+                    distance_away = window.difference_between_positions_in_kilometers(position.coords.latitude, position.coords.longitude, location_coords.latitude, location_coords.longitude);
+                $this.find(".distance_away").text(distance_away);
+                $this.data("distance-away", distance_away);
             });
+
+            locations = $locations.get();
+            locations.sort(function(a,b){
+                var $a = $(a),
+                    $b = $(b),
+                    a_distance_away = $a.data("distance-away"),
+                    b_distance_away = $b.data("distance-away");
+                if(a_distance_away > b_distance_away) return 1;
+                if(a_distance_away < b_distance_away) return -1;
+                return 0;
+            });
+            $.each(locations, function(index, item){
+                $visitor_centres_list.append(item);
+            });
+        },
+        visitor_centre_init = function(){
+            $locations = $(".visitor-centre-location");
+            $visitor_centres_list = $("#visitor-centres-list");
+            
+            $("html").bind("doc:geolocation:success", geolocation_success);
         };
     
-    window.pageload(going_online_offline_init);
-}(jQuery));/* END OF online-offline.js */
+    window.pageload(visitor_centre_init, "visitor-centre.html");
+}(jQuery));/* END OF visitor-centre.js */
 
 /* BEGINNING OF helper.js */
 /**
@@ -1054,453 +887,6 @@ if(!(window.console && console.log)) {
     };
 })(document);/* END OF helper.js */
 
-/* BEGINNING OF modal.js */
-/*global navigator document*/
-(function($){
-    "use strict";
-    var modal_init = function(event){
-        /*
-        Making changes to Bootstrap Modals?
-        Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
-        AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
-        */
-        var $body = $("body"),
-            $html = $("html");
-        $(".modal").appendTo("body");
-        $body.on("click", ".modal", function(){
-            $(this).modal("hide");
-            $html.trigger("close-modal");
-        });
-        $body.on("click", ".modal-backdrop", function(){
-           $html.trigger("close-modal");
-        });
-    };
-    window.pageload(modal_init);
-}(jQuery));/* END OF modal.js */
-
-/* BEGINNING OF offers.js */
-(function($){
-    "use strict";
-    var make_blank = function() {
-        if ( navigator.userAgent.match(/iphone|ipad|ipod/i) ) {
-            $('ul.banners li a, div.offers li a').attr('target', "_blank");
-        }
-    };
-
-    window.pageload(make_blank, '/offers');
-    window.pageload(make_blank, '/walk-');
-
-    // use childbrowser library to open offer links within app
-
-    $('a.offer-link').click(function() {
-        window.plugins.childBrowser.showWebPage($(this).attr('href'), { showLocationBar: false });
-        return false;
-    });
-}(jQuery));
-/* END OF offers.js */
-
-/* BEGINNING OF info.js */
-/*globals window localStorage JSON geolocation navigator */
-(function($){
-    "use strict";
-    var one_second_in_milliseconds = 1000,
-        $report_error,
-        report_error_template = "mailto:greatwalks@doc.govt.nz?subject=Issue on Great Walks track- please fix&body=The issue is near {{Latitude}}/{{Longitude}} (Lat/Long)",
-        geolocation_success = function(event, position){
-            $report_error.attr("href", report_error_template
-                .replace(/\{\{Longitude\}\}/, position.coords.longitude)
-                .replace(/\{\{Latitude\}\}/, position.coords.latitude)
-            );
-        },
-        info_init = function(){
-            $report_error = $(".report_error");
-            $("html").bind("doc:geolocation:success", geolocation_success);
-        };
-    window.pageload(info_init, "/info.html");
-}(jQuery));/* END OF info.js */
-
-/* BEGINNING OF map--zoom.js */
-/*globals window map_details */
-/* ===========================================================
- * map.js v1
- * Developed at Department of Conservation by Matthew Holloway
- * <matth@catalyst.net.nz>
- * -----------------------------------------------------------
- *
- * Provides maps with pinchzoom, drag scrolling etc with popups.
- *
- * ========================================================== */
-(function($){
-    "use strict";
-    
-    var drag_offset = {base_x:0,base_y:0,x:0,y:0},
-        map__zoom_init = function(event){
-            //based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
-            var $window = $(window),
-                map_id = $("#map_id").text(),
-                map_details = window.maps_details[map_id],
-                window_width = $window.width(),
-                window_height = $window.height(),
-                $image = $("#map"),
-                $youarehere_offmap = $("#youarehere").find(".offmap"),
-                hammer,
-                height,
-                offset,
-                screenOffset,
-                origin,
-                prevScale,
-                scale = map_details.map_initial_scale,
-                translate,
-                width,
-                screenOrigin,
-                touch_position = {width:undefined, height: undefined},
-                $locations = $(".location"),
-                redraw = function(){
-                    var map_transform,
-                        icon_scale,
-                        css;
-                    if(scale < 0.1) {
-                        scale = 0.1;
-                    } else if(scale > 3) {
-                        scale = 3;
-                    }
-                    map_transform = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
-                    css = {'-webkit-transform': map_transform};
-
-                    //if(touch_position.cssOrigin) {
-                    //    css['-webkit-transform-origin'] = touch_position.cssOrigin;
-                    //}
-                    $image.css(css);
-
-                    // Want to scale icons independently of the map? Enable this.
-                    // icon_scale = (1 / scale) * 30;
-                    // if(icon_scale > 50) {
-                    //    icon_scale = 50;
-                    // }
-                    //$locations.width(icon_scale).height(icon_scale);
-                    //$youarehere_offmap.css("fontSize", (icon_scale / 2) + "px");
-                    window.hide_all_popovers();
-                },
-                no_touch_zoom_init = function(){
-                    var $no_touch_zoom = $("#no-touch-zoom"),
-                        $zoom_out = $no_touch_zoom.find("a.zoom-out"),
-                        $zoom_in = $no_touch_zoom.find("a.zoom-in");
-                    $zoom_out.click(function(event){
-                        scale -= 0.1;
-                        redraw();
-                    });
-                    $zoom_in.click(function(event){
-                        scale += 0.1;
-                        redraw();
-                    });
-                    $("#no-touch-zoom").show();
-                };
-            
-            window.map_details = map_details;
-
-            if(window.Modernizr && !window.Modernizr.touch) {
-                no_touch_zoom_init();
-            }
-
-            offset = $image.offset();
-
-            $image.css({
-                "left": ((-map_details.map_pixel_width / 2) + (window_width / 2)) + "px",
-                "top": ((-map_details.map_pixel_height / 2) + ($window.height() / 2) - $("#logo").height() ) + "px"
-            });
-
-            scale = (window_width - 50) / map_details.map_pixel_width; //ensure that the map is sized for the device width...
-            if(scale * map_details.map_pixel_height > window_height) { //..unless that's still too high, in which case scale for height
-                scale = (window_height - 50) / map_details.map_pixel_height;
-            }
-
-            redraw();
-
-            $image.show();
-
-            width = $image.width();
-            height = $image.height();
-            
-            screenOrigin = {
-                x: 0,
-                y: 0
-            };
-            origin = {
-                x: 0,
-                y: 0
-            };
-            translate = {
-                x: 0,
-                y: 0
-            };
-            screenOffset = {
-                x: 0,
-                y: 0
-            };
-
-            prevScale = scale;
-
-            hammer = $image.hammer({
-                prevent_default: true,
-                scale_treshold: 0,
-                drag_min_distance: 0
-            });
-
-            hammer.bind('dragend', function(event) {
-                drag_offset.base_x = drag_offset.x;
-                drag_offset.base_y = drag_offset.y;
-                redraw();
-            });
-
-            hammer.bind('drag', function(event) {
-                drag_offset.x = drag_offset.base_x + event.distanceX;
-                drag_offset.y = drag_offset.base_y + event.distanceY;
-                //$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
-                redraw();
-            });
-
-            hammer.bind('transformstart', function(event) {
-                screenOrigin.x = (event.originalEvent.touches[0].clientX + event.originalEvent.touches[1].clientX) / 2;
-                return screenOrigin.y = (event.originalEvent.touches[0].clientY + event.originalEvent.touches[1].clientY) / 2;
-            });
-
-            hammer.bind('transform', function(event) {
-                var newHeight,
-                    newWidth;
-                    //offset = $image.offset();
-                scale = prevScale * event.scale;
-                
-                //touch_position.width = event.position.width / scale;
-                //touch_position.height = event.position.height / scale;
-                //touch_position.x = event.position.x;
-                //touch_position.y = event.position.y;
-                //touch_position.cssOrigin = touch_position.x + "px " + touch_position.y +"px";
-                //$image.find("#transform-origin-debug").css({top: touch_position.x + "px", "left": touch_position.y +"px"});
-                //console.log(JSON.stringify(event.touches));
-                newWidth = $image.width() * scale;
-                newHeight = $image.height() * scale;
-
-                origin.x = screenOrigin.x - offset.left - translate.x;
-                origin.y = screenOrigin.y - offset.top - translate.y;
-
-                translate.x += -origin.x * (newWidth - width) / newWidth;
-                translate.y += -origin.y * (newHeight - height) / newHeight;
-
-                //$image.css('-webkit-transform', "translate3d(" + drag_offset.x + "px, " + drag_offset.y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)");
-                redraw();
-                width = newWidth;
-
-                return height = newHeight;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
-            });
-
-            hammer.bind('transformend', function(event) {
-                return prevScale = scale;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
-            });
-        };
-
-    window.pageload(map__zoom_init, "/map-");
-}(jQuery));/* END OF map--zoom.js */
-
-/* BEGINNING OF geolocation.js */
-/* globals window Modernizr Hammer */
-/* Geolocation */
-(function($){
-    var $html,
-        one_second_in_milliseconds = 1000,
-        geo = {
-            watch_id: undefined,
-            settings: {
-                maximumAge:600000,
-                enableHighAccuracy: true,
-                timeout: one_second_in_milliseconds * 15
-            },
-            timer: undefined,
-            last_known_position: undefined,
-            localStorage_position_cache_key: "geolocation-last-known-position",
-            trigger_frequency_milliseconds: 2000,
-            trigger_update: function(){
-                if(geo.last_known_position === undefined) return;
-                $html.trigger("doc:geolocation:success", geo.last_known_position);
-                geo.timer = setTimeout(geo.trigger_update, geo.trigger_frequency_milliseconds);
-            },
-            init: function(){
-                $html = $("html");
-                var last_known_position_json = localStorage[geo.localStorage_position_cache_key];
-                    
-                if(last_known_position_json !== undefined) {
-                    geo.last_known_position = JSON.parse(last_known_position_json);
-                    current_time_in_epoch_milliseconds = (new Date()).getTime();
-                    $html.trigger("doc:geolocation:success", geo.last_known_position);
-                }
-
-                if (navigator.geolocation) {
-                    geo.watch_id = navigator.geolocation.watchPosition(geo.success, geo.failure, geo.settings);
-                } else {
-                    geo.error();
-                }
-
-                if(geo.timer){
-                    clearTimeout(geo.timer);
-                }
-                geo.timer = setTimeout(geo.trigger_update, geo.trigger_frequency_milliseconds);
-            },
-            success: function(position){
-                $html.trigger("doc:geolocation:success", position);
-                geo.last_known_position = position;
-                localStorage[geo.localStorage_position_cache_key] = JSON.stringify(position);
-            },
-            error: function(msg){
-                try{
-                    geolocation.clearWatch(geolocationWatchId);
-                } catch(exception){
-                }
-                if(geo.settings.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
-                    geo.settings.enableHighAccuracy = false;
-                    geo.watch_id = navigator.geolocation.watchPosition(geo.success, geo.error, geo.settings);
-                } else {
-                    $html.trigger("doc:geolocation:failure");
-                }
-            }
-        };
-    window.pageload(geo.init);
-    window.geolocation_get_settings = function(){
-        return geo.settings;
-    };
-    window.geolocation_get_last_position = function(){
-        return geo.last_known_position;
-    };
-}(jQuery));/* END OF geolocation.js */
-
-/* BEGINNING OF visitor-centre.js */
-/*globals window localStorage JSON geolocation navigator */
-(function($){
-    "use strict";
-    var one_second_in_milliseconds = 1000,
-        geolocation_watchId,
-        geolocation_key = "geolocation-last-known-position",
-        last_known_position_json = localStorage[geolocation_key],
-        geolocationSettings = {
-            maximumAge:600000,
-            enableHighAccuracy: true,
-            timeout: one_second_in_milliseconds * 15
-        },
-        $locations,
-        $visitor_centres_list,
-        geolocation_success = function(event, position){
-            var locations;
-            /*
-            Latitude:          position.coords.latitude
-            Longitude:         position.coords.longitude
-            Altitude:          position.coords.altitude
-            Accuracy:          position.coords.accuracy
-            Altitude Accuracy: position.coords.altitudeAccuracy
-            Heading:           position.coords.heading
-            Speed:             position.coords.speed
-            */
-            $locations.each(function(){
-                var $this = $(this),
-                    location_coords = {
-                        "longitude": $this.data("longitude"),
-                        "latitude": $this.data("latitude")
-                    },
-                    distance_away = window.difference_between_positions_in_kilometers(position.coords.latitude, position.coords.longitude, location_coords.latitude, location_coords.longitude);
-                $this.find(".distance_away").text(distance_away);
-                $this.data("distance-away", distance_away);
-            });
-
-            locations = $locations.get();
-            locations.sort(function(a,b){
-                var $a = $(a),
-                    $b = $(b),
-                    a_distance_away = $a.data("distance-away"),
-                    b_distance_away = $b.data("distance-away");
-                if(a_distance_away > b_distance_away) return 1;
-                if(a_distance_away < b_distance_away) return -1;
-                return 0;
-            });
-            $.each(locations, function(index, item){
-                $visitor_centres_list.append(item);
-            });
-        },
-        visitor_centre_init = function(){
-            $locations = $(".visitor-centre-location");
-            $visitor_centres_list = $("#visitor-centres-list");
-            
-            $("html").bind("doc:geolocation:success", geolocation_success);
-        };
-    
-    window.pageload(visitor_centre_init, "visitor-centre.html");
-}(jQuery));/* END OF visitor-centre.js */
-
-/* BEGINNING OF index.js */
-/*globals alert Modernizr*/
-(function($){
-    "use strict";
-    if(window.location.pathname.substr(-1, 1) === "/") {
-        window.location = window.location.pathname + "index.html";
-    }
-    
-    var $carousel,
-        $carousel_items,
-        $navbar_bottom,
-        $navbar_top,
-        hammer_defaults = {
-            prevent_default: true,
-            scale_treshold: 0,
-            drag_min_distance: 0
-        },
-        drag_distanceX_threshold = 10,
-        drag_distanceX,
-        drag_carousel = function(event){
-            drag_distanceX = event.distanceX;
-        },
-        slideout_navigation_animation_delay_milliseconds = 200,
-        slideout_navigation_animation_timer,
-        dragend_carousel = function(event){
-            if(drag_distanceX === undefined) return;
-            if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
-            if(drag_distanceX > 0) {
-                $carousel.carousel('prev');
-            } else {
-                $carousel.carousel('next');
-            }
-            drag_distanceX = undefined;
-        },
-        adjust_carousel_height = function(event){
-            var $window = $(window),
-                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 0,
-                width = $window.width() + 1;
-            if(height > 0) {
-                $carousel.height(height);
-                $carousel_items.height(height);
-            }
-        },
-        index_init = function(event){
-            $carousel = $('#carousel').carousel();
-            $carousel_items = $carousel.find(".item");
-            $navbar_bottom = $(".navbar-fixed-bottom");
-            $navbar_top = $(".navbar-fixed-top");
-            $(window).bind("resize orientationchange", adjust_carousel_height);
-            $("#show_slideout_navigation").change(function(){
-                if(slideout_navigation_animation_timer){
-                    clearTimeout(slideout_navigation_animation_timer);
-                }
-                slideout_navigation_animation_timer = setTimeout(adjust_carousel_height, slideout_navigation_animation_delay_milliseconds);
-            });
-            adjust_carousel_height();
-            if(!Modernizr.touch) {
-                $carousel.find(".carousel-control").show();
-            }
-            $carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
-            $carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
-
-
-        };
-    window.pageload(index_init, "/index.html");
-}(jQuery));
-
-/* END OF index.js */
-
 /* BEGINNING OF popover.js */
 /*
  * Wrapper for Bootstrap's PopOver
@@ -1629,9 +1015,6 @@ if(!(window.console && console.log)) {
             modal_id = "modal_" + this_id,
             $modal = $("#" + modal_id);
 
-        // Disable back button in Android
-        document.addEventListener("backbutton", window.back_key_override, false);
-
         if($modal.length === 0) {
             $modal = $("<div/>").addClass("modal hide fade popover-modal").attr("id", modal_id);
             $body.append($modal);
@@ -1694,11 +1077,6 @@ if(!(window.console && console.log)) {
         }
     };
 
-    window.back_key_override = function() {
-        $(".modal-backdrop").trigger('click');
-        document.removeEventListener("backbutton", window.back_key_override, false);
-    }
-
     window.pageload(popover_init);
 
     // override back button behaviour for app
@@ -1706,6 +1084,11 @@ if(!(window.console && console.log)) {
         // if modal present, close modal only
         if( $(".modal-backdrop").length ) {
             $(".modal-backdrop").trigger('click');
+            return;
+        }
+
+        if ( $('#show_slideout_navigation').length && $('#show_slideout_navigation').attr("checked") === 'checked' ) {
+            $('#show_slideout_navigation').attr("checked", false);
             return;
         }
 
@@ -1726,4 +1109,627 @@ if(!(window.console && console.log)) {
     }
 }(jQuery));
 /* END OF popover.js */
+
+/* BEGINNING OF online-offline.js */
+/*globals Connection */
+/*
+ * Responsible for making changes to pages based on whether the device is online or offline
+ */
+(function($){
+    "use strict";
+    var going_online_offline_init = function(){
+            document.addEventListener("online", going_online, false);
+            document.addEventListener("offline", going_offline, false);
+            if(navigator.network && navigator.network.connection.type === Connection.NONE) {
+                going_offline();
+            } else { //either we're online or the browser can't tell us if it's online, so assume online
+                going_online();
+            }
+        },
+       going_online = function(){
+            $("#share-social").show();
+            /*
+            //Loss of connectivity crashes entire app. Disabling Youtube until we can find a proper fix for this.
+            $(".youtube").each(function(){
+                var $this = $(this),
+                    youtube_id = $this.data("youtube-id");
+                $this.html($('<iframe width="560" height="315" frameborder="0" allowfullscreen></iframe>')
+                    .attr("src", "http://www.youtube.com/embed/" + youtube_id));
+            });
+            */
+        },
+       going_offline = function(){
+            $("#share-social").hide();
+            $(".youtube").each(function(){
+                var $this = $(this);
+                $this.empty();
+            });
+        };
+    
+    window.pageload(going_online_offline_init);
+}(jQuery));/* END OF online-offline.js */
+
+/* BEGINNING OF fast-press.js */
+/* globals window Modernizr Hammer */
+/* Simple click wrapper */
+(function($){
+    var hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        },
+        $wrapper,
+        $html,
+        $html_title,
+        $body,
+        $page_contents_wrapper_page1,
+        $page_contents_wrapper_page2,
+        modernizr_touch = Modernizr.touch,
+        fastPress_hyperlink = function(event){
+            var $this = $(this),
+                this_href = $this.attr("href");
+            
+            //because #internal links aren't done 'fast' and neither are protocol links e.g. tel: http:// https://
+            if(!this_href || this_href.substr(0, 1) === "#" || this_href.indexOf(":") !== -1) {
+                return true;
+            }
+
+            if(navigator.userAgent.match(/Android/i)) {
+               return true;
+            }
+
+            window.hide_all_popovers();
+            
+            $.get(this_href, function(new_page, textStatus, jqXHR){
+                var title = new_page.replace(/^[\s\S]*<title(.*?)>|<\/title>[\s\S]*$/g, ''),
+                    $new_page,
+                    $new_page_contents;
+
+                new_page = new_page
+                        .replace(/^[\s\S]*<body(.*?)>/g, '<div$1>')
+                        .replace(/<\/body>[\s\S]*$/g, '</div>'); // jQuery can't parse entire pages http://stackoverflow.com/a/12848798
+                $new_page = $(new_page);
+                $new_page_contents = $("#page1", $new_page).contents();
+                
+                if($new_page_contents.length > 0) {
+                    $html_title.text("*" + title);
+                    $body.attr("class", $new_page.attr("class"));
+                    $page_contents_wrapper_page1.html($new_page_contents);
+                    if(window.history.pushState) window.history.pushState("", title, this_href);
+                    $html.trigger("doc:page-change", this_href);
+                } else { //there's an error, try to handle it gracefully by just going to the page
+                    window.location = window.location.toString()
+                        .substr(
+                            0,
+                            window.location.toString().lastIndexOf("/") + 1) +
+                        this_href;
+                }
+            });
+            return false;
+        },
+        fast_press_init = function(event){
+            var listen_on = modernizr_touch ? "touchstart" : "click";
+            $wrapper = $("#wrapper");
+            $body = $("body");
+            $html = $("html");
+            $html_title = $("title");
+            $page_contents_wrapper_page1 = $("#page1");
+            $page_contents_wrapper_page2 = $("#page2");
+            $body.on(listen_on, "a", fastPress_hyperlink);
+        };
+    $.prototype.fastPress = function(callback){
+        if(callback === undefined) {
+            if(modernizr_touch) {
+                return this.trigger('touchstart');
+            }
+            return this.trigger('click');
+        }
+        if(modernizr_touch) {
+            this.hammer(hammer_defaults).bind('touchstart', callback);
+            return this;
+        }
+        return this.click(callback);
+    };
+    window.pageload(fast_press_init);
+}(jQuery));
+/* END OF fast-press.js */
+
+/* BEGINNING OF map--zoom.js */
+/*globals window map_details */
+/* ===========================================================
+ * map.js v1
+ * Developed at Department of Conservation by Matthew Holloway
+ * <matth@catalyst.net.nz>
+ * -----------------------------------------------------------
+ *
+ * Provides maps with pinchzoom, drag scrolling etc with popups.
+ *
+ * ========================================================== */
+(function($){
+    "use strict";
+    
+    var drag_offset = {base_x:0,base_y:0,x:0,y:0},
+        map__zoom_init = function(event){
+            //based on code from http://eightmedia.github.com/hammer.js/zoom/index2.html
+            var $window = $(window),
+                map_id = $("#map_id").text(),
+                map_details = window.maps_details[map_id],
+                window_width = $window.width(),
+                window_height = $window.height(),
+                $image = $("#map"),
+                $youarehere_offmap = $("#youarehere").find(".offmap"),
+                hammer,
+                height,
+                offset,
+                screenOffset,
+                origin,
+                prevScale,
+                scale = map_details.map_initial_scale,
+                translate,
+                width,
+                screenOrigin,
+                touch_position = {width:undefined, height: undefined},
+                $locations = $(".location"),
+                redraw = function(){
+                    var map_transform,
+                        icon_scale,
+                        css;
+                    if(scale < 0.1) {
+                        scale = 0.1;
+                    } else if(scale > 3) {
+                        scale = 3;
+                    }
+
+                    // we apply a transform for android devices that support pinchzoom - > 2.3
+                    // default - catches iPhones
+                    var version = 3.0;
+
+                    if ( navigator.appVersion.match(/Android (\d+\.\d+)/) ) {
+                        version = parseFloat(navigator.appVersion.match(/Android (\d+\.\d+)/)[1]);
+                        map_transform = 'translate(' + drag_offset.x + 'px, ' + drag_offset.y + 'px)';
+                    }
+
+                    if ( version > 2.3 ) {
+                        map_transform = 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)';
+                    }
+
+                    css = {'-webkit-transform': map_transform};
+                    $image.css(css);
+
+                    //if(touch_position.cssOrigin) {
+                    //    css['-webkit-transform-origin'] = touch_position.cssOrigin;
+                    //}
+
+                    // Want to scale icons independently of the map? Enable this.
+                    // icon_scale = (1 / scale) * 30;
+                    // if(icon_scale > 50) {
+                    //    icon_scale = 50;
+                    // }
+                    //$locations.width(icon_scale).height(icon_scale);
+                    //$youarehere_offmap.css("fontSize", (icon_scale / 2) + "px");
+                    window.hide_all_popovers();
+                },
+                no_touch_zoom_init = function(){
+                    var $no_touch_zoom = $("#no-touch-zoom"),
+                        $zoom_out = $no_touch_zoom.find("a.zoom-out"),
+                        $zoom_in = $no_touch_zoom.find("a.zoom-in");
+                    $zoom_out.click(function(event){
+                        scale -= 0.1;
+                        redraw();
+                    });
+                    $zoom_in.click(function(event){
+                        scale += 0.1;
+                        redraw();
+                    });
+                    $("#no-touch-zoom").show();
+                };
+            
+            window.map_details = map_details;
+
+            if(window.Modernizr && !window.Modernizr.touch) {
+                no_touch_zoom_init();
+            }
+
+            offset = $image.offset();
+
+            $image.css({
+                "left": ((-map_details.map_pixel_width / 2) + (window_width / 2)) + "px",
+                "top": ((-map_details.map_pixel_height / 2) + ($window.height() / 2) - $("#logo").height() ) + "px"
+            });
+
+            scale = (window_width - 50) / map_details.map_pixel_width; //ensure that the map is sized for the device width...
+            if(scale * map_details.map_pixel_height > window_height) { //..unless that's still too high, in which case scale for height
+                scale = (window_height - 50) / map_details.map_pixel_height;
+            }
+
+            redraw();
+
+            $image.show();
+
+            width = $image.width();
+            height = $image.height();
+            
+            screenOrigin = {
+                x: 0,
+                y: 0
+            };
+            origin = {
+                x: 0,
+                y: 0
+            };
+            translate = {
+                x: 0,
+                y: 0
+            };
+            screenOffset = {
+                x: 0,
+                y: 0
+            };
+
+            prevScale = scale;
+
+            hammer = $image.hammer({
+                prevent_default: true,
+                scale_treshold: 0,
+                drag_min_distance: 0
+            });
+
+            hammer.bind('dragend', function(event) {
+                drag_offset.base_x = drag_offset.x;
+                drag_offset.base_y = drag_offset.y;
+                redraw();
+            });
+
+            hammer.bind('drag', function(event) {
+                drag_offset.x = drag_offset.base_x + event.distanceX;
+                drag_offset.y = drag_offset.base_y + event.distanceY;
+                //$image.css('-webkit-transform', 'translate3d(' + drag_offset.x + 'px, ' + drag_offset.y + 'px, 0) scale3d(' + scale + ', ' + scale + ', 1)');
+                redraw();
+            });
+
+            hammer.bind('transformstart', function(event) {
+                screenOrigin.x = (event.originalEvent.touches[0].clientX + event.originalEvent.touches[1].clientX) / 2;
+                return screenOrigin.y = (event.originalEvent.touches[0].clientY + event.originalEvent.touches[1].clientY) / 2;
+            });
+
+            hammer.bind('transform', function(event) {
+                var newHeight,
+                    newWidth;
+                    //offset = $image.offset();
+                scale = prevScale * event.scale;
+                
+                //touch_position.width = event.position.width / scale;
+                //touch_position.height = event.position.height / scale;
+                //touch_position.x = event.position.x;
+                //touch_position.y = event.position.y;
+                //touch_position.cssOrigin = touch_position.x + "px " + touch_position.y +"px";
+                //$image.find("#transform-origin-debug").css({top: touch_position.x + "px", "left": touch_position.y +"px"});
+                //console.log(JSON.stringify(event.touches));
+                newWidth = $image.width() * scale;
+                newHeight = $image.height() * scale;
+
+                origin.x = screenOrigin.x - offset.left - translate.x;
+                origin.y = screenOrigin.y - offset.top - translate.y;
+
+                translate.x += -origin.x * (newWidth - width) / newWidth;
+                translate.y += -origin.y * (newHeight - height) / newHeight;
+
+                //$image.css('-webkit-transform', "translate3d(" + drag_offset.x + "px, " + drag_offset.y + "px, 0) scale3d(" + scale + ", " + scale + ", 1)");
+                redraw();
+                width = newWidth;
+
+                return height = newHeight;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
+            });
+
+            hammer.bind('transformend', function(event) {
+                return prevScale = scale;/*IGNORE JSLINT*/ /*UNFORTUNATELY JSLINT DOESN'T CURRENTLY ALLOW IGNORE ON LINES OF CODE (I THINK)*/
+            });
+        };
+
+    window.pageload(map__zoom_init, "/map-");
+}(jQuery));
+/* END OF map--zoom.js */
+
+/* BEGINNING OF geolocation.js */
+/* globals window Modernizr Hammer */
+/* Geolocation */
+(function($){
+    var $html,
+        one_second_in_milliseconds = 1000,
+        geo = {
+            watch_id: undefined,
+            settings: {
+                maximumAge:600000,
+                enableHighAccuracy: true,
+                timeout: one_second_in_milliseconds * 15
+            },
+            timer: undefined,
+            last_known_position: undefined,
+            localStorage_position_cache_key: "geolocation-last-known-position",
+            trigger_frequency_milliseconds: 2000,
+            trigger_update: function(){
+                if(geo.last_known_position === undefined) return;
+                $html.trigger("doc:geolocation:success", geo.last_known_position);
+                geo.timer = setTimeout(geo.trigger_update, geo.trigger_frequency_milliseconds);
+            },
+            init: function(){
+                $html = $("html");
+                var last_known_position_json = localStorage[geo.localStorage_position_cache_key];
+                    
+                if(last_known_position_json !== undefined) {
+                    geo.last_known_position = JSON.parse(last_known_position_json);
+                    current_time_in_epoch_milliseconds = (new Date()).getTime();
+                    $html.trigger("doc:geolocation:success", geo.last_known_position);
+                }
+
+                if (navigator.geolocation) {
+                    geo.watch_id = navigator.geolocation.watchPosition(geo.success, geo.failure, geo.settings);
+                } else {
+                    geo.error();
+                }
+
+                if(geo.timer){
+                    clearTimeout(geo.timer);
+                }
+                geo.timer = setTimeout(geo.trigger_update, geo.trigger_frequency_milliseconds);
+            },
+            success: function(position){
+                $html.trigger("doc:geolocation:success", position);
+                geo.last_known_position = position;
+                localStorage[geo.localStorage_position_cache_key] = JSON.stringify(position);
+            },
+            error: function(msg){
+                try{
+                    geolocation.clearWatch(geolocationWatchId);
+                } catch(exception){
+                }
+                if(geo.settings.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
+                    geo.settings.enableHighAccuracy = false;
+                    geo.watch_id = navigator.geolocation.watchPosition(geo.success, geo.error, geo.settings);
+                } else {
+                    $html.trigger("doc:geolocation:failure");
+                }
+            }
+        };
+    window.pageload(geo.init);
+    window.geolocation_get_settings = function(){
+        return geo.settings;
+    };
+    window.geolocation_get_last_position = function(){
+        return geo.last_known_position;
+    };
+}(jQuery));/* END OF geolocation.js */
+
+/* BEGINNING OF navbar.js */
+/*
+ * Handles the navbars (including the bottom one, if it's there)
+ */
+(function($){
+	"use strict";
+	var navbar_init = function(){
+		var $navbar_social = $("#share-social a"),
+			$page1 = $("#page1"),
+			$show_slideout_navigation = $("#show_slideout_navigation"),
+			$wrapper = $("#wrapper"),
+			reset_width_height = {"width": "auto", "height": "auto"},
+			page_change = function(event){
+				$page1.find(".social-links").hide();
+				$show_slideout_navigation.attr("checked", false);
+				$wrapper.css(reset_width_height);
+			},
+			$html = $("html").bind("doc:page-change", page_change);
+
+		$navbar_social.fastPress(function(){
+			$page1.find(".social-links").toggle(); // don't cache jQuery selector because it's loaded in/out all the time
+			return false;
+		});
+
+		$("#show_slideout_navigation").change(function(event){
+			// When on a very small screen AND when the slideout navigation is exposed hide the logo because it will mess up the display
+			var $this = $(this),
+				$logo;
+			if($(window).height() > 400 && $(window).width() > 400) return;
+			$logo = $("#logo");
+			if($this.is(":checked")) {
+				$logo.hide();
+			} else {
+				$logo.show();
+			}
+		});
+	};
+    window.pageload(navbar_init);
+}(jQuery));/* END OF navbar.js */
+
+/* BEGINNING OF info.js */
+/*globals window localStorage JSON geolocation navigator */
+(function($){
+    "use strict";
+    var one_second_in_milliseconds = 1000,
+        $report_error,
+        report_error_template = "mailto:greatwalks@doc.govt.nz?subject=Issue on Great Walks track- please fix&body=The issue is near {{Latitude}}/{{Longitude}} (Lat/Long)",
+        geolocation_success = function(event, position){
+            $report_error.attr("href", report_error_template
+                .replace(/\{\{Longitude\}\}/, position.coords.longitude)
+                .replace(/\{\{Latitude\}\}/, position.coords.latitude)
+            );
+        },
+        info_init = function(){
+            $report_error = $(".report_error");
+            $("html").bind("doc:geolocation:success", geolocation_success);
+        };
+    window.pageload(info_init, "/info.html");
+}(jQuery));/* END OF info.js */
+
+/* BEGINNING OF maps.js */
+/*global alert nz_map_dimensions console*/
+(function($){
+    "use strict";
+    var $wrapper,
+        $new_zealand_map_wrapper,
+        $new_zealand_map_img,
+        text_sizes = ["size800", "size700", "size600", "size500", "size400", "size300", "size200", "size100"],
+        $window,
+
+        adjust_maps_height = function(event){
+            var available_width = $window.width(),
+                available_height = $window.height(),
+                offset = $new_zealand_map_img.offset(),
+                remaining_height = available_height - offset.top,
+                fixed_dimension = (available_width / remaining_height < nz_map_dimensions.ratio) ? "width" : "height",
+                target_dimensions = {width:undefined, height:undefined};
+
+            if(fixed_dimension === "width") {
+                target_dimensions.width = available_width;
+                target_dimensions.height = target_dimensions.width / nz_map_dimensions.ratio;
+            } else {
+                target_dimensions.height = remaining_height - 10;
+                target_dimensions.width = target_dimensions.height * nz_map_dimensions.ratio;
+            }
+            if(target_dimensions.width > nz_map_dimensions.width) {
+                target_dimensions.width = nz_map_dimensions.width;
+                nz_map_dimensions.height = nz_map_dimensions.height;
+            }
+            $new_zealand_map_wrapper.width(target_dimensions.width).height(target_dimensions.height);
+            $new_zealand_map_img.width(target_dimensions.width).height(target_dimensions.height);
+            target_dimensions.chosen_text_size = Math.round(target_dimensions.width / 100) * 100;
+            if(target_dimensions.chosen_text_size > 800) {
+                target_dimensions.chosen_text_size = 800;
+            } else if(target_dimensions.chosen_text_size < 100) {
+                target_dimensions.chosen_text_size = 100;
+            }
+            $new_zealand_map_wrapper
+                .addClass("size" + target_dimensions.chosen_text_size)
+                .removeClass(text_sizes.join(" ").replace("size" + target_dimensions.chosen_text_size, ""));
+            $wrapper.width(available_width).height(remaining_height);
+            //$("#debug").text("size" + target_dimensions.chosen_text_size);
+            $new_zealand_map_wrapper.show();
+        },
+        maps_init = function(event){
+            $window = $(window);
+            $wrapper = $("#wrapper");
+            $new_zealand_map_wrapper = $wrapper.find("#new-zealand-map");
+            $new_zealand_map_img = $new_zealand_map_wrapper.find("img");
+            $window.bind("resize orientationchange", adjust_maps_height);
+            adjust_maps_height();
+            setTimeout(adjust_maps_height, 200);
+        };
+
+    window.pageload(maps_init, "/maps.html");
+}(jQuery));
+
+/* END OF maps.js */
+
+/* BEGINNING OF index.js */
+/*globals alert Modernizr*/
+(function($){
+    "use strict";
+    if(window.location.pathname.substr(-1, 1) === "/") {
+        window.location = window.location.pathname + "index.html";
+    }
+    
+    var $carousel,
+        $carousel_items,
+        $navbar_bottom,
+        $navbar_top,
+        hammer_defaults = {
+            prevent_default: true,
+            scale_treshold: 0,
+            drag_min_distance: 0
+        },
+        drag_distanceX_threshold = 10,
+        drag_distanceX,
+        drag_carousel = function(event){
+            drag_distanceX = event.distanceX;
+        },
+        slideout_navigation_animation_delay_milliseconds = 200,
+        slideout_navigation_animation_timer,
+        dragend_carousel = function(event){
+            if(drag_distanceX === undefined) return;
+            if(Math.abs(drag_distanceX) < drag_distanceX_threshold) return;
+            if(drag_distanceX > 0) {
+                $carousel.carousel('prev');
+            } else {
+                $carousel.carousel('next');
+            }
+            drag_distanceX = undefined;
+        },
+        adjust_carousel_height = function(event){
+            var $window = $(window),
+                height = $window.height() - $navbar_top.height() - $navbar_bottom.height() + 0,
+                width = $window.width() + 1;
+            if(height > 0) {
+                $carousel.height(height);
+                $carousel_items.height(height);
+            }
+        },
+        index_init = function(event){
+            $carousel = $('#carousel').carousel();
+            $carousel_items = $carousel.find(".item");
+            $navbar_bottom = $(".navbar-fixed-bottom");
+            $navbar_top = $(".navbar-fixed-top");
+            $(window).bind("resize orientationchange", adjust_carousel_height);
+            $("#show_slideout_navigation").change(function(){
+                if(slideout_navigation_animation_timer){
+                    clearTimeout(slideout_navigation_animation_timer);
+                }
+                slideout_navigation_animation_timer = setTimeout(adjust_carousel_height, slideout_navigation_animation_delay_milliseconds);
+            });
+            adjust_carousel_height();
+            if(!Modernizr.touch) {
+                $carousel.find(".carousel-control").show();
+            }
+            $carousel_items.hammer(hammer_defaults).bind('drag', drag_carousel);
+            $carousel_items.hammer(hammer_defaults).bind('dragend', dragend_carousel);
+
+
+        };
+    window.pageload(index_init, "/index.html");
+}(jQuery));
+
+/* END OF index.js */
+
+/* BEGINNING OF modal.js */
+/*global navigator document*/
+(function($){
+    "use strict";
+    var modal_init = function(event){
+        /*
+        Making changes to Bootstrap Modals?
+        Keep this in mind http://stackoverflow.com/questions/10636667/bootstrap-modal-appearing-under-background/11788713#11788713
+        AND also be aware that on the Samsung Galaxy Note tablet (GT-N8000) it also occurs with position:absolute;
+        */
+        var $body = $("body"),
+            $html = $("html");
+        $(".modal").appendTo("body");
+        $body.on("click", ".modal", function(){
+            $(this).modal("hide");
+            $html.trigger("close-modal");
+        });
+        $body.on("click", ".modal-backdrop", function(){
+           $html.trigger("close-modal");
+        });
+    };
+    window.pageload(modal_init);
+}(jQuery));/* END OF modal.js */
+
+/* BEGINNING OF offers.js */
+(function($){
+    "use strict";
+    var make_blank = function() {
+        if ( navigator.userAgent.match(/iphone|ipad|ipod/i) ) {
+            $('ul.banners li a, div.offers li a').attr('target', "_blank");
+        }
+    };
+
+    window.pageload(make_blank, '/offers');
+    window.pageload(make_blank, '/walk-');
+
+    // use childbrowser library to open offer links within app
+
+    $('a.offer-link').click(function() {
+        window.plugins.childBrowser.showWebPage($(this).attr('href'), { showLocationBar: false });
+        return false;
+    });
+}(jQuery));
+/* END OF offers.js */
 
