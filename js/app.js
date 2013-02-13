@@ -1235,7 +1235,7 @@ if(!(window.console && console.log)) {
 /* END OF fast-press.js */
 
 /* BEGINNING OF map--zoom.js */
-/*globals window map_details */
+/*globals window map_details device */
 /* ===========================================================
  * map.js v1
  * Developed at Department of Conservation by Matthew Holloway
@@ -1279,7 +1279,7 @@ if(!(window.console && console.log)) {
                     } else if(scale > 3) {
                         scale = 3;
                     }
-
+                    check_map_vs_viewport();
                     // we apply a transform for android devices that support pinchzoom - > 2.3
                     // default - catches iPhones
                     var version = 3.0;
@@ -1296,18 +1296,30 @@ if(!(window.console && console.log)) {
                     css = {'-webkit-transform': map_transform};
                     $image.css(css);
 
-                    //if(touch_position.cssOrigin) {
-                    //    css['-webkit-transform-origin'] = touch_position.cssOrigin;
-                    //}
-
-                    // Want to scale icons independently of the map? Enable this.
-                    // icon_scale = (1 / scale) * 30;
-                    // if(icon_scale > 50) {
-                    //    icon_scale = 50;
-                    // }
-                    //$locations.width(icon_scale).height(icon_scale);
-                    //$youarehere_offmap.css("fontSize", (icon_scale / 2) + "px");
                     window.hide_all_popovers();
+                    
+                },
+                boxes_overlap = function(a, b){
+                    //based on http://gamemath.com/2011/09/detecting-whether-two-boxes-overlap/
+                    if (a.left + a.width < b.left) return false; // a is left of b
+                    if (a.left > b.left + b.width) return false; // a is right of b
+                    if (a.top + a.height < b.top) return false; // a is above b
+                    if (a.top > b.top + b.height) return false; // a is below b
+                    return true; // boxes overlap
+                },
+                check_map_vs_viewport = function(){
+                    var map_spatial = $image.offset(),
+                        browser_viewport = {"padding": 10 / 100};
+                    map_spatial.width = $image.width() * scale;
+                    map_spatial.height = $image.height() * scale;
+                    browser_viewport.top = $window.scrollTop() + (browser_viewport.padding * window_height);
+                    browser_viewport.left = $window.scrollLeft() + (browser_viewport.padding * window_width);
+                    browser_viewport.width = window_width - (browser_viewport.padding * window_width * 2);
+                    browser_viewport.height = window_height - (browser_viewport.padding * window_height * 2);
+
+                    if(!boxes_overlap(map_spatial, browser_viewport)){
+                        reset_map();
+                    }
                 },
                 no_touch_zoom_init = function(){
                     var $no_touch_zoom = $("#no-touch-zoom"),
@@ -1322,49 +1334,59 @@ if(!(window.console && console.log)) {
                         redraw();
                     });
                     $("#no-touch-zoom").show();
+                },
+                reset_map = function(){
+                    scale = 1;
+                    drag_offset.x = 0;
+                    drag_offset.y = 0;
+                    
+                    screenOrigin = {
+                        x: 0,
+                        y: 0
+                    };
+                    origin = {
+                        x: 0,
+                        y: 0
+                    };
+                    translate = {
+                        x: 0,
+                        y: 0
+                    };
+                    screenOffset = {
+                        x: 0,
+                        y: 0
+                    };
+
+                    $image.css({
+                        "left": ((-map_details.map_pixel_width / 2) + (window_width / 2)) + "px",
+                        "top": ((-map_details.map_pixel_height / 2) + ($window.height() / 2) - $("#logo").height() ) + "px"
+                    });
+
+                    scale = (window_width - 50) / map_details.map_pixel_width; //ensure that the map is sized for the device width...
+                    if(scale * map_details.map_pixel_height > window_height) { //..unless that's still too high, in which case scale for height
+                        scale = (window_height - 50) / map_details.map_pixel_height;
+                    }
+                    
                 };
             
-            window.map_details = map_details;
+            
 
-            if(window.Modernizr && !window.Modernizr.touch) {
+            window.map_details = map_details;
+            $window.scroll(check_map_vs_viewport);
+            if(window.Modernizr && !window.Modernizr.touch || window.device && parseFloat(device.version) < 3) {
                 no_touch_zoom_init();
             }
 
             offset = $image.offset();
 
-            $image.css({
-                "left": ((-map_details.map_pixel_width / 2) + (window_width / 2)) + "px",
-                "top": ((-map_details.map_pixel_height / 2) + ($window.height() / 2) - $("#logo").height() ) + "px"
-            });
-
-            scale = (window_width - 50) / map_details.map_pixel_width; //ensure that the map is sized for the device width...
-            if(scale * map_details.map_pixel_height > window_height) { //..unless that's still too high, in which case scale for height
-                scale = (window_height - 50) / map_details.map_pixel_height;
-            }
-
+            reset_map();
             redraw();
-
             $image.show();
 
             width = $image.width();
             height = $image.height();
             
-            screenOrigin = {
-                x: 0,
-                y: 0
-            };
-            origin = {
-                x: 0,
-                y: 0
-            };
-            translate = {
-                x: 0,
-                y: 0
-            };
-            screenOffset = {
-                x: 0,
-                y: 0
-            };
+           
 
             prevScale = scale;
 
