@@ -2085,7 +2085,7 @@ body.map #user_actions {
   border: solid 2px #aaaaaa;
   color: #fff;
   border-radius: 5px;
-  padding: 0px;
+  padding: 0px 0px 8px 0px;
   text-align: center;
 }
 body.map #user_actions.hidden {
@@ -2100,6 +2100,7 @@ body.map #user_actions p.take-photo {
 }
 body.map #user_actions p.refresh-geolocation {
   border-top: solid 2px #aaaaaa;
+  padding: 8px 0px 0px 0px;
 }
 body.map #user_actions .last-updated {
   margin-top: 0.2em;
