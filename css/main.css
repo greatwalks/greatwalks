@@ -2041,13 +2041,12 @@ body.map #youarehere.badAccuracy {
 }
 body.map #youarehere .dot {
   position: absolute;
-  left: -9px;
-  top: -18px;
+  left: -18px;
+  top: -36px;
   display: block;
-  width: 18px;
-  height: 18px;
+  width: 36px;
+  height: 36px;
   background: url(../img/youarehere.png) no-repeat center center;
-  background-size: 18px 18px;
 }
 body.map #youarehere .offmap {
   display: none;
@@ -2086,14 +2085,26 @@ body.map #user_actions {
   border: solid 2px #aaaaaa;
   color: #fff;
   border-radius: 5px;
-  padding: 10px;
+  padding: 0px;
   text-align: center;
-}
-body.map #user_actions p {
-  margin: 0px;
 }
 body.map #user_actions.hidden {
   display: none;
+}
+body.map #user_actions p {
+  margin: 0px;
+  padding: 5px;
+}
+body.map #user_actions p.take-photo {
+  margin-bottom: 0.2em;
+}
+body.map #user_actions p.refresh-geolocation {
+  border-top: solid 2px #aaaaaa;
+}
+body.map #user_actions .last-updated {
+  margin-top: 0.2em;
+  text-align: center;
+  font-size: small;
 }
 body.map #photo-preview {
   display: none;
@@ -2106,12 +2117,6 @@ body.map #photo-preview {
   -webkit-box-shadow: 0 0 5px 10px #000;
 }
 body.map #camera_error {
-  display: none;
-  position: fixed;
-  top: 110px;
-  left: 50%;
-  margin-left: -100px;
-  width: 200px;
   background: #ffeeaa;
   padding: 10px;
   color: #806600;

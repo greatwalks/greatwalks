@@ -341,6 +341,7 @@ if(!(window.console && console.log)) {
                     $youarehere_offmap.css(youarehere_offmap_css).show();
                 }
                 $youarehere.css(youarehere_css).show();
+                user_actions.update_last_updated();
             },
             geolocation_failure = function(event, msg){
                 $("#no_gps").attr("title", msg.message).show();
@@ -366,7 +367,8 @@ if(!(window.console && console.log)) {
                 },
                 panel_toggle: function(event){
                     var user_is_off_map = $("#youarehere").find(".offmap").is(":visible"),
-                        error_html;
+                        error_html,
+                        hyperlink;
                     if(navigator.camera && !user_is_off_map) {
                         if(user_actions.$user_actions_panel.hasClass("hidden")){
                             user_actions.$user_actions_panel.removeClass("hidden");
@@ -381,12 +383,33 @@ if(!(window.console && console.log)) {
                         } else if(!navigator.camera && !user_is_off_map) {
                             error_html = "No camera available";
                         }
-                        user_actions.$camera_error.html(error_html).fadeIn(function(){
-                            if(user_actions.camera_error_timer) {
-                                clearTimeout(user_actions.camera_error_timer);
-                            }
-                            user_actions.camera_error_timer = setTimeout(user_actions.camera_error_hide, 2000);
-                        });
+                        hyperlink = $("<a/>").html(error_html).addClass("btn disabled");
+                        user_actions.$user_actions_panel.removeClass("hidden");
+                        user_actions.$camera_error.html(hyperlink);
+                        user_actions.update_last_updated();
+                    }
+                },
+                update_last_updated: function(){
+                    var last_updated_at = window.geolocation_get_last_update(),
+                        difference_in_seconds,
+                        difference_in_minutes,
+                        text;
+
+                    if(last_updated_at !== undefined) {
+                        difference_in_seconds = Math.round(
+                            ((new Date()).getTime() - last_updated_at.getTime()) / 1000);
+                        if(difference_in_seconds < 10) {
+                            text = "Last updated a few seconds ago.";
+                        } else if(difference_in_seconds < 120) {
+                            text = "Last updated " + difference_in_seconds + " seconds ago.";
+                        } else {
+                            difference_in_minutes = Math.round(difference_in_seconds / 60);
+                            text = "Last updated " + difference_in_minutes + " minutes ago.";
+                        }
+                        user_actions.$last_updated.text(text).hide().fadeIn();
+                    } else {
+                        text = "(no location known yet)";
+                        user_actions.$last_updated.text(text).show();
                     }
                 },
                 data_photo_uri_key: "content-image-uri",
@@ -394,10 +417,6 @@ if(!(window.console && console.log)) {
                     var $photo = user_actions.$photo_preview,
                         $this = $(this);
                     $photo.attr("src", $this.data(user_actions.data_photo_uri_key)).show();
-                },
-                hide_user_photo: function(event){
-                    var $photo = user_actions.$photo_preview;
-                    $photo.hide();
                 },
                 add_photo_to_map: function(imageURI, latitude, longitude, display_immediately, add_to_localStorage){
                     var user_photo_data = {
@@ -460,10 +479,13 @@ if(!(window.console && console.log)) {
                     return false;
                 },
                 camera_error_timer:undefined,
-                $camera_error: $("#camera_error"),
-                camera_error_hide: function(){
-                    user_actions.$camera_error.fadeOut();
-                }
+                $camera_error: $("#user_actions").find(".take-photo"),
+                $refresh_geolocation: $("#user_actions").find(".refresh-geolocation"),
+                refresh_geolocation: function(event){
+                    window.geolocation_refresh();
+                    return false;
+                },
+                $last_updated: $("#user_actions").find(".last-updated")
             },
             youarehere_hammer,
             toggle_map_key = function(event){
@@ -480,11 +502,12 @@ if(!(window.console && console.log)) {
         $("#weta").fastPress(window.toggle_popover);
         $("#map .location").fastPress(window.toggle_popover);
         $("#take-photo").fastPress(user_actions.take_photo);
-        $("#photo-preview").fastPress(user_actions.hide_user_photo);
         $("#toggle-map-key, #map-key").fastPress(toggle_map_key);
         $("#youarehere, #no_gps").fastPress(user_actions.panel_toggle);
+
         user_actions.initialize_user_photos();
-        user_actions.$camera_error.fastPress(user_actions.camera_error_hide);
+        user_actions.$refresh_geolocation.fastPress(user_actions.refresh_geolocation);
+        
 
     };
 
@@ -1465,12 +1488,14 @@ if(!(window.console && console.log)) {
                 enableHighAccuracy: true,
                 timeout: one_second_in_milliseconds * 15
             },
+            last_updated: undefined,
             timer: undefined,
             last_known_position: undefined,
             localStorage_position_cache_key: "geolocation-last-known-position",
             trigger_frequency_milliseconds: 2000,
             trigger_update: function(){
                 if(geo.last_known_position === undefined) return;
+                geo.last_updated = new Date();
                 $html.trigger("doc:geolocation:success", geo.last_known_position);
                 geo.timer = setTimeout(geo.trigger_update, geo.trigger_frequency_milliseconds);
             },
@@ -1495,6 +1520,14 @@ if(!(window.console && console.log)) {
                 }
                 geo.timer = setTimeout(geo.trigger_update, geo.trigger_frequency_milliseconds);
             },
+            refresh: function(){
+                try{
+                    geolocation.clearWatch(geo.watch_id);
+                } catch(exception){
+                }
+                geo.settings.enableHighAccuracy = true;
+                geo.watch_id = navigator.geolocation.watchPosition(geo.success, geo.error, geo.settings);
+            },
             success: function(position){
                 $html.trigger("doc:geolocation:success", position);
                 geo.last_known_position = position;
@@ -1502,7 +1535,7 @@ if(!(window.console && console.log)) {
             },
             error: function(msg){
                 try{
-                    geolocation.clearWatch(geolocationWatchId);
+                    geolocation.clearWatch(geo.watch_id);
                 } catch(exception){
                 }
                 if(geo.settings.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
@@ -1519,6 +1552,12 @@ if(!(window.console && console.log)) {
     };
     window.geolocation_get_last_position = function(){
         return geo.last_known_position;
+    };
+    window.geolocation_refresh = function(){
+        return geo.refresh();
+    };
+    window.geolocation_get_last_update = function(){
+        return geo.last_updated;
     };
 }(jQuery));/* END OF geolocation.js */
 
