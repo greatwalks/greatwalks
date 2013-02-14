@@ -344,7 +344,7 @@ if(!(window.console && console.log)) {
                 user_actions.update_last_updated();
             },
             geolocation_failure = function(event, msg){
-                user_actions.$user_actions_panel.find("#refresh-geolocation").addClass("disabled").text("No GeoLocation Available");
+                user_actions.$user_actions_panel.find("#refresh-geolocation").addClass("disabled").html("GeoLocation failure,<br>try again?").attr("title", msg);
                 user_actions.$user_actions_panel.find(".last-updated").hide();
             },
             current_time_in_epoch_milliseconds,
@@ -485,8 +485,9 @@ if(!(window.console && console.log)) {
                 $camera_error: $("#user_actions").find(".take-photo"),
                 $refresh_geolocation: $("#user_actions").find(".refresh-geolocation"),
                 refresh_geolocation: function(event){
-                    user_actions.$user_actions_panel.find("#refresh-geolocation").removeClass("disabled");
+                    user_actions.$user_actions_panel.find("#refresh-geolocation").removeClass("disabled").text("Refresh GeoLocation");
                     user_actions.$user_actions_panel.find(".last-updated").show();
+
                     window.geolocation_refresh();
                     return false;
                 },
@@ -1502,7 +1503,7 @@ if(!(window.console && console.log)) {
             settings: {
                 maximumAge:600000,
                 enableHighAccuracy: true,
-                timeout: one_second_in_milliseconds * 15
+                timeout: one_second_in_milliseconds * 300
             },
             last_updated: undefined,
             timer: undefined,
@@ -1542,10 +1543,12 @@ if(!(window.console && console.log)) {
                 $html.trigger("doc:geolocation:success", position);
             },
             error: function(msg){
+                if(msg.toString().match(/timeout/)) return; //Not an error we're concerned with.
                 try{
                     geolocation.clearWatch(geo.watch_id);
                 } catch(exception){
                 }
+                console.log("error", msg);
                 if(geo.settings.enableHighAccuracy === true) { //high accuracy failed so retry with low accuracy
                     geo.settings.enableHighAccuracy = false;
                     geo.watch_id = navigator.geolocation.watchPosition(geo.success, geo.error, geo.settings);
