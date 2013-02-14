@@ -498,11 +498,19 @@ if(!(window.console && console.log)) {
                 $map_key.toggle();
                 return false;
             },
-            $html = $("html");
+            $html = $("html"),
+            last_position = window.geolocation_get_last_position();
 
         $html.bind("doc:geolocation:failure", geolocation_failure);
         $html.bind("doc:geolocation:success", geolocation_success);
         window.map_details = map_details;
+
+        if(last_position){
+            console.log("there is a position", last_position);
+            geolocation_success(undefined, last_position);
+        }
+
+        $html.bind("doc:geolocation:success", geolocation_success);
         
         $("#weta").fastPress(window.toggle_popover);
         $("#map .location").fastPress(window.toggle_popover);
